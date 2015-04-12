@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Action","Possible actions to take on compression."],["Kind","Kinds of streams"]],"struct":[["Stream","Wrapper around a raw instance of `bz_stream`."]]});
+initSidebarItems({"struct":[["Stream","Wrapper around a raw instance of `bz_stream`."]],"enum":[["Action","Possible actions to take on compression."],["Kind","Kinds of streams"]]});
