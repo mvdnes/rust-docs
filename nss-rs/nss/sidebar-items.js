@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["crypto",""],["result",""]],"fn":[["close",""],["init",""]]});
+initSidebarItems({"fn":[["close",""],["init",""]],"mod":[["crypto",""],["result",""]]});
