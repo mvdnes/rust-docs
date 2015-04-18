@@ -1,1 +1,1 @@
-initSidebarItems({"type":[["ZipResult","Generic result type with ZipError as its error variant"]],"enum":[["ZipError","Error type for Zip"]]});
+initSidebarItems({"enum":[["ZipError","Error type for Zip"]],"type":[["ZipResult","Generic result type with ZipError as its error variant"]]});
