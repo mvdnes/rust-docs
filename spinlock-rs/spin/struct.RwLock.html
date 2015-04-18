@@ -76,7 +76,7 @@ acquire the lock first.</p>
 <p>Returns an RAII guard which will release this thread&#39;s shared access
 once it is dropped.</p>
 <pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
+<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0</span>);
 {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>mylock</span>.<span class='ident'>read</span>();
     <span class='comment'>// The lock is now locked and the data can be read</span>
@@ -94,7 +94,7 @@ access could not be granted. This method does not provide any
 guarantees with respect to the ordering of whether contentious readers
 or writers will acquire the lock first.</p>
 <pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
+<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0</span>);
 {
     <span class='kw'>match</span> <span class='ident'>mylock</span>.<span class='ident'>try_read</span>() {
         <span class='prelude-val'>Some</span>(<span class='ident'>data</span>) <span class='op'>=&gt;</span> {
@@ -116,7 +116,7 @@ currently have access to the lock.</p>
 <p>Returns an RAII guard which will drop the write access of this rwlock
 when dropped.</p>
 <pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
+<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0</span>);
 {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>mylock</span>.<span class='ident'>write</span>();
     <span class='comment'>// The lock is now locked and the data can be written</span>
@@ -131,7 +131,7 @@ when dropped.</p>
 to <code>write</code> would otherwise block. If successful, an RAII guard is
 returned.</p>
 <pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
+<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0</span>);
 {
     <span class='kw'>match</span> <span class='ident'>mylock</span>.<span class='ident'>try_write</span>() {
         <span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>data</span>) <span class='op'>=&gt;</span> {
@@ -143,89 +143,7 @@ returned.</p>
     };
 }
 </pre>
-</div></div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;T&gt; <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>(user_data: T) -&gt; <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h4>
-<div class='docblock'><p>Creates a new spinlock wrapping the supplied data.</p>
-</div><h4 id='method.read' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.read' class='fnname'>read</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../spin/struct.RwLockReadGuard.html' title='spin::RwLockReadGuard'>RwLockReadGuard</a>&lt;'a, T&gt;</code></h4>
-<div class='docblock'><p>Locks this rwlock with shared read access, blocking the current thread
-until it can be acquired.</p>
-
-<p>The calling thread will be blocked until there are no more writers which
-hold the lock. There may be other readers currently inside the lock when
-this method returns. This method does not provide any guarantees with
-respect to the ordering of whether contentious readers or writers will
-acquire the lock first.</p>
-
-<p>Returns an RAII guard which will release this thread&#39;s shared access
-once it is dropped.</p>
-<pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
-{
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>mylock</span>.<span class='ident'>read</span>();
-    <span class='comment'>// The lock is now locked and the data can be read</span>
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='op'>*</span><span class='ident'>data</span>);
-    <span class='comment'>// The lock is dropped</span>
-}
-</pre>
-</div><h4 id='method.try_read' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.try_read' class='fnname'>try_read</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../spin/struct.RwLockReadGuard.html' title='spin::RwLockReadGuard'>RwLockReadGuard</a>&lt;T&gt;&gt;</code></h4>
-<div class='docblock'><p>Attempt to acquire this lock with shared read access.</p>
-
-<p>This function will never block and will return immediately if <code>read</code>
-would otherwise succeed. Returns <code>Some</code> of an RAII guard which will
-release the shared access of this thread when dropped, or <code>None</code> if the
-access could not be granted. This method does not provide any
-guarantees with respect to the ordering of whether contentious readers
-or writers will acquire the lock first.</p>
-<pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
-{
-    <span class='kw'>match</span> <span class='ident'>mylock</span>.<span class='ident'>try_read</span>() {
-        <span class='prelude-val'>Some</span>(<span class='ident'>data</span>) <span class='op'>=&gt;</span> {
-            <span class='comment'>// The lock is now locked and the data can be read</span>
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='op'>*</span><span class='ident'>data</span>);
-            <span class='comment'>// The lock is dropped</span>
-        },
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (), <span class='comment'>// no cigar</span>
-    };
-}
-</pre>
-</div><h4 id='method.write' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.write' class='fnname'>write</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../spin/struct.RwLockWriteGuard.html' title='spin::RwLockWriteGuard'>RwLockWriteGuard</a>&lt;'a, T&gt;</code></h4>
-<div class='docblock'><p>Lock this rwlock with exclusive write access, blocking the current
-thread until it can be acquired.</p>
-
-<p>This function will not return while other writers or other readers
-currently have access to the lock.</p>
-
-<p>Returns an RAII guard which will drop the write access of this rwlock
-when dropped.</p>
-<pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
-{
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>mylock</span>.<span class='ident'>write</span>();
-    <span class='comment'>// The lock is now locked and the data can be written</span>
-    <span class='op'>*</span><span class='ident'>data</span> <span class='op'>+=</span> <span class='number'>1</span>;
-    <span class='comment'>// The lock is dropped</span>
-}
-</pre>
-</div><h4 id='method.try_write' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.try_write' class='fnname'>try_write</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../spin/struct.RwLockWriteGuard.html' title='spin::RwLockWriteGuard'>RwLockWriteGuard</a>&lt;T&gt;&gt;</code></h4>
-<div class='docblock'><p>Attempt to lock this rwlock with exclusive write access.</p>
-
-<p>This function does not ever block, and it will return <code>None</code> if a call
-to <code>write</code> would otherwise block. If successful, an RAII guard is
-returned.</p>
-<pre id='rust-example-rendered' class='rust '>
-<span class='kw'>let</span> <span class='ident'>mylock</span> <span class='op'>=</span> <span class='ident'>spin</span>::<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='number'>0us</span>);
-{
-    <span class='kw'>match</span> <span class='ident'>mylock</span>.<span class='ident'>try_write</span>() {
-        <span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>data</span>) <span class='op'>=&gt;</span> {
-            <span class='comment'>// The lock is now locked and the data can be written</span>
-            <span class='op'>*</span><span class='ident'>data</span> <span class='op'>+=</span> <span class='number'>1</span>;
-            <span class='comment'>// The lock is implicitly dropped</span>
-        },
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (), <span class='comment'>// no cigar</span>
-    };
-}
-</pre>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;T&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> for <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;T: 'static + <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;T&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> for <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;T: 'static + <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h3><div class='impl-items'></div></section>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;T&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> for <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;T: 'static + <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../spin/struct.RwLock.html' title='spin::RwLock'>RwLock</a>&lt;T&gt;</code></h3><div class='impl-items'></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

@@ -458,7 +458,7 @@
     <span class='doccomment'>/// once it is dropped.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// let mylock = spin::RwLock::new(0us);</span>
+    <span class='doccomment'>/// let mylock = spin::RwLock::new(0);</span>
     <span class='doccomment'>/// {</span>
     <span class='doccomment'>///     let mut data = mylock.read();</span>
     <span class='doccomment'>///     // The lock is now locked and the data can be read</span>
@@ -505,7 +505,7 @@
     <span class='doccomment'>/// or writers will acquire the lock first.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// let mylock = spin::RwLock::new(0us);</span>
+    <span class='doccomment'>/// let mylock = spin::RwLock::new(0);</span>
     <span class='doccomment'>/// {</span>
     <span class='doccomment'>///     match mylock.try_read() {</span>
     <span class='doccomment'>///         Some(data) =&gt; {</span>
@@ -548,7 +548,7 @@
     <span class='doccomment'>/// when dropped.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// let mylock = spin::RwLock::new(0us);</span>
+    <span class='doccomment'>/// let mylock = spin::RwLock::new(0);</span>
     <span class='doccomment'>/// {</span>
     <span class='doccomment'>///     let mut data = mylock.write();</span>
     <span class='doccomment'>///     // The lock is now locked and the data can be written</span>
@@ -587,7 +587,7 @@
     <span class='doccomment'>/// returned.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// let mylock = spin::RwLock::new(0us);</span>
+    <span class='doccomment'>/// let mylock = spin::RwLock::new(0);</span>
     <span class='doccomment'>/// {</span>
     <span class='doccomment'>///     match mylock.try_write() {</span>
     <span class='doccomment'>///         Some(mut data) =&gt; {</span>
