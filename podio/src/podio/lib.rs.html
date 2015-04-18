@@ -561,7 +561,7 @@
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BigEndian</span> {}
 
 <span class='doccomment'>/// Trait implementing conversion methods for a specific endianness</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Endianness</span> : <span class='ident'>std</span>::<span class='ident'>marker</span>::<span class='ident'>PhantomFn</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Endianness</span> {
     <span class='doccomment'>/// Converts a value from the platform type to the specified endianness</span>
     <span class='kw'>fn</span> <span class='ident'>int_to_target</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>EndianConvert</span><span class='op'>&gt;</span>(<span class='ident'>val</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>;
     <span class='doccomment'>/// Converts a value from the sepcified endianness to the platform type</span>

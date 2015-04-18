@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>podio</a>::<wbr><a class='trait' href=''>Endianness</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
         </span><a id='src-10' href='../src/podio/lib.rs.html#69-74'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Endianness: <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.PhantomFn.html' title='core::marker::PhantomFn'>PhantomFn</a>&lt;Self&gt; {
+<pre class='rust trait'>pub trait Endianness {
     fn <a href='#tymethod.int_to_target' class='fnname'>int_to_target</a>&lt;T: <a class='trait' href='../podio/trait.EndianConvert.html' title='podio::EndianConvert'>EndianConvert</a>&gt;(val: T) -&gt; T;
     fn <a href='#tymethod.int_from_target' class='fnname'>int_from_target</a>&lt;T: <a class='trait' href='../podio/trait.EndianConvert.html' title='podio::EndianConvert'>EndianConvert</a>&gt;(val: T) -&gt; T;
 }</pre><div class='docblock'><p>Trait implementing conversion methods for a specific endianness</p>
