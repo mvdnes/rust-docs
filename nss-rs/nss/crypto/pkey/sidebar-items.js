@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["RSAPadding",""]],"struct":[["RSAPrivateKey",""],["RSAPublicKey",""]]});
+initSidebarItems({"struct":[["RSAPrivateKey",""],["RSAPublicKey",""]],"enum":[["RSAPadding",""]]});
