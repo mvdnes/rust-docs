@@ -9,9 +9,9 @@ SCRIPT_PATH=script
 
 . $SCRIPT_PATH/doc-upload.cfg
 
-[ "$TRAVIS_BRANCH" = master ]
+[ "$BRANCH" = master ]
 
-[ "$TRAVIS_PULL_REQUEST" = false ]
+[ "$PULL_REQUEST" = false ]
 
 [ "$RUST_VERSION" = "$DOC_RUST_VERSION" ]
 
@@ -25,7 +25,7 @@ git config user.email "nobody@example.com"
 rm -rf $PROJECT_NAME
 mv ../target/doc $PROJECT_NAME
 git add -A $PROJECT_NAME
-git commit -m "doc upload for $PROJECT_NAME ($TRAVIS_REPO_SLUG)"
+git commit -m "doc upload for $PROJECT_NAME"
 
 for i in {1..5}; do
     git push -q origin gh-pages && break # if successful, break loop
