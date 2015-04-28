@@ -9,11 +9,11 @@ SCRIPT_PATH=script
 
 . $SCRIPT_PATH/doc-upload.cfg
 
-[ "$BRANCH" = master ]
+[ "$BRANCH" = master ] || exit 0
 
-[ "$PULL_REQUEST" = false ]
+[ "$PULL_REQUEST" = false ] || exit 0
 
-[ "$RUST_VERSION" = "$DOC_RUST_VERSION" ]
+[ "$RUST_VERSION" = "$DOC_RUST_VERSION" ] || exit 0
 
 echo "Publishing docs..."
 
