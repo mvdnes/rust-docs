@@ -25,7 +25,7 @@ git config user.email "nobody@example.com"
 rm -rf $PROJECT_NAME
 mv ../target/doc $PROJECT_NAME
 git add -A $PROJECT_NAME
-git commit -m "doc upload for $PROJECT_NAME" || echo "Doc upload completed"
+git commit -m "doc upload for $PROJECT_NAME" || true
 
 for i in {1..5}; do
     git push -q origin gh-pages && break # if successful, break loop
