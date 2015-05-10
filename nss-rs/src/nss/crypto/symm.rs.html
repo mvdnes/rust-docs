@@ -342,7 +342,7 @@
             <span class='ident'>out_buf</span>.<span class='ident'>set_len</span>(<span class='ident'>outlen</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
         }
 
-        <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>result</span> <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>out_buf</span>;
+        <span class='ident'>result</span>.<span class='ident'>extend</span>(<span class='ident'>out_buf</span>);
         <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>)
     }
 }
