@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["NSSError",""]],"type":[["NSSResult",""]]});
+initSidebarItems({"type":[["NSSResult",""]],"enum":[["NSSError",""]]});
