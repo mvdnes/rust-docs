@@ -21,7 +21,7 @@ chmod 600 $SCRIPT_PATH/travis-doc-upload.pem
 cat << EOS > $HOME/git-doc
 #!/bin/bash
 
-expect <<EOD
+/usr/bin/expect <<EOD
 spawn ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
 expect "passphrase"
 send -- "\$DEPLOY_KEY_PASS\n"
