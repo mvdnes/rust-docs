@@ -21,7 +21,7 @@ export GIT_SSH=$HOME/git-doc
 cat << EOS > $HOME/git-doc
 #!/bin/bash
 
-setsid -w ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
+ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
 EOS
 chmod a+x $HOME/git-doc
 
