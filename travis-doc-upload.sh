@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# License: CC0 1.0 Universal
-# https://creativecommons.org/publicdomain/zero/1.0/legalcode
-
 set -e
 
 SCRIPT_PATH=script
@@ -19,7 +16,14 @@ echo "Publishing docs..."
 
 export DISPLAY=' '
 export SSH_ASKPASS=$HOME/ssh-askpass
-export GIT_SSH_COMMAND="setsid -w ssh -i $SCRIPT_PATH/travis-doc-upload.pem"
+export GIT_SSH=$HOME/git-doc
+
+cat << EOS > $HOME/git-doc
+#!/bin/bash
+
+setsid -w ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
+EOS
+chmod a+x $HOME/git-doc
 
 cat << EOS > $HOME/ssh-askpass
 #!/bin/bash
