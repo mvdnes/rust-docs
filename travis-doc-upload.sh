@@ -18,6 +18,8 @@ export DISPLAY=' '
 export SSH_ASKPASS=$HOME/ssh-askpass
 export GIT_SSH=$HOME/git-doc
 
+chmod 600 $SCRIPT_PATH/travis-doc-upload.pem
+
 cat << EOS > $HOME/git-doc
 #!/bin/bash
 
