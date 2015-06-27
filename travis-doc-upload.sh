@@ -21,7 +21,7 @@ chmod 600 $SCRIPT_PATH/travis-doc-upload.pem
 cat << EOS > $HOME/git-doc
 #!/bin/bash
 
-/usr/bin/expect <<EOD
+expect <<EOD
 spawn ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
 expect "passphrase"
 send -- "\$DEPLOY_KEY_PASS\n"
@@ -47,8 +47,6 @@ for i in {1..5}; do
     git pull -q -r # otherwise try a rebase
 done
 
-unset DISPLAY
-unset SSH_ASKPASS
-unset GIT_SSH_COMMAND
+unset GIT_SSH
 
 echo "Doc upload completed"
