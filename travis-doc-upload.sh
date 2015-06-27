@@ -26,6 +26,7 @@ cat << EOS > $HOME/ssh-askpass
 
 echo -n \$DEPLOY_KEY_PASS
 EOS
+chmod a+x $HOME/ssh-askpass
 
 git clone -q --branch gh-pages git@github.com:$DOCS_REPO deploy_docs
 
