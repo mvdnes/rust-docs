@@ -14,8 +14,6 @@ SCRIPT_PATH=script
 
 echo "Publishing docs..."
 
-export DISPLAY=' '
-export SSH_ASKPASS=$HOME/ssh-askpass
 export GIT_SSH=$HOME/git-doc
 
 chmod 600 $SCRIPT_PATH/travis-doc-upload.pem
@@ -23,16 +21,15 @@ chmod 600 $SCRIPT_PATH/travis-doc-upload.pem
 cat << EOS > $HOME/git-doc
 #!/bin/bash
 
-ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
+/usr/bin/expect <<EOD
+spawn ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
+expect "passphrase"
+send -- "\$DEPLOY_KEY_PASS\n"
+expect eof
+EOD
+
 EOS
 chmod a+x $HOME/git-doc
-
-cat << EOS > $HOME/ssh-askpass
-#!/bin/bash
-
-echo -n \$DEPLOY_KEY_PASS
-EOS
-chmod a+x $HOME/ssh-askpass
 
 git clone -q --branch gh-pages git@github.com:$DOCS_REPO deploy_docs
 
