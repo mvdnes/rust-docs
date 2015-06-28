@@ -41,9 +41,11 @@
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>zip</a>::<wbr><a href='index.html'>read</a>::<wbr><a class='struct' href=''>ZipArchive</a><wbr></span><span class='out-of-band'><span id='render-detail'>
-            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1481' href='../../src/zip/read.rs.html#44-49'>[src]</a></span></h1>
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>zip</a>::<wbr><a href='index.html'>read</a>::<wbr><a class='struct' href=''>ZipArchive</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-1481' class='srclink' href='../../src/zip/read.rs.html#44-49' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct ZipArchive&lt;R: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Seek.html' title='std::io::Seek'>Seek</a>&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>Wrapper for reading the contents of a ZIP file.</p>
@@ -71,9 +73,9 @@
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Result: {:?}&quot;</span>, <span class='ident'>doit</span>());
 </pre>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;R: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Seek.html' title='std::io::Seek'>Seek</a>&gt; <a class='struct' href='../../zip/read/struct.ZipArchive.html' title='zip::read::ZipArchive'>ZipArchive</a>&lt;R&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>(reader: R) -&gt; <a class='type' href='../../zip/result/type.ZipResult.html' title='zip::result::ZipResult'>ZipResult</a>&lt;<a class='struct' href='../../zip/read/struct.ZipArchive.html' title='zip::read::ZipArchive'>ZipArchive</a>&lt;R&gt;&gt;</code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;R: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Seek.html' title='std::io::Seek'>Seek</a>&gt; <a class='struct' href='../../zip/read/struct.ZipArchive.html' title='zip::read::ZipArchive'>ZipArchive</a>&lt;R&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(reader: R) -&gt; <a class='type' href='../../zip/result/type.ZipResult.html' title='zip::result::ZipResult'>ZipResult</a>&lt;<a class='struct' href='../../zip/read/struct.ZipArchive.html' title='zip::read::ZipArchive'>ZipArchive</a>&lt;R&gt;&gt;</code></h4>
 <div class='docblock'><p>Opens a Zip archive and parses the central directory</p>
-</div><h4 id='method.len' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
+</div><h4 id='method.len' class='method'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
 <div class='docblock'><p>Number of files contained in this zip.</p>
 <pre id='rust-example-rendered' class='rust '>
 <span class='kw'>fn</span> <span class='ident'>iter</span>() {
@@ -85,11 +87,11 @@
     }
 }
 </pre>
-</div><h4 id='method.by_name' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.by_name' class='fnname'>by_name</a>&lt;'a&gt;(&amp;'a mut self, name: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../../zip/result/type.ZipResult.html' title='zip::result::ZipResult'>ZipResult</a>&lt;<a class='struct' href='../../zip/read/struct.ZipFile.html' title='zip::read::ZipFile'>ZipFile</a>&lt;'a&gt;&gt;</code></h4>
+</div><h4 id='method.by_name' class='method'><code>fn <a href='#method.by_name' class='fnname'>by_name</a>&lt;'a&gt;(&amp;'a mut self, name: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../../zip/result/type.ZipResult.html' title='zip::result::ZipResult'>ZipResult</a>&lt;<a class='struct' href='../../zip/read/struct.ZipFile.html' title='zip::read::ZipFile'>ZipFile</a>&lt;'a&gt;&gt;</code></h4>
 <div class='docblock'><p>Search for a file entry by name</p>
-</div><h4 id='method.by_index' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.by_index' class='fnname'>by_index</a>&lt;'a&gt;(&amp;'a mut self, file_number: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../zip/result/type.ZipResult.html' title='zip::result::ZipResult'>ZipResult</a>&lt;<a class='struct' href='../../zip/read/struct.ZipFile.html' title='zip::read::ZipFile'>ZipFile</a>&lt;'a&gt;&gt;</code></h4>
+</div><h4 id='method.by_index' class='method'><code>fn <a href='#method.by_index' class='fnname'>by_index</a>&lt;'a&gt;(&amp;'a mut self, file_number: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../zip/result/type.ZipResult.html' title='zip::result::ZipResult'>ZipResult</a>&lt;<a class='struct' href='../../zip/read/struct.ZipFile.html' title='zip::read::ZipFile'>ZipFile</a>&lt;'a&gt;&gt;</code></h4>
 <div class='docblock'><p>Get a contained file by index</p>
-</div><h4 id='method.into_inner' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.into_inner' class='fnname'>into_inner</a>(self) -&gt; R</code></h4>
+</div><h4 id='method.into_inner' class='method'><code>fn <a href='#method.into_inner' class='fnname'>into_inner</a>(self) -&gt; R</code></h4>
 <div class='docblock'><p>Unwrap and return the inner reader object</p>
 
 <p>The position of the reader is undefined.</p>
@@ -125,6 +127,10 @@
                 <code>struct</code>, <code>enum</code>,
                 <code>trait</code>, <code>typedef</code> (or
                 <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
             </p>
         </div>
     </div>
