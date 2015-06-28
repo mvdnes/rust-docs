@@ -41,9 +41,11 @@
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>portaudio</a>::<wbr><a href='index.html'>device</a>::<wbr><a class='struct' href=''>DeviceInfo</a><wbr></span><span class='out-of-band'><span id='render-detail'>
-            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-4274' href='../../src/portaudio/device.rs.html#14-42'>[src]</a></span></h1>
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>portaudio</a>::<wbr><a href='index.html'>device</a>::<wbr><a class='struct' href=''>DeviceInfo</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-4274' class='srclink' href='../../src/portaudio/device.rs.html#14-42' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct DeviceInfo {
     pub name: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
     pub host_api: <a class='type' href='../../portaudio/hostapi/type.HostApiIndex.html' title='portaudio::hostapi::HostApiIndex'>HostApiIndex</a>,
@@ -56,15 +58,24 @@
     pub default_sample_rate: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,
 }</pre><div class='docblock'><p>Information for a specific device</p>
 </div><h2 class='fields'>Fields</h2>
-<table><tr><td id='structfield.name'><a class='stability Unmarked' title='No stability level'></a><code>name</code></td><td><div class='docblock'><p>Human readable name</p>
-</div></td></tr><tr><td id='structfield.host_api'><a class='stability Unmarked' title='No stability level'></a><code>host_api</code></td><td><div class='docblock'><p>Index of the host API this device belongs to</p>
-</div></td></tr><tr><td id='structfield.max_input_channels'><a class='stability Unmarked' title='No stability level'></a><code>max_input_channels</code></td><td><div class='docblock'><p>Maximal number of input channels that can be used</p>
-</div></td></tr><tr><td id='structfield.max_output_channels'><a class='stability Unmarked' title='No stability level'></a><code>max_output_channels</code></td><td><div class='docblock'><p>Maximal number of ouput channels that can be used</p>
-</div></td></tr><tr><td id='structfield.default_low_input_latency'><a class='stability Unmarked' title='No stability level'></a><code>default_low_input_latency</code></td><td><div class='docblock'><p>Default input latency for interactive performance</p>
-</div></td></tr><tr><td id='structfield.default_low_output_latency'><a class='stability Unmarked' title='No stability level'></a><code>default_low_output_latency</code></td><td><div class='docblock'><p>Default output latency for interactive performance</p>
-</div></td></tr><tr><td id='structfield.default_high_input_latency'><a class='stability Unmarked' title='No stability level'></a><code>default_high_input_latency</code></td><td><div class='docblock'><p>Default input latency for robust non-interactive applications</p>
-</div></td></tr><tr><td id='structfield.default_high_output_latency'><a class='stability Unmarked' title='No stability level'></a><code>default_high_output_latency</code></td><td><div class='docblock'><p>Default output latency for robust non-interactive applications</p>
-</div></td></tr><tr><td id='structfield.default_sample_rate'><a class='stability Unmarked' title='No stability level'></a><code>default_sample_rate</code></td><td><div class='docblock'><p>Default sample rate</p>
+<table><tr class='stab '>
+                                  <td id='structfield.name'><code>name</code></td><td><div class='docblock'><p>Human readable name</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.host_api'><code>host_api</code></td><td><div class='docblock'><p>Index of the host API this device belongs to</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.max_input_channels'><code>max_input_channels</code></td><td><div class='docblock'><p>Maximal number of input channels that can be used</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.max_output_channels'><code>max_output_channels</code></td><td><div class='docblock'><p>Maximal number of ouput channels that can be used</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.default_low_input_latency'><code>default_low_input_latency</code></td><td><div class='docblock'><p>Default input latency for interactive performance</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.default_low_output_latency'><code>default_low_output_latency</code></td><td><div class='docblock'><p>Default output latency for interactive performance</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.default_high_input_latency'><code>default_high_input_latency</code></td><td><div class='docblock'><p>Default input latency for robust non-interactive applications</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.default_high_output_latency'><code>default_high_output_latency</code></td><td><div class='docblock'><p>Default output latency for robust non-interactive applications</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.default_sample_rate'><code>default_sample_rate</code></td><td><div class='docblock'><p>Default sample rate</p>
 </div></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 
@@ -97,6 +108,10 @@
                 <code>struct</code>, <code>enum</code>,
                 <code>trait</code>, <code>typedef</code> (or
                 <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
             </p>
         </div>
     </div>
