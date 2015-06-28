@@ -14,22 +14,9 @@ SCRIPT_PATH=script
 
 echo "Publishing docs..."
 
-export GIT_SSH=$HOME/git-doc
-
-chmod 600 $SCRIPT_PATH/travis-doc-upload.pem
-
-cat << EOS > $HOME/git-doc
-#!/bin/bash
-
-/usr/bin/expect <<EOD
-spawn ssh -i $SCRIPT_PATH/travis-doc-upload.pem "\$@"
-expect "passphrase"
-send -- "\$DEPLOY_KEY_PASS\n"
-expect eof
-EOD
-
-EOS
-chmod a+x $HOME/git-doc
+mkdir -p $HOME/.ssh
+openssl aes-128-ofb -d -in $SCRIPT_PATH/travis-doc-upload.enc -out $HOME/.ssh/id_rsa -pass env:DEPLOY_KEY_PASS
+chmod 600 $HOME/.ssh/id_rsa
 
 git clone -q --branch gh-pages git@github.com:$DOCS_REPO deploy_docs
 
@@ -46,7 +33,5 @@ for i in {1..5}; do
     echo "Rebasing... attempt $i"
     git pull -q -r # otherwise try a rebase
 done
-
-unset GIT_SSH
 
 echo "Doc upload completed"
