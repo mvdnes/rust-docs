@@ -15,10 +15,10 @@ SCRIPT_PATH=script
 echo "Publishing docs..."
 
 # Get SSH key and decrypt it
-curl https://mvdnes.github.io/rust-docs/doc-upload-key.enc -o $HOME/doc-upload-key.enc
-mkdir -p $HOME/.ssh
-openssl aes-128-ofb -d -in $HOME/doc-upload-key.enc -out $HOME/.ssh/id_rsa -pass env:DEPLOY_KEY_PASS
-chmod 600 $HOME/.ssh/id_rsa
+curl https://mvdnes.github.io/rust-docs/doc-upload-key.enc -o ~/doc-upload-key.enc
+mkdir -p ~/.ssh
+openssl aes-128-cbc -d -in ~/doc-upload-key.enc -out ~/.ssh/id_rsa -pass env:DEPLOY_KEY_PASS
+chmod 600 ~/.ssh/id_rsa
 
 git clone -q --branch gh-pages git@github.com:$DOCS_REPO deploy_docs
 
