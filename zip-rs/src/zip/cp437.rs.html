@@ -452,7 +452,7 @@
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>example_slice</span>() {
         <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>FromCp437</span>;
-        <span class='kw'>let</span> <span class='ident'>data</span> : <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='number'>0x43</span>, <span class='number'>0x75</span>, <span class='number'>0x72</span>, <span class='number'>0x61</span>, <span class='number'>0x87</span>, <span class='number'>0x61</span>, <span class='number'>0x6F</span>];
+        <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='string'>b&quot;Cura\x87ao&quot;</span>;
         <span class='macro'>assert</span><span class='macro'>!</span>(::<span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>from_utf8</span>(<span class='ident'>data</span>).<span class='ident'>is_err</span>());
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>data</span>.<span class='ident'>from_cp437</span>(), <span class='string'>&quot;Curaçao&quot;</span>);
     }
