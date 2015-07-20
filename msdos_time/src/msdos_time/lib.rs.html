@@ -250,7 +250,28 @@
 <span id="208">208</span>
 <span id="209">209</span>
 <span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
 </pre><pre class='rust '>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span>
+
+<span class='doccomment'>//! This crate converts a `Tm` struct to an `MsDosDateTime` and vice-versa</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! MsDosDateTime is based on a FAT datetime and is a compact representation of a date.</span>
+<span class='doccomment'>//! It is currently mostly used in zip files.</span>
+
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>time</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>windows</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>kernel32</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>windows</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>winapi</span>;
@@ -258,13 +279,17 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>time</span>::<span class='ident'>Tm</span>;
 
+<span class='doccomment'>/// Struct representing the date and time part of an MsDos datetime</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MsDosDateTime</span> {
+    <span class='doccomment'>/// Part representing the date</span>
     <span class='kw'>pub</span> <span class='ident'>datepart</span>: <span class='ident'>u16</span>,
+    <span class='doccomment'>/// Part representing the time</span>
     <span class='kw'>pub</span> <span class='ident'>timepart</span>: <span class='ident'>u16</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>MsDosDateTime</span> {
+    <span class='doccomment'>/// Constructor of an MsDos datetime, from the raw representation</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>time</span>: <span class='ident'>u16</span>, <span class='ident'>date</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='ident'>MsDosDateTime</span> {
         <span class='ident'>MsDosDateTime</span> {
             <span class='ident'>datepart</span>: <span class='ident'>date</span>,
@@ -273,8 +298,11 @@
     }
 }
 
+<span class='doccomment'>/// Trait to convert a time representation to and from a MsDosDateTime</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>TmMsDosExt</span> {
+    <span class='doccomment'>/// Convert a value to MsDosDateTime</span>
     <span class='kw'>fn</span> <span class='ident'>to_msdos</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>MsDosDateTime</span>, <span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>;
+    <span class='doccomment'>/// Construct a value from an MsDosDateTime</span>
     <span class='kw'>fn</span> <span class='ident'>from_msdos</span>(<span class='ident'>MsDosDateTime</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>, <span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>;
 }
 
