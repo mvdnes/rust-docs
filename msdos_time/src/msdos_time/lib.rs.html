@@ -299,7 +299,7 @@
 }
 
 <span class='doccomment'>/// Trait to convert a time representation to and from a MsDosDateTime</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>TmMsDosExt</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>TmMsDosExt</span> : <span class='ident'>Sized</span> {
     <span class='doccomment'>/// Convert a value to MsDosDateTime</span>
     <span class='kw'>fn</span> <span class='ident'>to_msdos</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>MsDosDateTime</span>, <span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>;
     <span class='doccomment'>/// Construct a value from an MsDosDateTime</span>
