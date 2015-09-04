@@ -31,7 +31,7 @@ git add -A $PROJECT_NAME
 git commit -m "doc upload for $PROJECT_NAME" || true
 
 for i in {1..5}; do
-    git push -q origin gh-pages && break # if successful, break loop
+    git push -q origin gh-pages && break || true # if successful, break loop
     echo "Rebasing... attempt $i"
     git pull -q -r # otherwise try a rebase
 done
