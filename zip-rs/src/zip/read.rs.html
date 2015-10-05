@@ -34,7 +34,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -348,6 +348,11 @@
 <span id="306">306</span>
 <span id="307">307</span>
 <span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Structs for reading a ZIP archive</span>
 
@@ -360,11 +365,13 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>flate2</span>;
 <span class='kw'>use</span> <span class='ident'>flate2</span>::<span class='ident'>FlateReadExt</span>;
-<span class='kw'>use</span> <span class='ident'>bzip2</span>::<span class='ident'>reader</span>::<span class='ident'>BzDecompressor</span>;
 <span class='kw'>use</span> <span class='ident'>podio</span>::{<span class='ident'>ReadPodExt</span>, <span class='ident'>LittleEndian</span>};
 <span class='kw'>use</span> <span class='ident'>types</span>::<span class='ident'>ZipFileData</span>;
 <span class='kw'>use</span> <span class='ident'>cp437</span>::<span class='ident'>FromCp437</span>;
 <span class='kw'>use</span> <span class='ident'>msdos_time</span>::{<span class='ident'>TmMsDosExt</span>, <span class='ident'>MsDosDateTime</span>};
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bzip2&quot;</span>)]</span>
+<span class='kw'>use</span> <span class='ident'>bzip2</span>::<span class='ident'>reader</span>::<span class='ident'>BzDecompressor</span>;
 
 <span class='doccomment'>/// Wrapper for reading the contents of a ZIP file.</span>
 <span class='doccomment'>///</span>
@@ -402,6 +409,7 @@
 <span class='kw'>enum</span> <span class='ident'>ZipFileReader</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='ident'>Stored</span>(<span class='ident'>Crc32Reader</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Take</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>Read</span><span class='op'>&gt;&gt;</span>),
     <span class='ident'>Deflated</span>(<span class='ident'>Crc32Reader</span><span class='op'>&lt;</span><span class='ident'>flate2</span>::<span class='ident'>read</span>::<span class='ident'>DeflateDecoder</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Take</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>Read</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bzip2&quot;</span>)]</span>
     <span class='ident'>Bzip2</span>(<span class='ident'>Crc32Reader</span><span class='op'>&lt;</span><span class='ident'>BzDecompressor</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Take</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>Read</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
 }
 
@@ -498,6 +506,7 @@
                     <span class='ident'>deflate_reader</span>,
                     <span class='ident'>data</span>.<span class='ident'>crc32</span>))
             },
+            <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bzip2&quot;</span>)]</span>
             <span class='ident'>CompressionMethod</span>::<span class='ident'>Bzip2</span> <span class='op'>=&gt;</span>
             {
                 <span class='kw'>let</span> <span class='ident'>bzip2_reader</span> <span class='op'>=</span> <span class='ident'>BzDecompressor</span>::<span class='ident'>new</span>(<span class='ident'>limit_reader</span>);
@@ -623,6 +632,7 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>reader</span> {
            <span class='ident'>ZipFileReader</span>::<span class='ident'>Stored</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>r</span>) <span class='op'>=&gt;</span> <span class='ident'>r</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Read</span>,
            <span class='ident'>ZipFileReader</span>::<span class='ident'>Deflated</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>r</span>) <span class='op'>=&gt;</span> <span class='ident'>r</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Read</span>,
+           <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;bzip2&quot;</span>)]</span>
            <span class='ident'>ZipFileReader</span>::<span class='ident'>Bzip2</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>r</span>) <span class='op'>=&gt;</span> <span class='ident'>r</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Read</span>,
         }
     }
@@ -664,37 +674,44 @@
     <section class="footer"></section>
 
     <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
-        </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
+        <div>
+            <div class="shortcuts">
+                <h1>Keyboard Shortcuts</h1>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h1>Search Tricks</h1>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>typedef</code> (or
+                    <code>tdef</code>).
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
     </div>
 
