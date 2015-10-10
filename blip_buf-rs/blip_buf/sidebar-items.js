@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["MAX_FRAME","Maximum number of samples that can be generated from one time frame."],["MAX_RATIO","Maximum `clock_rate / sample_rate ratio`. For a given `sample_rate`, `clock_rate` must not be greater than `sample_rate * MAX_RATIO`."]],"struct":[["BlipBuf","Sample buffer that resamples from input clock rate to output sample rate"]]});
