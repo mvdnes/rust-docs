@@ -189,11 +189,11 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>blip_buf_sys</span> <span class='kw'>as</span> <span class='ident'>ffi</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
-<span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_double</span>, <span class='ident'>c_int</span>, <span class='ident'>c_short</span>, <span class='ident'>c_uint</span>};
+<span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_double</span>, <span class='ident'>c_int</span>, <span class='ident'>c_uint</span>};
 
 <span class='doccomment'>/// Maximum `clock_rate / sample_rate ratio`. For a given `sample_rate`,</span>
 <span class='doccomment'>/// `clock_rate` must not be greater than `sample_rate * MAX_RATIO`.</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MAX_RATIO</span> : <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>1048576</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MAX_RATIO</span> : <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>1</span> <span class='op'>&lt;&lt;</span> <span class='number'>20</span>;
 
 <span class='doccomment'>/// Maximum number of samples that can be generated from one time frame.</span>
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MAX_FRAME</span> : <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>4000</span>;
@@ -207,7 +207,7 @@
     <span class='doccomment'>/// Creates new buffer that can hold at most sample_count samples. Sets rates</span>
     <span class='doccomment'>/// so that there are `MAX_RATIO` clocks per sample. Returns pointer to new</span>
     <span class='doccomment'>/// buffer, or panics if insufficient memory.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>sample_count</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>BlipBuf</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>sample_count</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>BlipBuf</span> {
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>ptr</span> <span class='op'>=</span> <span class='ident'>ffi</span>::<span class='ident'>blip_new</span>(<span class='ident'>sample_count</span> <span class='kw'>as</span> <span class='ident'>c_int</span>);
             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>ptr</span>.<span class='ident'>is_null</span>());
@@ -247,9 +247,9 @@
 
     <span class='doccomment'>/// Length of time frame, in clocks, needed to make `sample_count` additional</span>
     <span class='doccomment'>/// samples available.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>clocks_needed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>sample_count</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>clocks_needed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>sample_count</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
         <span class='kw'>unsafe</span> {
-            <span class='ident'>ffi</span>::<span class='ident'>blip_clocks_needed</span>(<span class='self'>self</span>.<span class='ident'>ptr</span>, <span class='ident'>sample_count</span> <span class='kw'>as</span> <span class='ident'>c_int</span>) <span class='kw'>as</span> <span class='ident'>i32</span>
+            <span class='ident'>ffi</span>::<span class='ident'>blip_clocks_needed</span>(<span class='self'>self</span>.<span class='ident'>ptr</span>, <span class='ident'>sample_count</span> <span class='kw'>as</span> <span class='ident'>c_int</span>) <span class='kw'>as</span> <span class='ident'>u32</span>
         }
     }
 
@@ -265,9 +265,9 @@
     }
 
     <span class='doccomment'>/// Number of buffered samples available for reading.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>samples_avail</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>samples_avail</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
         <span class='kw'>unsafe</span> {
-            <span class='ident'>ffi</span>::<span class='ident'>blip_samples_avail</span>(<span class='self'>self</span>.<span class='ident'>ptr</span>) <span class='kw'>as</span> <span class='ident'>i32</span>
+            <span class='ident'>ffi</span>::<span class='ident'>blip_samples_avail</span>(<span class='self'>self</span>.<span class='ident'>ptr</span>) <span class='kw'>as</span> <span class='ident'>u32</span>
         }
     }
 
@@ -275,9 +275,9 @@
     <span class='doccomment'>/// `stereo` is true, writes output to every other element of `buf`, allowing easy</span>
     <span class='doccomment'>/// interleaving of two buffers into a stereo sample stream. Outputs 16-bit signed</span>
     <span class='doccomment'>/// samples. Returns number of samples actually read.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>read_samples</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>i16</span>], <span class='ident'>stereo</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>read_samples</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>i16</span>], <span class='ident'>stereo</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
         <span class='kw'>unsafe</span> {
-            <span class='ident'>ffi</span>::<span class='ident'>blip_read_samples</span>(<span class='self'>self</span>.<span class='ident'>ptr</span>, <span class='ident'>buf</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_short</span>, <span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>stereo</span> <span class='kw'>as</span> <span class='ident'>c_int</span>) <span class='kw'>as</span> <span class='ident'>i32</span>
+            <span class='ident'>ffi</span>::<span class='ident'>blip_read_samples</span>(<span class='self'>self</span>.<span class='ident'>ptr</span>, <span class='ident'>buf</span>.<span class='ident'>as_mut_ptr</span>(), <span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>c_int</span>, <span class='ident'>stereo</span> <span class='kw'>as</span> <span class='ident'>c_int</span>) <span class='kw'>as</span> <span class='ident'>usize</span>
         }
     }
 }
