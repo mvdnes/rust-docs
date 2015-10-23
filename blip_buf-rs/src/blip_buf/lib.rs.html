@@ -170,6 +170,8 @@
 <span id="128">128</span>
 <span id="129">129</span>
 <span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! blip_buf is a small waveform synthesis library meant for use in classic video game</span>
 <span class='doccomment'>//! sound chip emulation. It greatly simplifies sound chip emulation code by handling</span>
@@ -208,6 +210,8 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>BlipBuf</span> {
     <span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ffi</span>::<span class='ident'>blip_t</span>,
 }
+
+<span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>Send</span> <span class='kw'>for</span> <span class='ident'>BlipBuf</span> {}
 
 <span class='kw'>impl</span> <span class='ident'>BlipBuf</span> {
     <span class='doccomment'>/// Creates new buffer that can hold at most sample_count samples. Sets rates</span>
