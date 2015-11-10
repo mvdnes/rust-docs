@@ -172,6 +172,18 @@
 <span id="130">130</span>
 <span id="131">131</span>
 <span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! blip_buf is a small waveform synthesis library meant for use in classic video game</span>
 <span class='doccomment'>//! sound chip emulation. It greatly simplifies sound chip emulation code by handling</span>
@@ -303,6 +315,18 @@
         <span class='kw'>unsafe</span> {
             <span class='ident'>ffi</span>::<span class='ident'>blip_delete</span>(<span class='self'>self</span>.<span class='ident'>ptr</span>);
         }
+    }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
+<span class='kw'>mod</span> <span class='ident'>test</span> {
+    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>BlipBuf</span>;
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>basics</span>() {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blipbuf</span> <span class='op'>=</span> <span class='ident'>BlipBuf</span>::<span class='ident'>new</span>(<span class='number'>44100</span>);
+        <span class='ident'>blipbuf</span>.<span class='ident'>set_rates</span>((<span class='number'>1</span> <span class='op'>&lt;&lt;</span> <span class='number'>22</span>) <span class='kw'>as</span> <span class='ident'>f64</span>, <span class='number'>44100f64</span>);
+        <span class='ident'>drop</span>(<span class='ident'>blipbuf</span>);
     }
 }
 </pre>
