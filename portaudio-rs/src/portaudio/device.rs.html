@@ -221,7 +221,7 @@
     {
         <span class='ident'>DeviceInfo</span>
         {
-            <span class='ident'>name</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>name</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
+            <span class='ident'>name</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>name</span>).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
             <span class='ident'>host_api</span>: <span class='ident'>input</span>.<span class='ident'>hostApi</span> <span class='kw'>as</span> <span class='ident'>HostApiIndex</span>,
             <span class='ident'>max_input_channels</span>: <span class='ident'>input</span>.<span class='ident'>maxInputChannels</span> <span class='kw'>as</span> <span class='ident'>u32</span>,
             <span class='ident'>max_output_channels</span>: <span class='ident'>input</span>.<span class='ident'>maxOutputChannels</span> <span class='kw'>as</span> <span class='ident'>u32</span>,

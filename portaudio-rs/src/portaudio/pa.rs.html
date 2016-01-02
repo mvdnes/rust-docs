@@ -207,7 +207,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version_text</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span>
 {
     <span class='kw'>let</span> <span class='ident'>version_c</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetVersionText</span>() };
-    <span class='kw'>let</span> <span class='ident'>version_s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>version_c</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _).<span class='ident'>to_bytes</span>() });
+    <span class='kw'>let</span> <span class='ident'>version_s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>version_c</span>).<span class='ident'>to_bytes</span>() });
     <span class='ident'>version_s</span>.<span class='ident'>into_owned</span>()
 }
 
@@ -319,7 +319,7 @@
             <span class='ident'>other</span> <span class='op'>=&gt;</span>
             {
                 <span class='kw'>let</span> <span class='ident'>message_c</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetErrorText</span>(<span class='ident'>other</span> <span class='kw'>as</span> <span class='ident'>i32</span>) };
-                <span class='kw'>let</span> <span class='ident'>message_s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>message_c</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _).<span class='ident'>to_bytes</span>() });
+                <span class='kw'>let</span> <span class='ident'>message_s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>message_c</span>).<span class='ident'>to_bytes</span>() });
                 <span class='ident'>f</span>.<span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>message_s</span>)
             }
         }
