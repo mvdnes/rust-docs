@@ -218,14 +218,12 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
-<span id="179">179</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Info module for available audio host API&#39;s</span>
 
 <span class='kw'>use</span> <span class='ident'>ll</span>;
 <span class='kw'>use</span> <span class='ident'>pa</span>::<span class='ident'>PaError</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CStr</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_char</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>to_pa_result</span>;
 
 <span class='doccomment'>/// Index number of a Host API</span>
@@ -317,7 +315,7 @@
         <span class='ident'>HostApiInfo</span>
         {
             <span class='ident'>api_type</span>: <span class='ident'>HostApiType</span>::<span class='ident'>from_u32</span>(<span class='ident'>input</span>.<span class='ident'>_type</span>),
-            <span class='ident'>name</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>name</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
+            <span class='ident'>name</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>name</span>).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
             <span class='ident'>device_count</span>: <span class='ident'>input</span>.<span class='ident'>deviceCount</span> <span class='kw'>as</span> <span class='ident'>u32</span>,
             <span class='ident'>default_input</span>: <span class='kw'>match</span> <span class='ident'>input</span>.<span class='ident'>defaultInputDevice</span> { <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>), _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span> },
             <span class='ident'>default_output</span>: <span class='kw'>match</span> <span class='ident'>input</span>.<span class='ident'>defaultOutputDevice</span> { <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>), _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span> },
@@ -345,7 +343,7 @@
         <span class='ident'>HostErrorInfo</span>
         {
             <span class='ident'>code</span>: <span class='ident'>input</span>.<span class='ident'>errorCode</span> <span class='kw'>as</span> <span class='ident'>i32</span>,
-            <span class='ident'>text</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>errorText</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
+            <span class='ident'>text</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>errorText</span>).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
             <span class='ident'>api_type</span>: <span class='ident'>HostApiType</span>::<span class='ident'>from_u32</span>(<span class='ident'>input</span>.<span class='ident'>hostApiType</span>),
         }
     }
