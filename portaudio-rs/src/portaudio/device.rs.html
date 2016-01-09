@@ -247,24 +247,24 @@
 <span class='doccomment'>/// Retrieve the index of the default input device</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// Will return Err(NoDevice) when non are available.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_default_input_index</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DeviceIndex</span>, <span class='ident'>PaError</span><span class='op'>&gt;</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_default_input_index</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DeviceIndex</span><span class='op'>&gt;</span>
 {
     <span class='kw'>match</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetDefaultInputDevice</span>() }
     {
-        <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>),
-        <span class='ident'>m</span> <span class='op'>=&gt;</span> <span class='ident'>to_pa_result</span>(<span class='ident'>m</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='number'>0</span>),
+        <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>),
+        _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
     }
 }
 
 <span class='doccomment'>/// Retrieve the index of the default output device</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// Will return Err(NoDevice) when non are available.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_default_output_index</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DeviceIndex</span>, <span class='ident'>PaError</span><span class='op'>&gt;</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_default_output_index</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DeviceIndex</span><span class='op'>&gt;</span>
 {
     <span class='kw'>match</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetDefaultOutputDevice</span>() }
     {
-        <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>),
-        <span class='ident'>m</span> <span class='op'>=&gt;</span> <span class='ident'>to_pa_result</span>(<span class='ident'>m</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='number'>0</span>),
+        <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>),
+        _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
     }
 }
 
