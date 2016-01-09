@@ -69,8 +69,8 @@ when using the read and write methods</li>
 
 <h2 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h2>
 <ul>
-<li>input: Specification for the input channel</li>
-<li>output: Specification for the output channel</li>
+<li>input: Specification for the input channel, or None for an output-only stream</li>
+<li>output: Specification for the output channel, or None for an input-only stream</li>
 <li>sample_rate: Sample rate of the stream</li>
 <li>frames_per_buffer: Number of frames per buffer. Use FRAMES_PER_BUFFER_UNSPECIFIED to let
 portaudio determine the optimal number.</li>
