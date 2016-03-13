@@ -659,7 +659,6 @@
 <span id="616">616</span>
 <span id="617">617</span>
 <span id="618">618</span>
-<span id="619">619</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Contains the Stream class and associated values</span>
 
@@ -895,7 +894,6 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pa_stream</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
 
         <span class='kw'>let</span> <span class='ident'>pointer_for_callback</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>userdata</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>StreamUserData</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>;
-        <span class='kw'>let</span> <span class='ident'>pointer_for_struct</span> <span class='op'>=</span> <span class='ident'>pointer_for_callback</span>.<span class='ident'>clone</span>();
 
         <span class='kw'>let</span> <span class='ident'>code</span> <span class='op'>=</span> <span class='kw'>unsafe</span>
         {
@@ -912,7 +910,7 @@
         <span class='kw'>match</span> <span class='ident'>to_pa_result</span>(<span class='ident'>code</span>)
         {
             <span class='prelude-val'>Ok</span>(()) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Stream</span> { <span class='ident'>pa_stream</span>: <span class='ident'>pa_stream</span>,
-                                  <span class='ident'>user_data</span>: <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>pointer_for_struct</span>) },
+                                  <span class='ident'>user_data</span>: <span class='ident'>userdata</span>,
                                   <span class='ident'>inputs</span>: <span class='ident'>num_input_channels</span>,
                                   <span class='ident'>outputs</span>: <span class='ident'>num_output_channels</span>,
                          }),
@@ -967,7 +965,6 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pa_stream</span> <span class='op'>=</span> ::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
         <span class='kw'>let</span> <span class='ident'>pointer_for_callback</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>user_data</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>StreamUserData</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>O</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>;
-        <span class='kw'>let</span> <span class='ident'>pointer_for_struct</span> <span class='op'>=</span> <span class='ident'>pointer_for_callback</span>.<span class='ident'>clone</span>();
 
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>unsafe</span>
         {
@@ -984,7 +981,7 @@
         <span class='kw'>match</span> <span class='ident'>to_pa_result</span>(<span class='ident'>result</span>)
         {
             <span class='prelude-val'>Ok</span>(()) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Stream</span> { <span class='ident'>pa_stream</span>: <span class='ident'>pa_stream</span>,
-                                  <span class='ident'>user_data</span>: <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>pointer_for_struct</span>) },
+                                  <span class='ident'>user_data</span>: <span class='ident'>user_data</span>,
                                   <span class='ident'>inputs</span>: <span class='ident'>input_cnt</span>,
                                   <span class='ident'>outputs</span>: <span class='ident'>output_cnt</span>,
                       }),
@@ -1155,6 +1152,7 @@
 {
     <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>)
     {
+        <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>user_data</span>.<span class='ident'>num_output</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>outputs</span>); <span class='comment'>//userdata should not be garbled</span>
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>close</span>()
         {
             <span class='prelude-val'>Err</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> ::<span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>stderr</span>(), <span class='string'>&quot;Stream drop error: {:?}\n&quot;</span>, <span class='ident'>v</span>); },
