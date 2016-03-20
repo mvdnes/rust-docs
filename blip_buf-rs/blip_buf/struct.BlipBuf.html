@@ -9,6 +9,7 @@
 
     <title>blip_buf::BlipBuf - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -45,35 +46,35 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-18' class='srclink' href='../src/blip_buf/lib.rs.html#35-37' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-9' class='srclink' href='../src/blip_buf/lib.rs.html#35-37' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct BlipBuf {
     // some fields omitted
 }</pre><div class='docblock'><p>Sample buffer that resamples from input clock rate to output sample rate</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../blip_buf/struct.BlipBuf.html' title='blip_buf::BlipBuf'>BlipBuf</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(sample_count: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../blip_buf/struct.BlipBuf.html' title='blip_buf::BlipBuf'>BlipBuf</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../blip_buf/struct.BlipBuf.html' title='blip_buf::BlipBuf'>BlipBuf</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(sample_count: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../blip_buf/struct.BlipBuf.html' title='blip_buf::BlipBuf'>BlipBuf</a></code></h4>
 <div class='docblock'><p>Creates new buffer that can hold at most sample_count samples. Sets rates
 so that there are <code>MAX_RATIO</code> clocks per sample. Returns pointer to new
 buffer, or panics if insufficient memory.</p>
-</div><h4 id='method.set_rates' class='method'><code>fn <a href='#method.set_rates' class='fnname'>set_rates</a>(&amp;mut self, clock_rate: <a href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, sample_rate: <a href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></h4>
+</div><h4 id='method.set_rates' class='method'><code>fn <a href='#method.set_rates' class='fnname'>set_rates</a>(&amp;mut self, clock_rate: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, sample_rate: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></h4>
 <div class='docblock'><p>Sets approximate input clock rate and output sample rate. For every
 <code>clock_rate</code> input clocks, approximately <code>sample_rate</code> samples are generated.</p>
 </div><h4 id='method.clear' class='method'><code>fn <a href='#method.clear' class='fnname'>clear</a>(&amp;mut self)</code></h4>
 <div class='docblock'><p>Clears entire buffer. Afterwards, <code>samples_avail() == 0</code>.</p>
-</div><h4 id='method.add_delta' class='method'><code>fn <a href='#method.add_delta' class='fnname'>add_delta</a>(&amp;mut self, clock_time: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, delta: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</code></h4>
+</div><h4 id='method.add_delta' class='method'><code>fn <a href='#method.add_delta' class='fnname'>add_delta</a>(&amp;mut self, clock_time: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, delta: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</code></h4>
 <div class='docblock'><p>Adds positive/negative delta into buffer at specified clock time.</p>
-</div><h4 id='method.add_delta_fast' class='method'><code>fn <a href='#method.add_delta_fast' class='fnname'>add_delta_fast</a>(&amp;mut self, clock_time: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, delta: <a href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</code></h4>
+</div><h4 id='method.add_delta_fast' class='method'><code>fn <a href='#method.add_delta_fast' class='fnname'>add_delta_fast</a>(&amp;mut self, clock_time: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, delta: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</code></h4>
 <div class='docblock'><p>Same as <code>add_delta()</code>, but uses faster, lower-quality synthesis.</p>
-</div><h4 id='method.clocks_needed' class='method'><code>fn <a href='#method.clocks_needed' class='fnname'>clocks_needed</a>(&amp;self, sample_count: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
+</div><h4 id='method.clocks_needed' class='method'><code>fn <a href='#method.clocks_needed' class='fnname'>clocks_needed</a>(&amp;self, sample_count: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
 <div class='docblock'><p>Length of time frame, in clocks, needed to make <code>sample_count</code> additional
 samples available.</p>
-</div><h4 id='method.end_frame' class='method'><code>fn <a href='#method.end_frame' class='fnname'>end_frame</a>(&amp;mut self, clock_duration: <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</code></h4>
+</div><h4 id='method.end_frame' class='method'><code>fn <a href='#method.end_frame' class='fnname'>end_frame</a>(&amp;mut self, clock_duration: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</code></h4>
 <div class='docblock'><p>Makes input clocks before <code>clock_duration</code> available for reading as output
 samples. Also begins new time frame at <code>clock_duration</code>, so that clock time 0 in
 the new time frame specifies the same clock as <code>clock_duration</code> in the old time
 frame specified. Deltas can have been added slightly past <code>clock_duration</code> (up to
 however many clocks there are in two output samples).</p>
-</div><h4 id='method.samples_avail' class='method'><code>fn <a href='#method.samples_avail' class='fnname'>samples_avail</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
+</div><h4 id='method.samples_avail' class='method'><code>fn <a href='#method.samples_avail' class='fnname'>samples_avail</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
 <div class='docblock'><p>Number of buffered samples available for reading.</p>
-</div><h4 id='method.read_samples' class='method'><code>fn <a href='#method.read_samples' class='fnname'>read_samples</a>(&amp;mut self, buf: <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a><a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>, stereo: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
+</div><h4 id='method.read_samples' class='method'><code>fn <a href='#method.read_samples' class='fnname'>read_samples</a>(&amp;mut self, buf: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i16.html'>i16</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>, stereo: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
 <div class='docblock'><p>Reads and removes at most <code>buf.len()</code> samples and writes them to <code>buf</code>. If
 <code>stereo</code> is true, writes output to every other element of <code>buf</code>, allowing easy
 interleaving of two buffers into a stereo sample stream. Outputs 16-bit signed
@@ -138,6 +139,6 @@ samples. Returns number of samples actually read.</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>
