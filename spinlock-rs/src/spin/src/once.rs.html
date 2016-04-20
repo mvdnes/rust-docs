@@ -267,6 +267,8 @@
 <span id="223">223</span>
 <span id="224">224</span>
 <span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>cell</span>::<span class='ident'>UnsafeCell</span>;
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
@@ -295,6 +297,8 @@
     <span class='ident'>data</span>: <span class='ident'>UnsafeCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>, <span class='comment'>// TODO remove option and use mem::uninitialized</span>
 }
 
+<span class='comment'>// Same unsafe impls as `std::sync::RwLock`, because this also allows for</span>
+<span class='comment'>// concurrent reads.</span>
 <span class='kw'>unsafe</span> <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>Sync</span> <span class='kw'>for</span> <span class='ident'>Once</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {}
 <span class='kw'>unsafe</span> <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>Send</span> <span class='kw'>for</span> <span class='ident'>Once</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {}
 
