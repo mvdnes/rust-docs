@@ -99,6 +99,8 @@
 <span id="56">56</span>
 <span id="57">57</span>
 <span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Types that specify what is contained in a ZIP.</span>
 
@@ -111,6 +113,8 @@
     <span class='ident'>Dos</span>,
     <span class='ident'>Unix</span>,
     <span class='ident'>Unknown</span>,
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='ident'>__Nonexhaustive</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>System</span> {
@@ -134,7 +138,7 @@
     <span class='doccomment'>/// Compatibility of the file attribute information</span>
     <span class='kw'>pub</span> <span class='ident'>system</span>: <span class='ident'>System</span>,
     <span class='doccomment'>/// Specification version</span>
-    <span class='kw'>pub</span> <span class='ident'>version</span>: <span class='ident'>u8</span>,
+    <span class='kw'>pub</span> <span class='ident'>version_made_by</span>: <span class='ident'>u8</span>,
     <span class='doccomment'>/// True if the file is encrypted.</span>
     <span class='kw'>pub</span> <span class='ident'>encrypted</span>: <span class='ident'>bool</span>,
     <span class='doccomment'>/// Compression method used to store the file</span>
