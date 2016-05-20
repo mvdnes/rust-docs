@@ -545,6 +545,32 @@
 <span id="501">501</span>
 <span id="502">502</span>
 <span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>, <span class='ident'>ATOMIC_USIZE_INIT</span>};
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>cell</span>::<span class='ident'>UnsafeCell</span>;
@@ -642,7 +668,33 @@
     <span class='doccomment'>/// }</span>
     <span class='doccomment'>/// ```</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;const_fn&quot;</span>)]</span>
     <span class='kw'>pub</span> <span class='kw'>const</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>user_data</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
+    {
+        <span class='ident'>RwLock</span>
+        {
+            <span class='ident'>lock</span>: <span class='ident'>ATOMIC_USIZE_INIT</span>,
+            <span class='ident'>data</span>: <span class='ident'>UnsafeCell</span>::<span class='ident'>new</span>(<span class='ident'>user_data</span>),
+        }
+    }
+
+    <span class='doccomment'>/// Creates a new spinlock wrapping the supplied data.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// If you want to use it statically, you can use the `const_fn` feature.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// use spin;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// fn demo() {</span>
+    <span class='doccomment'>///     let rw_lock = spin::RwLock::new(());</span>
+    <span class='doccomment'>///     let lock = rw_lock.read();</span>
+    <span class='doccomment'>///     // do something with lock</span>
+    <span class='doccomment'>///     drop(lock);</span>
+    <span class='doccomment'>/// }</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;const_fn&quot;</span>))]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>user_data</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
     {
         <span class='ident'>RwLock</span>
         {

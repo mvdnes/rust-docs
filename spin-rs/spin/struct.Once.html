@@ -65,7 +65,7 @@ closure returns a value and it is stored. Once therefore acts something like
 <span class='ident'>START</span>.<span class='ident'>call_once</span>(<span class='op'>||</span> {
     <span class='comment'>// run initialization here</span>
 });</pre>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='struct' href='../spin/struct.Once.html' title='spin::Once'>Once</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-193' class='srclink' href='../src/spin/src/once.rs.html#39-135' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='struct' href='../spin/struct.Once.html' title='spin::Once'>Once</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-194' class='srclink' href='../src/spin/src/once.rs.html#51-147' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>const fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../spin/struct.Once.html' title='spin::Once'>Once</a>&lt;T&gt;</code></h4>
 <div class='docblock'><p>Creates a new <code>Once</code> value.</p>
 </div><h4 id='method.call_once' class='method'><code>fn <a href='#method.call_once' class='fnname'>call_once</a>&lt;'a, F&gt;(&amp;'a self, builder: F) -&gt; &amp;'a T <span class='where'>where F: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html' title='core::ops::FnOnce'>FnOnce</a>() -&gt; T</span></code></h4>
