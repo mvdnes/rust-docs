@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
@@ -43,14 +44,15 @@
 
     <section id='main' class="content fn">
 <h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>portaudio</a>::<wbr><a href='index.html'>device</a>::<wbr><a class='fn' href=''>get_from_host_api_device_index</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-783' class='srclink' href='../../src/portaudio/device.rs.html#124-131' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-820' class='srclink' href='../../src/portaudio/src/device.rs.html#124-131' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub fn get_from_host_api_device_index(host_api: <a class='type' href='../../portaudio/hostapi/type.HostApiIndex.html' title='portaudio::hostapi::HostApiIndex'>HostApiIndex</a>, host_api_device_index: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../../portaudio/device/type.DeviceIndex.html' title='portaudio::device::DeviceIndex'>DeviceIndex</a>, <a class='enum' href='../../portaudio/enum.PaError.html' title='portaudio::PaError'>PaError</a>&gt;</pre><div class='docblock'><p>Converts a device index from a specific host API to a global device index</p>
 
 <p>Returns Err(InvalidHostApi) when the host_api is out of range, and Err(InvalidDevice) when
 host_api_device_index is out of range.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='comment'>// We retrieve the index of device 3 of api 1</span>
 <span class='kw'>let</span> <span class='ident'>device_index</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>portaudio</span>::<span class='ident'>device</span>::<span class='ident'>get_from_host_api_device_index</span>(<span class='number'>1</span>, <span class='number'>3</span>)
@@ -81,6 +83,8 @@ host_api_device_index is out of range.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
@@ -101,7 +105,7 @@ host_api_device_index is out of range.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
