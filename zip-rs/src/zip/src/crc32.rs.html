@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     
     
@@ -276,18 +277,18 @@
 <span class='kw'>mod</span> <span class='ident'>test</span> {
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>samples</span>() {
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;&quot;</span>), <span class='number'>0</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;&quot;</span>), <span class='number'>0</span>);
 
         <span class='comment'>// test vectors from the iPXE project (input and output are bitwise negated)</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0x12345678</span>, <span class='string'>b&quot;&quot;</span>), <span class='op'>!</span><span class='number'>0x12345678</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0xffffffff</span>, <span class='string'>b&quot;hello world&quot;</span>), <span class='op'>!</span><span class='number'>0xf2b5ee7a</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0xffffffff</span>, <span class='string'>b&quot;hello&quot;</span>), <span class='op'>!</span><span class='number'>0xc9ef5979</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0xc9ef5979</span>, <span class='string'>b&quot; world&quot;</span>), <span class='op'>!</span><span class='number'>0xf2b5ee7a</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0x12345678</span>, <span class='string'>b&quot;&quot;</span>), <span class='op'>!</span><span class='number'>0x12345678</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0xffffffff</span>, <span class='string'>b&quot;hello world&quot;</span>), <span class='op'>!</span><span class='number'>0xf2b5ee7a</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0xffffffff</span>, <span class='string'>b&quot;hello&quot;</span>), <span class='op'>!</span><span class='number'>0xc9ef5979</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='op'>!</span><span class='number'>0xc9ef5979</span>, <span class='string'>b&quot; world&quot;</span>), <span class='op'>!</span><span class='number'>0xf2b5ee7a</span>);
 
         <span class='comment'>// Some vectors found on Rosetta code</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&quot;</span>), <span class='number'>0x190A55AD</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF&quot;</span>), <span class='number'>0xFF6CAB0B</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F&quot;</span>), <span class='number'>0x91267E8A</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&quot;</span>), <span class='number'>0x190A55AD</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF&quot;</span>), <span class='number'>0xFF6CAB0B</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw'>super</span>::<span class='ident'>update</span>(<span class='number'>0</span>, <span class='string'>b&quot;\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F&quot;</span>), <span class='number'>0x91267E8A</span>);
     }
 }
 </pre>
@@ -314,6 +315,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
