@@ -281,6 +281,46 @@
 <span id="237">237</span>
 <span id="238">238</span>
 <span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>cell</span>::<span class='ident'>UnsafeCell</span>;
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
@@ -319,6 +359,7 @@
 <span class='kw'>const</span> <span class='ident'>INCOMPLETE</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0x0</span>;
 <span class='kw'>const</span> <span class='ident'>RUNNING</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0x1</span>;
 <span class='kw'>const</span> <span class='ident'>COMPLETE</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0x2</span>;
+<span class='kw'>const</span> <span class='ident'>PANICKED</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0x3</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;core_intrinsics&quot;</span>)]</span>
 <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
@@ -387,9 +428,14 @@
                                                  <span class='ident'>RUNNING</span>,
                                                  <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
             <span class='kw'>if</span> <span class='ident'>status</span> <span class='op'>==</span> <span class='ident'>INCOMPLETE</span> { <span class='comment'>// We init</span>
+                <span class='comment'>// We use a guard (Finish) to catch panics caused by builder</span>
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>finish</span> <span class='op'>=</span> <span class='ident'>Finish</span> { <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>state</span>, <span class='ident'>panicked</span>: <span class='bool-val'>true</span> };
                 <span class='kw'>unsafe</span> { <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>get</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>builder</span>()) };
+                <span class='ident'>finish</span>.<span class='ident'>panicked</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+
                 <span class='ident'>status</span> <span class='op'>=</span> <span class='ident'>COMPLETE</span>;
                 <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>store</span>(<span class='ident'>status</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
+
                 <span class='comment'>// This next line is strictly an optomization</span>
                 <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>force_get</span>();
             }
@@ -402,6 +448,7 @@
                     <span class='ident'>cpu_relax</span>();
                     <span class='ident'>status</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>)
                 },
+                <span class='ident'>PANICKED</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Once has panicked&quot;</span>),
                 <span class='ident'>COMPLETE</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>force_get</span>(),
                 _ <span class='op'>=&gt;</span> <span class='ident'>unreachable</span>(),
             }
@@ -424,8 +471,22 @@
                 <span class='ident'>INCOMPLETE</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>None</span>,
                 <span class='ident'>RUNNING</span>    <span class='op'>=&gt;</span> <span class='ident'>cpu_relax</span>(), <span class='comment'>// We spin</span>
                 <span class='ident'>COMPLETE</span>   <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>force_get</span>()),
+                <span class='ident'>PANICKED</span>   <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Once has panicked&quot;</span>),
                 _ <span class='op'>=&gt;</span> <span class='ident'>unreachable</span>(),
             }
+        }
+    }
+}
+
+<span class='kw'>struct</span> <span class='ident'>Finish</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>AtomicUsize</span>,
+    <span class='ident'>panicked</span>: <span class='ident'>bool</span>,
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Finish</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>panicked</span> {
+            <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>store</span>(<span class='ident'>PANICKED</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
         }
     }
 }
@@ -519,6 +580,25 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>INIT</span>.<span class='ident'>wait</span>().<span class='ident'>is_none</span>());
         <span class='ident'>INIT</span>.<span class='ident'>call_once</span>(<span class='op'>||</span> <span class='number'>3</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>INIT</span>.<span class='ident'>wait</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>r</span>), <span class='prelude-val'>Some</span>(<span class='number'>3</span>));
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>panic</span>() {
+        <span class='kw'>use</span> ::<span class='ident'>std</span>::<span class='ident'>panic</span>;
+
+        <span class='kw'>static</span> <span class='ident'>INIT</span>: <span class='ident'>Once</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Once</span>::<span class='ident'>new</span>();
+
+        <span class='comment'>// poison the once</span>
+        <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>panic</span>::<span class='ident'>catch_unwind</span>(<span class='op'>||</span> {
+            <span class='ident'>INIT</span>.<span class='ident'>call_once</span>(<span class='op'>||</span> <span class='macro'>panic</span><span class='macro'>!</span>());
+        });
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>t</span>.<span class='ident'>is_err</span>());
+
+        <span class='comment'>// poisoning propagates</span>
+        <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>panic</span>::<span class='ident'>catch_unwind</span>(<span class='op'>||</span> {
+            <span class='ident'>INIT</span>.<span class='ident'>call_once</span>(<span class='op'>||</span> {});
+        });
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>t</span>.<span class='ident'>is_err</span>());
     }
 }
 </pre>
