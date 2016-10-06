@@ -569,7 +569,7 @@
             {
                 <span class='ident'>system</span>: <span class='ident'>System</span>::<span class='ident'>Dos</span>,
                 <span class='ident'>version_made_by</span>: <span class='ident'>DEFAULT_VERSION</span>,
-                <span class='ident'>encrypted</span>: <span class='boolvalue'>false</span>,
+                <span class='ident'>encrypted</span>: <span class='bool-val'>false</span>,
                 <span class='ident'>compression_method</span>: <span class='ident'>compression</span>,
                 <span class='ident'>last_modified_time</span>: <span class='ident'>time</span>::<span class='ident'>now</span>(),
                 <span class='ident'>crc32</span>: <span class='number'>0</span>,
@@ -718,8 +718,8 @@
     {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span>
         {
-            <span class='ident'>GenericZipWriter</span>::<span class='ident'>Closed</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+            <span class='ident'>GenericZipWriter</span>::<span class='ident'>Closed</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
         }
     }
 
