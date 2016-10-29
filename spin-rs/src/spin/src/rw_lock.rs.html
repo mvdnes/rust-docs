@@ -571,6 +571,56 @@
 <span id="527">527</span>
 <span id="528">528</span>
 <span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>, <span class='ident'>ATOMIC_USIZE_INIT</span>};
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>cell</span>::<span class='ident'>UnsafeCell</span>;
@@ -810,6 +860,27 @@
         } <span class='kw'>else</span> {
             <span class='prelude-val'>None</span>
         }
+    }
+
+    <span class='doccomment'>/// Force decrement the reader count.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This is *extremely* unsafe if there are outstanding `RwLockReadGuard`s</span>
+    <span class='doccomment'>/// live, or if called more times than `read` has been called, but can be</span>
+    <span class='doccomment'>/// useful in FFI contexts where the caller doesn&#39;t know how to deal with</span>
+    <span class='doccomment'>/// RAII.</span>
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>force_read_decrement</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>) <span class='kw-2'>&amp;</span> (<span class='op'>!</span><span class='ident'>USIZE_MSB</span>) <span class='op'>&gt;</span> <span class='number'>0</span>);
+        <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>fetch_sub</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
+    }
+
+    <span class='doccomment'>/// Force unlock exclusive write access.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This is *extremely* unsafe if there are outstanding `RwLockWriteGuard`s</span>
+    <span class='doccomment'>/// live, or if called when there are current readers, but can be useful in</span>
+    <span class='doccomment'>/// FFI contexts where the caller doesn&#39;t know how to deal with RAII.</span>
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>force_write_unlock</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='macro'>debug_assert_eq</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>), <span class='ident'>USIZE_MSB</span>);
+        <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>store</span>(<span class='number'>0</span>, <span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>);
     }
 
     <span class='doccomment'>/// Lock this rwlock with exclusive write access, blocking the current</span>
@@ -1099,6 +1170,35 @@
             <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>num_drops</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>), <span class='number'>0</span>);
         }
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>num_drops</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>), <span class='number'>1</span>);
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_force_read_decrement</span>() {
+        <span class='kw'>let</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='ident'>RwLock</span>::<span class='ident'>new</span>(());
+        ::<span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>m</span>.<span class='ident'>read</span>());
+        ::<span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>m</span>.<span class='ident'>read</span>());
+        ::<span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>m</span>.<span class='ident'>read</span>());
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>m</span>.<span class='ident'>try_write</span>().<span class='ident'>is_none</span>());
+        <span class='kw'>unsafe</span> {
+            <span class='ident'>m</span>.<span class='ident'>force_read_decrement</span>();
+            <span class='ident'>m</span>.<span class='ident'>force_read_decrement</span>();
+        }
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>m</span>.<span class='ident'>try_write</span>().<span class='ident'>is_none</span>());
+        <span class='kw'>unsafe</span> {
+            <span class='ident'>m</span>.<span class='ident'>force_read_decrement</span>();
+        }
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>m</span>.<span class='ident'>try_write</span>().<span class='ident'>is_some</span>());
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_force_write_unlock</span>() {
+        <span class='kw'>let</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='ident'>RwLock</span>::<span class='ident'>new</span>(());
+        ::<span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>forget</span>(<span class='ident'>m</span>.<span class='ident'>write</span>());
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>m</span>.<span class='ident'>try_read</span>().<span class='ident'>is_none</span>());
+        <span class='kw'>unsafe</span> {
+            <span class='ident'>m</span>.<span class='ident'>force_write_unlock</span>();
+        }
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>m</span>.<span class='ident'>try_read</span>().<span class='ident'>is_some</span>());
     }
 }
 </pre>
