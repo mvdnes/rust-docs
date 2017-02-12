@@ -47,22 +47,20 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-506' class='srclink' href='../../src/zip/src/write.rs.html#74-78' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct FileOptions {
-    // some fields omitted
-}</pre><div class='docblock'><p>Metadata for a file to be written</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-510' class='srclink' href='../../src/zip/src/write.rs.html#80-115' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='#method.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></h4>
+               </span><a class='srclink' href='../../src/zip/write.rs.html#74-78' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct FileOptions { /* fields omitted */ }</pre><div class='docblock'><p>Metadata for a file to be written</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/zip/write.rs.html#80-115' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class='method'><span id='default.v' class='invisible'><code>fn <a href='#method.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></span></h4>
 <div class='docblock'><p>Construct a new FileOptions object</p>
-</div><h4 id='method.compression_method' class='method'><code>fn <a href='#method.compression_method' class='fnname'>compression_method</a>(self, method: <a class='enum' href='../../zip/enum.CompressionMethod.html' title='zip::CompressionMethod'>CompressionMethod</a>) -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></h4>
+</div><h4 id='method.compression_method' class='method'><span id='compression_method.v' class='invisible'><code>fn <a href='#method.compression_method' class='fnname'>compression_method</a>(self, method: <a class='enum' href='../../zip/enum.CompressionMethod.html' title='zip::CompressionMethod'>CompressionMethod</a>) -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></span></h4>
 <div class='docblock'><p>Set the compression method for the new file</p>
 
 <p>The default is <code>CompressionMethod::Deflated</code></p>
-</div><h4 id='method.last_modified_time' class='method'><code>fn <a href='#method.last_modified_time' class='fnname'>last_modified_time</a>(self, mod_time: <a class='struct' href='https://doc.rust-lang.org/time/time/struct.Tm.html' title='time::Tm'>Tm</a>) -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></h4>
+</div><h4 id='method.last_modified_time' class='method'><span id='last_modified_time.v' class='invisible'><code>fn <a href='#method.last_modified_time' class='fnname'>last_modified_time</a>(self, mod_time: <a class='struct' href='https://doc.rust-lang.org/time/time/struct.Tm.html' title='time::Tm'>Tm</a>) -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></span></h4>
 <div class='docblock'><p>Set the last modified time</p>
 
 <p>The default is the current timestamp</p>
-</div><h4 id='method.unix_permissions' class='method'><code>fn <a href='#method.unix_permissions' class='fnname'>unix_permissions</a>(self, mode: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></h4>
+</div><h4 id='method.unix_permissions' class='method'><span id='unix_permissions.v' class='invisible'><code>fn <a href='#method.unix_permissions' class='fnname'>unix_permissions</a>(self, mode: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../../zip/write/struct.FileOptions.html' title='zip::write::FileOptions'>FileOptions</a></code></span></h4>
 <div class='docblock'><p>Set the permissions for the new file.</p>
 
 <p>The format is represented with unix-style permissions.
@@ -124,11 +122,9 @@ and <code>0o755</code>, which represents <code>rwxr-xr-x</code> for directories<
     <script>
         window.rootPath = "../../";
         window.currentCrate = "zip";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>
