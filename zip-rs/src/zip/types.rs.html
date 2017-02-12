@@ -114,6 +114,8 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Types that specify what is contained in a ZIP.</span>
 
@@ -166,6 +168,8 @@
     <span class='kw'>pub</span> <span class='ident'>uncompressed_size</span>: <span class='ident'>u64</span>,
     <span class='doccomment'>/// Name of the file</span>
     <span class='kw'>pub</span> <span class='ident'>file_name</span>: <span class='ident'>String</span>,
+    <span class='doccomment'>/// Raw file name. To be used when file_name was incorrectly decoded.</span>
+    <span class='kw'>pub</span> <span class='ident'>file_name_raw</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// File comment</span>
     <span class='kw'>pub</span> <span class='ident'>file_comment</span>: <span class='ident'>String</span>,
     <span class='doccomment'>/// Specifies where the local header of the file starts</span>
