@@ -9,7 +9,9 @@
 
     <title>msdos_time - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     
     
@@ -42,35 +44,31 @@
 
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>msdos_time</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-0' class='srclink' href='../src/msdos_time/lib.rs.html#1-224' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/msdos_time/lib.rs.html#1-224' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This crate converts a <code>Tm</code> struct to an <code>MsDosDateTime</code> and vice-versa</p>
 
 <p>MsDosDateTime is based on a FAT datetime and is a compact representation of a date.
 It is currently mostly used in zip files.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.MsDosDateTime.html'
-                               title='msdos_time::MsDosDateTime'>MsDosDateTime</a></td>
-                        <td class='docblock short'>
-                             <p>Struct representing the date and time part of an MsDos datetime</p>
-
-                        </td>
-                    </tr>
-                </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.MsDosDateTime.html'
+                                  title='msdos_time::MsDosDateTime'>MsDosDateTime</a></td>
+                           <td class='docblock-short'>
+                                <p>Struct representing the date and time part of an MsDos datetime</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='trait' href='trait.TmMsDosExt.html'
-                               title='msdos_time::TmMsDosExt'>TmMsDosExt</a></td>
-                        <td class='docblock short'>
-                             <p>Trait to convert a time representation to and from a MsDosDateTime</p>
-
-                        </td>
-                    </tr>
-                </table></section>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.TmMsDosExt.html'
+                                  title='msdos_time::TmMsDosExt'>TmMsDosExt</a></td>
+                           <td class='docblock-short'>
+                                <p>Trait to convert a time representation to and from a MsDosDateTime</p>
+                           </td>
+                       </tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -93,6 +91,8 @@ It is currently mostly used in zip files.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
@@ -113,7 +113,7 @@ It is currently mostly used in zip files.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
@@ -124,11 +124,9 @@ It is currently mostly used in zip files.</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "msdos_time";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>
