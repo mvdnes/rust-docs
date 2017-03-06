@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["portaudio"] = ["impl&lt;'a, I: <a class='trait' href='portaudio/stream/trait.SampleType.html' title='portaudio::stream::SampleType'>SampleType</a>, O: <a class='trait' href='portaudio/stream/trait.SampleType.html' title='portaudio::stream::SampleType'>SampleType</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='portaudio/stream/struct.Stream.html' title='portaudio::stream::Stream'>Stream</a>&lt;'a, I, O&gt;",];
+implementors["portaudio_rs"] = ["impl&lt;'a, I:&nbsp;<a class='trait' href='portaudio_rs/stream/trait.SampleType.html' title='portaudio_rs::stream::SampleType'>SampleType</a>, O:&nbsp;<a class='trait' href='portaudio_rs/stream/trait.SampleType.html' title='portaudio_rs::stream::SampleType'>SampleType</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='portaudio_rs/stream/struct.Stream.html' title='portaudio_rs::stream::Stream'>Stream</a>&lt;'a, I, O&gt;",];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

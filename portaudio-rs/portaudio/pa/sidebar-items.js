@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["PaError","Enum for all possible errors given by PortAudio"]],"fn":[["initialize","Initialize the PortAudio API"],["terminate","Terminate the PortAudio API"],["version","PortAudio version"],["version_text","Human-readable PortAudio version"]],"type":[["PaResult","A result type wrapping PaError."]]});
