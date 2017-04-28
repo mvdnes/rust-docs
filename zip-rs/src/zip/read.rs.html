@@ -424,6 +424,11 @@
 <span id="379">379</span>
 <span id="380">380</span>
 <span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for reading a ZIP archive</span>
 
@@ -798,6 +803,11 @@
     <span class="doccomment">/// Get the CRC32 hash of the original file</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">crc32</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">crc32</span>
+    }
+
+    <span class="doccomment">/// Get the starting offset of the data of the compressed file</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">data_start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+        <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">data_start</span>
     }
 }
 
