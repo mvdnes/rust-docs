@@ -580,6 +580,7 @@
 <span id="535">535</span>
 <span id="536">536</span>
 <span id="537">537</span>
+<span id="538">538</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for creating a new zip archive</span>
 
@@ -654,6 +655,7 @@
 }
 
 <span class="doccomment">/// Metadata for a file to be written</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileOptions</span> {
     <span class="ident">compression_method</span>: <span class="ident">CompressionMethod</span>,
     <span class="ident">last_modified_time</span>: <span class="ident">time</span>::<span class="ident">Tm</span>,
