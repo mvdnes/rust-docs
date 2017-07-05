@@ -9,6 +9,7 @@
 
     <title>hostapi.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -220,182 +221,182 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Info module for available audio host API&#39;s</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Info module for available audio host API&#39;s</span>
 
-<span class='kw'>use</span> <span class='ident'>ll</span>;
-<span class='kw'>use</span> <span class='ident'>pa</span>::<span class='ident'>PaError</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CStr</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>to_pa_result</span>;
+<span class="kw">use</span> <span class="ident">ll</span>;
+<span class="kw">use</span> <span class="ident">pa</span>::<span class="ident">PaError</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CStr</span>;
+<span class="kw">use</span> <span class="ident">util</span>::<span class="ident">to_pa_result</span>;
 
-<span class='doccomment'>/// Index number of a Host API</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>HostApiIndex</span> <span class='op'>=</span> <span class='ident'>u32</span>;
+<span class="doccomment">/// Index number of a Host API</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">HostApiIndex</span> <span class="op">=</span> <span class="ident">u32</span>;
 
-<span class='doccomment'>/// Possible Host API types</span>
-<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>u32</span>)]</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>missing_docs</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>HostApiType</span>
+<span class="doccomment">/// Possible Host API types</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u32</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HostApiType</span>
 {
-    <span class='ident'>InDevelopment</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInDevelopment</span>,
-    <span class='ident'>DirectSound</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paDirectSound</span>,
-    <span class='ident'>MME</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paMME</span>,
-    <span class='ident'>ASIO</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paASIO</span>,
-    <span class='ident'>SoundManager</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paSoundManager</span>,
-    <span class='ident'>CoreAudio</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paCoreAudio</span>,
-    <span class='ident'>OSS</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paOSS</span>,
-    <span class='ident'>ALSA</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paALSA</span>,
-    <span class='ident'>AL</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paAL</span>,
-    <span class='ident'>BeOS</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paBeOS</span>,
-    <span class='ident'>WDMKS</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paWDMKS</span>,
-    <span class='ident'>JACK</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paJACK</span>,
-    <span class='ident'>WASAPI</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paWASAPI</span>,
-    <span class='ident'>AudioScienceHPI</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paAudioScienceHPI</span>,
+    <span class="ident">InDevelopment</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInDevelopment</span>,
+    <span class="ident">DirectSound</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paDirectSound</span>,
+    <span class="ident">MME</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paMME</span>,
+    <span class="ident">ASIO</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paASIO</span>,
+    <span class="ident">SoundManager</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paSoundManager</span>,
+    <span class="ident">CoreAudio</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paCoreAudio</span>,
+    <span class="ident">OSS</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paOSS</span>,
+    <span class="ident">ALSA</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paALSA</span>,
+    <span class="ident">AL</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paAL</span>,
+    <span class="ident">BeOS</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paBeOS</span>,
+    <span class="ident">WDMKS</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paWDMKS</span>,
+    <span class="ident">JACK</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paJACK</span>,
+    <span class="ident">WASAPI</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paWASAPI</span>,
+    <span class="ident">AudioScienceHPI</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paAudioScienceHPI</span>,
 
-    <span class='doccomment'>/// Added for when FromPrimitive returns None</span>
-    <span class='ident'>Unknown</span>,
+    <span class="doccomment">/// Added for when FromPrimitive returns None</span>
+    <span class="ident">Unknown</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>HostApiType</span>
+<span class="kw">impl</span> <span class="ident">HostApiType</span>
 {
-    <span class='doccomment'>/// Convert a static host API unique identifier, into a runtime host API index.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_api_index</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HostApiIndex</span>, <span class='ident'>PaError</span><span class='op'>&gt;</span>
+    <span class="doccomment">/// Convert a static host API unique identifier, into a runtime host API index.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_api_index</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostApiIndex</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
-        <span class='kw'>match</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_HostApiTypeIdToHostApiIndex</span>(<span class='self'>self</span> <span class='kw'>as</span> <span class='ident'>u32</span>) }
+        <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_HostApiTypeIdToHostApiIndex</span>(<span class="self">self</span> <span class="kw">as</span> <span class="ident">u32</span>) }
         {
-            <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>HostApiIndex</span>),
-            <span class='ident'>m</span> <span class='op'>=&gt;</span> <span class='ident'>to_pa_result</span>(<span class='ident'>m</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='number'>0</span>),
+            <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">HostApiIndex</span>),
+            <span class="ident">m</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">m</span>).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> <span class="number">0</span>),
         }
     }
 
-    <span class='doccomment'>/// Get the enum value corresponding to the u32</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_u32</span>(<span class='ident'>num</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>HostApiType</span>
+    <span class="doccomment">/// Get the enum value corresponding to the u32</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_u32</span>(<span class="ident">num</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">HostApiType</span>
     {
-        <span class='kw'>match</span> <span class='ident'>num</span> {
-            <span class='ident'>ll</span>::<span class='ident'>paInDevelopment</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>InDevelopment</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paDirectSound</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>DirectSound</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paMME</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>MME</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paASIO</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>ASIO</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paSoundManager</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>SoundManager</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paCoreAudio</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>CoreAudio</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paOSS</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>OSS</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paALSA</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>ALSA</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paAL</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>AL</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paBeOS</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>BeOS</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paWDMKS</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>WDMKS</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paJACK</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>JACK</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paWASAPI</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>WASAPI</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paAudioScienceHPI</span> <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>AudioScienceHPI</span>,
-            _ <span class='op'>=&gt;</span> <span class='ident'>HostApiType</span>::<span class='ident'>Unknown</span>,
+        <span class="kw">match</span> <span class="ident">num</span> {
+            <span class="ident">ll</span>::<span class="ident">paInDevelopment</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">InDevelopment</span>,
+            <span class="ident">ll</span>::<span class="ident">paDirectSound</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">DirectSound</span>,
+            <span class="ident">ll</span>::<span class="ident">paMME</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">MME</span>,
+            <span class="ident">ll</span>::<span class="ident">paASIO</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">ASIO</span>,
+            <span class="ident">ll</span>::<span class="ident">paSoundManager</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">SoundManager</span>,
+            <span class="ident">ll</span>::<span class="ident">paCoreAudio</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">CoreAudio</span>,
+            <span class="ident">ll</span>::<span class="ident">paOSS</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">OSS</span>,
+            <span class="ident">ll</span>::<span class="ident">paALSA</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">ALSA</span>,
+            <span class="ident">ll</span>::<span class="ident">paAL</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">AL</span>,
+            <span class="ident">ll</span>::<span class="ident">paBeOS</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">BeOS</span>,
+            <span class="ident">ll</span>::<span class="ident">paWDMKS</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">WDMKS</span>,
+            <span class="ident">ll</span>::<span class="ident">paJACK</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">JACK</span>,
+            <span class="ident">ll</span>::<span class="ident">paWASAPI</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">WASAPI</span>,
+            <span class="ident">ll</span>::<span class="ident">paAudioScienceHPI</span> <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">AudioScienceHPI</span>,
+            _ <span class="op">=&gt;</span> <span class="ident">HostApiType</span>::<span class="ident">Unknown</span>,
         }
     }
 }
 
-<span class='doccomment'>/// Information about a specific host API</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HostApiInfo</span>
+<span class="doccomment">/// Information about a specific host API</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HostApiInfo</span>
 {
-    <span class='doccomment'>/// The type of the API</span>
-    <span class='kw'>pub</span> <span class='ident'>api_type</span>: <span class='ident'>HostApiType</span>,
+    <span class="doccomment">/// The type of the API</span>
+    <span class="kw">pub</span> <span class="ident">api_type</span>: <span class="ident">HostApiType</span>,
 
-    <span class='doccomment'>/// Human-readable name of the API</span>
-    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class="doccomment">/// Human-readable name of the API</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
 
-    <span class='doccomment'>/// Number of devices this API has</span>
-    <span class='kw'>pub</span> <span class='ident'>device_count</span>: <span class='ident'>u32</span>,
+    <span class="doccomment">/// Number of devices this API has</span>
+    <span class="kw">pub</span> <span class="ident">device_count</span>: <span class="ident">u32</span>,
 
-    <span class='doccomment'>/// Default input device of the API. Is None if there is no input device available.</span>
-    <span class='kw'>pub</span> <span class='ident'>default_input</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
+    <span class="doccomment">/// Default input device of the API. Is None if there is no input device available.</span>
+    <span class="kw">pub</span> <span class="ident">default_input</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 
-    <span class='doccomment'>/// Default output device of the API. Is None if there is no output device available.</span>
-    <span class='kw'>pub</span> <span class='ident'>default_output</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
+    <span class="doccomment">/// Default output device of the API. Is None if there is no output device available.</span>
+    <span class="kw">pub</span> <span class="ident">default_output</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>HostApiInfo</span>
+<span class="kw">impl</span> <span class="ident">HostApiInfo</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>from_ll</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>ll</span>::<span class='ident'>PaHostApiInfo</span>) <span class='op'>-&gt;</span> <span class='ident'>HostApiInfo</span>
+    <span class="kw">fn</span> <span class="ident">from_ll</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">ll</span>::<span class="ident">PaHostApiInfo</span>) <span class="op">-&gt;</span> <span class="ident">HostApiInfo</span>
     {
-        <span class='ident'>HostApiInfo</span>
+        <span class="ident">HostApiInfo</span>
         {
-            <span class='ident'>api_type</span>: <span class='ident'>HostApiType</span>::<span class='ident'>from_u32</span>(<span class='ident'>input</span>.<span class='ident'>_type</span>),
-            <span class='ident'>name</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>name</span>).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
-            <span class='ident'>device_count</span>: <span class='ident'>input</span>.<span class='ident'>deviceCount</span> <span class='kw'>as</span> <span class='ident'>u32</span>,
-            <span class='ident'>default_input</span>: <span class='kw'>match</span> <span class='ident'>input</span>.<span class='ident'>defaultInputDevice</span> { <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>), _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span> },
-            <span class='ident'>default_output</span>: <span class='kw'>match</span> <span class='ident'>input</span>.<span class='ident'>defaultOutputDevice</span> { <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>u32</span>), _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span> },
+            <span class="ident">api_type</span>: <span class="ident">HostApiType</span>::<span class="ident">from_u32</span>(<span class="ident">input</span>.<span class="ident">_type</span>),
+            <span class="ident">name</span>: <span class="ident">String</span>::<span class="ident">from_utf8_lossy</span>(<span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">input</span>.<span class="ident">name</span>).<span class="ident">to_bytes</span>() }).<span class="ident">into_owned</span>(),
+            <span class="ident">device_count</span>: <span class="ident">input</span>.<span class="ident">deviceCount</span> <span class="kw">as</span> <span class="ident">u32</span>,
+            <span class="ident">default_input</span>: <span class="kw">match</span> <span class="ident">input</span>.<span class="ident">defaultInputDevice</span> { <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>), _ <span class="op">=&gt;</span> <span class="prelude-val">None</span> },
+            <span class="ident">default_output</span>: <span class="kw">match</span> <span class="ident">input</span>.<span class="ident">defaultOutputDevice</span> { <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>), _ <span class="op">=&gt;</span> <span class="prelude-val">None</span> },
         }
     }
 }
 
-<span class='doccomment'>/// Error info obtained by get_last_error</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HostErrorInfo</span>
+<span class="doccomment">/// Error info obtained by get_last_error</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HostErrorInfo</span>
 {
-    <span class='doccomment'>/// The error code given</span>
-    <span class='kw'>pub</span> <span class='ident'>code</span>: <span class='ident'>i32</span>,
+    <span class="doccomment">/// The error code given</span>
+    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">i32</span>,
 
-    <span class='doccomment'>/// A human readable error message</span>
-    <span class='kw'>pub</span> <span class='ident'>text</span>: <span class='ident'>String</span>,
+    <span class="doccomment">/// A human readable error message</span>
+    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">String</span>,
 
-    <span class='doccomment'>/// The type of the API that produced the error</span>
-    <span class='kw'>pub</span> <span class='ident'>api_type</span>: <span class='ident'>HostApiType</span>,
+    <span class="doccomment">/// The type of the API that produced the error</span>
+    <span class="kw">pub</span> <span class="ident">api_type</span>: <span class="ident">HostApiType</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>HostErrorInfo</span>
+<span class="kw">impl</span> <span class="ident">HostErrorInfo</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>from_ll</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>ll</span>::<span class='ident'>PaHostErrorInfo</span>) <span class='op'>-&gt;</span> <span class='ident'>HostErrorInfo</span>
+    <span class="kw">fn</span> <span class="ident">from_ll</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">ll</span>::<span class="ident">PaHostErrorInfo</span>) <span class="op">-&gt;</span> <span class="ident">HostErrorInfo</span>
     {
-        <span class='ident'>HostErrorInfo</span>
+        <span class="ident">HostErrorInfo</span>
         {
-            <span class='ident'>code</span>: <span class='ident'>input</span>.<span class='ident'>errorCode</span> <span class='kw'>as</span> <span class='ident'>i32</span>,
-            <span class='ident'>text</span>: <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>input</span>.<span class='ident'>errorText</span>).<span class='ident'>to_bytes</span>() }).<span class='ident'>into_owned</span>(),
-            <span class='ident'>api_type</span>: <span class='ident'>HostApiType</span>::<span class='ident'>from_u32</span>(<span class='ident'>input</span>.<span class='ident'>hostApiType</span>),
+            <span class="ident">code</span>: <span class="ident">input</span>.<span class="ident">errorCode</span> <span class="kw">as</span> <span class="ident">i32</span>,
+            <span class="ident">text</span>: <span class="ident">String</span>::<span class="ident">from_utf8_lossy</span>(<span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">input</span>.<span class="ident">errorText</span>).<span class="ident">to_bytes</span>() }).<span class="ident">into_owned</span>(),
+            <span class="ident">api_type</span>: <span class="ident">HostApiType</span>::<span class="ident">from_u32</span>(<span class="ident">input</span>.<span class="ident">hostApiType</span>),
         }
     }
 }
 
-<span class='doccomment'>/// Return information about the last host error encountered.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The values in this structure will only be valid if a PortAudio function has previously returned</span>
-<span class='doccomment'>/// the UnanticipatedHostError error code.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_last_error</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>HostErrorInfo</span><span class='op'>&gt;</span>
+<span class="doccomment">/// Return information about the last host error encountered.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The values in this structure will only be valid if a PortAudio function has previously returned</span>
+<span class="doccomment">/// the UnanticipatedHostError error code.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_last_error</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HostErrorInfo</span><span class="op">&gt;</span>
 {
-    <span class='kw'>unsafe</span>
+    <span class="kw">unsafe</span>
     {
-        <span class='kw'>match</span> <span class='ident'>ll</span>::<span class='ident'>Pa_GetLastHostErrorInfo</span>() {
-            <span class='ident'>p</span> <span class='kw'>if</span> <span class='ident'>p</span>.<span class='ident'>is_null</span>() <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
-            <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>HostErrorInfo</span>::<span class='ident'>from_ll</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>p</span>)),
+        <span class="kw">match</span> <span class="ident">ll</span>::<span class="ident">Pa_GetLastHostErrorInfo</span>() {
+            <span class="ident">p</span> <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">is_null</span>() <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">p</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">HostErrorInfo</span>::<span class="ident">from_ll</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">p</span>)),
         }
     }
 }
 
-<span class='doccomment'>/// Get the number of host API&#39;s available</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_count</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u32</span>, <span class='ident'>PaError</span><span class='op'>&gt;</span>
+<span class="doccomment">/// Get the number of host API&#39;s available</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_count</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
 {
-    <span class='kw'>match</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetHostApiCount</span>() }
+    <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetHostApiCount</span>() }
     {
-        <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>HostApiIndex</span>),
-        <span class='ident'>m</span> <span class='op'>=&gt;</span> <span class='ident'>to_pa_result</span>(<span class='ident'>m</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='number'>0</span>),
+        <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">HostApiIndex</span>),
+        <span class="ident">m</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">m</span>).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> <span class="number">0</span>),
     }
 }
 
-<span class='doccomment'>/// Get the default Host API</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_default_index</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HostApiIndex</span>, <span class='ident'>PaError</span><span class='op'>&gt;</span>
+<span class="doccomment">/// Get the default Host API</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_default_index</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostApiIndex</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
 {
-    <span class='kw'>match</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetDefaultHostApi</span>() }
+    <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetDefaultHostApi</span>() }
     {
-        <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>HostApiIndex</span>),
-        <span class='ident'>m</span> <span class='op'>=&gt;</span> <span class='ident'>to_pa_result</span>(<span class='ident'>m</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='number'>0</span>),
+        <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">HostApiIndex</span>),
+        <span class="ident">m</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">m</span>).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> <span class="number">0</span>),
     }
 }
 
-<span class='doccomment'>/// Get information about a specific Host API</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Returns None when an invalid index is given</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_info</span>(<span class='ident'>index</span>: <span class='ident'>HostApiIndex</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>HostApiInfo</span><span class='op'>&gt;</span>
+<span class="doccomment">/// Get information about a specific Host API</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Returns None when an invalid index is given</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_info</span>(<span class="ident">index</span>: <span class="ident">HostApiIndex</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HostApiInfo</span><span class="op">&gt;</span>
 {
-    <span class='kw'>unsafe</span>
+    <span class="kw">unsafe</span>
     {
-        <span class='kw'>match</span> <span class='ident'>ll</span>::<span class='ident'>Pa_GetHostApiInfo</span>(<span class='ident'>index</span> <span class='kw'>as</span> <span class='ident'>i32</span>) {
-            <span class='ident'>p</span> <span class='kw'>if</span> <span class='ident'>p</span>.<span class='ident'>is_null</span>() <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
-            <span class='ident'>p</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>HostApiInfo</span>::<span class='ident'>from_ll</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>p</span>)),
+        <span class="kw">match</span> <span class="ident">ll</span>::<span class="ident">Pa_GetHostApiInfo</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">i32</span>) {
+            <span class="ident">p</span> <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">is_null</span>() <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">p</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">HostApiInfo</span>::<span class="ident">from_ll</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">p</span>)),
         }
     }
 }

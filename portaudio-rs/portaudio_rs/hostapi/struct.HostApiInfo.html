@@ -9,6 +9,7 @@
 
     <title>portaudio_rs::hostapi::HostApiInfo - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a></p><script>window.sidebarCurrent = {name: 'HostApiInfo', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct HostApiInfo</p><div class="block items"><ul><li><a href="#fields">Fields</a></li></ul></div><p class='location'><a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a></p><script>window.sidebarCurrent = {name: 'HostApiInfo', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,39 +43,39 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a>::<wbr><a class='struct' href=''>HostApiInfo</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a>::<wbr><a class="struct" href=''>HostApiInfo</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/portaudio_rs/hostapi.rs.html#72-88' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct HostApiInfo {
-    pub api_type: <a class='enum' href='../../portaudio_rs/hostapi/enum.HostApiType.html' title='portaudio_rs::hostapi::HostApiType'>HostApiType</a>,
-    pub name: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
-    pub device_count: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
-    pub default_input: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;,
-    pub default_output: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;,
+    pub api_type: <a class="enum" href="../../portaudio_rs/hostapi/enum.HostApiType.html" title="enum portaudio_rs::hostapi::HostApiType">HostApiType</a>,
+    pub name: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>,
+    pub device_count: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>,
+    pub default_input: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    pub default_output: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
 }</pre><div class='docblock'><p>Information about a specific host API</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.api_type' class='structfield'>
+</div><h2 id='fields' class='fields'>Fields</h2><span id='structfield.api_type' class="structfield">
                            <span id='api_type.v' class='invisible'>
-                           <code>api_type: <a class='enum' href='../../portaudio_rs/hostapi/enum.HostApiType.html' title='portaudio_rs::hostapi::HostApiType'>HostApiType</a></code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>The type of the API</p>
-</div><span id='structfield.name' class='structfield'>
+                           <code>api_type: <a class="enum" href="../../portaudio_rs/hostapi/enum.HostApiType.html" title="enum portaudio_rs::hostapi::HostApiType">HostApiType</a></code>
+                           </span></span><div class='docblock'><p>The type of the API</p>
+</div><span id='structfield.name' class="structfield">
                            <span id='name.v' class='invisible'>
-                           <code>name: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>Human-readable name of the API</p>
-</div><span id='structfield.device_count' class='structfield'>
+                           <code>name: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code>
+                           </span></span><div class='docblock'><p>Human-readable name of the API</p>
+</div><span id='structfield.device_count' class="structfield">
                            <span id='device_count.v' class='invisible'>
-                           <code>device_count: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>Number of devices this API has</p>
-</div><span id='structfield.default_input' class='structfield'>
+                           <code>device_count: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code>
+                           </span></span><div class='docblock'><p>Number of devices this API has</p>
+</div><span id='structfield.default_input' class="structfield">
                            <span id='default_input.v' class='invisible'>
-                           <code>default_input: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;</code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>Default input device of the API. Is None if there is no input device available.</p>
-</div><span id='structfield.default_output' class='structfield'>
+                           <code>default_input: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code>
+                           </span></span><div class='docblock'><p>Default input device of the API. Is None if there is no input device available.</p>
+</div><span id='structfield.default_output' class="structfield">
                            <span id='default_output.v' class='invisible'>
-                           <code>default_output: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;</code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>Default output device of the API. Is None if there is no output device available.</p>
+                           <code>default_output: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code>
+                           </span></span><div class='docblock'><p>Default output device of the API. Is None if there is no output device available.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
 

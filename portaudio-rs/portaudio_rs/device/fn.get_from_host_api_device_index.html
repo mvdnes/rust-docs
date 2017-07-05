@@ -9,6 +9,7 @@
 
     <title>portaudio_rs::device::get_from_host_api_device_index - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,23 +43,23 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>device</a>::<wbr><a class='fn' href=''>get_from_host_api_device_index</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>device</a>::<wbr><a class="fn" href=''>get_from_host_api_device_index</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/portaudio_rs/device.rs.html#124-131' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn get_from_host_api_device_index(host_api: <a class='type' href='../../portaudio_rs/hostapi/type.HostApiIndex.html' title='portaudio_rs::hostapi::HostApiIndex'>HostApiIndex</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; host_api_device_index: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../../portaudio_rs/device/type.DeviceIndex.html' title='portaudio_rs::device::DeviceIndex'>DeviceIndex</a>, <a class='enum' href='../../portaudio_rs/enum.PaError.html' title='portaudio_rs::PaError'>PaError</a>&gt;</pre><div class='docblock'><p>Converts a device index from a specific host API to a global device index</p>
+<pre class='rust fn'>pub fn get_from_host_api_device_index(<br>&nbsp;&nbsp;&nbsp;&nbsp;host_api: <a class="type" href="../../portaudio_rs/hostapi/type.HostApiIndex.html" title="type portaudio_rs::hostapi::HostApiIndex">HostApiIndex</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;host_api_device_index: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="type" href="../../portaudio_rs/device/type.DeviceIndex.html" title="type portaudio_rs::device::DeviceIndex">DeviceIndex</a>, <a class="enum" href="../../portaudio_rs/enum.PaError.html" title="enum portaudio_rs::PaError">PaError</a>&gt;</pre><div class='docblock'><p>Converts a device index from a specific host API to a global device index</p>
 
 <p>Returns Err(InvalidHostApi) when the host_api is out of range, and Err(InvalidDevice) when
 host_api_device_index is out of range.</p>
 
-<pre class='rust rust-example-rendered'>
-<span class='comment'>// We retrieve the index of device 3 of api 1</span>
-<span class='kw'>let</span> <span class='ident'>device_index</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>portaudio_rs</span>::<span class='ident'>device</span>::<span class='ident'>get_from_host_api_device_index</span>(<span class='number'>1</span>, <span class='number'>3</span>)
+<pre class="rust rust-example-rendered">
+<span class="comment">// We retrieve the index of device 3 of api 1</span>
+<span class="kw">let</span> <span class="ident">device_index</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">portaudio_rs</span>::<span class="ident">device</span>::<span class="ident">get_from_host_api_device_index</span>(<span class="number">1</span>, <span class="number">3</span>)
 {
-    <span class='prelude-val'>Ok</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='ident'>n</span>,
-    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Error: {:?}&quot;</span>, <span class='ident'>e</span>); <span class='kw'>return</span> },
+    <span class="prelude-val">Ok</span>(<span class="ident">n</span>) <span class="op">=&gt;</span> <span class="ident">n</span>,
+    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> { <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Error: {:?}&quot;</span>, <span class="ident">e</span>); <span class="kw">return</span> },
 };</pre>
 </div></section>
     <section id='search' class="content hidden"></section>

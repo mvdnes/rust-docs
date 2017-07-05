@@ -9,6 +9,7 @@
 
     <title>portaudio_rs::hostapi::HostApiType - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc enum">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a></p><script>window.sidebarCurrent = {name: 'HostApiType', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Enum HostApiType</p><div class="block items"><ul><li><a href="#variants">Variants</a></li><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a></p><script>window.sidebarCurrent = {name: 'HostApiType', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,8 +43,8 @@
         </form>
     </nav>
 
-    <section id='main' class="content enum">
-<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a>::<wbr><a class='enum' href=''>HostApiType</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>hostapi</a>::<wbr><a class="enum" href=''>HostApiType</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
@@ -66,18 +67,18 @@
     AudioScienceHPI,
     Unknown,
 }</pre><div class='docblock'><p>Possible Host API types</p>
-</div><h2 class='variants'>Variants</h2>
+</div><h2 id='variants' class='variants'>Variants</h2>
 <span id='variant.InDevelopment' class='variant'><span id='InDevelopment.v' class='invisible'><code>InDevelopment</code></span></span><span id='variant.DirectSound' class='variant'><span id='DirectSound.v' class='invisible'><code>DirectSound</code></span></span><span id='variant.MME' class='variant'><span id='MME.v' class='invisible'><code>MME</code></span></span><span id='variant.ASIO' class='variant'><span id='ASIO.v' class='invisible'><code>ASIO</code></span></span><span id='variant.SoundManager' class='variant'><span id='SoundManager.v' class='invisible'><code>SoundManager</code></span></span><span id='variant.CoreAudio' class='variant'><span id='CoreAudio.v' class='invisible'><code>CoreAudio</code></span></span><span id='variant.OSS' class='variant'><span id='OSS.v' class='invisible'><code>OSS</code></span></span><span id='variant.ALSA' class='variant'><span id='ALSA.v' class='invisible'><code>ALSA</code></span></span><span id='variant.AL' class='variant'><span id='AL.v' class='invisible'><code>AL</code></span></span><span id='variant.BeOS' class='variant'><span id='BeOS.v' class='invisible'><code>BeOS</code></span></span><span id='variant.WDMKS' class='variant'><span id='WDMKS.v' class='invisible'><code>WDMKS</code></span></span><span id='variant.JACK' class='variant'><span id='JACK.v' class='invisible'><code>JACK</code></span></span><span id='variant.WASAPI' class='variant'><span id='WASAPI.v' class='invisible'><code>WASAPI</code></span></span><span id='variant.AudioScienceHPI' class='variant'><span id='AudioScienceHPI.v' class='invisible'><code>AudioScienceHPI</code></span></span><span id='variant.Unknown' class='variant'><span id='Unknown.v' class='invisible'><code>Unknown</code></span></span><div class='docblock'><p>Added for when FromPrimitive returns None</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../../portaudio_rs/hostapi/enum.HostApiType.html' title='portaudio_rs::hostapi::HostApiType'>HostApiType</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/hostapi.rs.html#36-69' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.to_api_index' class='method'><span id='to_api_index.v' class='invisible'><code>fn <a href='#method.to_api_index' class='fnname'>to_api_index</a>(self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../../portaudio_rs/hostapi/type.HostApiIndex.html' title='portaudio_rs::hostapi::HostApiIndex'>HostApiIndex</a>, <a class='enum' href='../../portaudio_rs/enum.PaError.html' title='portaudio_rs::PaError'>PaError</a>&gt;</code></span></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../portaudio_rs/hostapi/enum.HostApiType.html" title="enum portaudio_rs::hostapi::HostApiType">HostApiType</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/hostapi.rs.html#36-69' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.to_api_index' class="method"><span id='to_api_index.v' class='invisible'><code>fn <a href='#method.to_api_index' class='fnname'>to_api_index</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="type" href="../../portaudio_rs/hostapi/type.HostApiIndex.html" title="type portaudio_rs::hostapi::HostApiIndex">HostApiIndex</a>, <a class="enum" href="../../portaudio_rs/enum.PaError.html" title="enum portaudio_rs::PaError">PaError</a>&gt;</code></span></h4>
 <div class='docblock'><p>Convert a static host API unique identifier, into a runtime host API index.</p>
-</div><h4 id='method.from_u32' class='method'><span id='from_u32.v' class='invisible'><code>fn <a href='#method.from_u32' class='fnname'>from_u32</a>(num: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='../../portaudio_rs/hostapi/enum.HostApiType.html' title='portaudio_rs::hostapi::HostApiType'>HostApiType</a></code></span></h4>
+</div><h4 id='method.from_u32' class="method"><span id='from_u32.v' class='invisible'><code>fn <a href='#method.from_u32' class='fnname'>from_u32</a>(num: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>) -&gt; <a class="enum" href="../../portaudio_rs/hostapi/enum.HostApiType.html" title="enum portaudio_rs::hostapi::HostApiType">HostApiType</a></code></span></h4>
 <div class='docblock'><p>Get the enum value corresponding to the u32</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../../portaudio_rs/hostapi/enum.HostApiType.html' title='portaudio_rs::hostapi::HostApiType'>HostApiType</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/hostapi.rs.html#13' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../portaudio_rs/hostapi/enum.HostApiType.html' title='portaudio_rs::hostapi::HostApiType'>HostApiType</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/hostapi.rs.html#13' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../../portaudio_rs/hostapi/enum.HostApiType.html' title='portaudio_rs::hostapi::HostApiType'>HostApiType</a></code></span></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="enum" href="../../portaudio_rs/hostapi/enum.HostApiType.html" title="enum portaudio_rs::hostapi::HostApiType">HostApiType</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/hostapi.rs.html#13' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../portaudio_rs/hostapi/enum.HostApiType.html" title="enum portaudio_rs::hostapi::HostApiType">HostApiType</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/hostapi.rs.html#13' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../portaudio_rs/hostapi/enum.HostApiType.html" title="enum portaudio_rs::hostapi::HostApiType">HostApiType</a></code></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
-</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
 </div></div></section>
     <section id='search' class="content hidden"></section>

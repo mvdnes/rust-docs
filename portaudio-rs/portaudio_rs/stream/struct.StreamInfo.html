@@ -9,6 +9,7 @@
 
     <title>portaudio_rs::stream::StreamInfo - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>stream</a></p><script>window.sidebarCurrent = {name: 'StreamInfo', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct StreamInfo</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>stream</a></p><script>window.sidebarCurrent = {name: 'StreamInfo', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,34 +43,34 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>stream</a>::<wbr><a class='struct' href=''>StreamInfo</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>portaudio_rs</a>::<wbr><a href='index.html'>stream</a>::<wbr><a class="struct" href=''>StreamInfo</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/portaudio_rs/stream.rs.html#555-565' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct StreamInfo {
-    pub input_latency: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>Duration</a>,
-    pub output_latency: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>Duration</a>,
-    pub sample_rate: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,
+    pub input_latency: <a class="struct" href="https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html" title="struct std::time::duration::Duration">Duration</a>,
+    pub output_latency: <a class="struct" href="https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html" title="struct std::time::duration::Duration">Duration</a>,
+    pub sample_rate: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>,
 }</pre><div class='docblock'><p>Information about the actual latency and sample rate values the stream uses</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.input_latency' class='structfield'>
+</div><h2 id='fields' class='fields'>Fields</h2><span id='structfield.input_latency' class="structfield">
                            <span id='input_latency.v' class='invisible'>
-                           <code>input_latency: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>Duration</a></code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>Input latency</p>
-</div><span id='structfield.output_latency' class='structfield'>
+                           <code>input_latency: <a class="struct" href="https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html" title="struct std::time::duration::Duration">Duration</a></code>
+                           </span></span><div class='docblock'><p>Input latency</p>
+</div><span id='structfield.output_latency' class="structfield">
                            <span id='output_latency.v' class='invisible'>
-                           <code>output_latency: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>Duration</a></code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>Output latency</p>
-</div><span id='structfield.sample_rate' class='structfield'>
+                           <code>output_latency: <a class="struct" href="https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html" title="struct std::time::duration::Duration">Duration</a></code>
+                           </span></span><div class='docblock'><p>Output latency</p>
+</div><span id='structfield.sample_rate' class="structfield">
                            <span id='sample_rate.v' class='invisible'>
-                           <code>sample_rate: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code>
-                           </span></span><span class='stab '></span><div class='docblock'><p>Sample rate</p>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../portaudio_rs/stream/struct.StreamInfo.html' title='portaudio_rs::stream::StreamInfo'>StreamInfo</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/stream.rs.html#554' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../portaudio_rs/stream/struct.StreamInfo.html' title='portaudio_rs::stream::StreamInfo'>StreamInfo</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/stream.rs.html#554' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../portaudio_rs/stream/struct.StreamInfo.html' title='portaudio_rs::stream::StreamInfo'>StreamInfo</a></code></span></h4>
+                           <code>sample_rate: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a></code>
+                           </span></span><div class='docblock'><p>Sample rate</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="struct" href="../../portaudio_rs/stream/struct.StreamInfo.html" title="struct portaudio_rs::stream::StreamInfo">StreamInfo</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/stream.rs.html#554' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../portaudio_rs/stream/struct.StreamInfo.html" title="struct portaudio_rs::stream::StreamInfo">StreamInfo</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/portaudio_rs/stream.rs.html#554' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../portaudio_rs/stream/struct.StreamInfo.html" title="struct portaudio_rs::stream::StreamInfo">StreamInfo</a></code></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
-</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
 </div></div></section>
     <section id='search' class="content hidden"></section>

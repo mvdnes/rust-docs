@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -96,61 +97,61 @@
 <span id="52">52</span>
 <span id="53">53</span>
 <span id="54">54</span>
-</pre><pre class='rust '>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_name</span> <span class='op'>=</span> <span class='string'>&quot;portaudio_rs&quot;</span>]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span>
+</pre><pre class="rust ">
+<span class="attribute">#<span class="op">!</span>[<span class="ident">crate_type</span> <span class="op">=</span> <span class="string">&quot;lib&quot;</span>]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">crate_name</span> <span class="op">=</span> <span class="string">&quot;portaudio_rs&quot;</span>]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
 
-<span class='doccomment'>//! PortAudio bindings for Rust</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Example</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! fn demo() -&gt; portaudio_rs::PaResult</span>
-<span class='doccomment'>//! {</span>
-<span class='doccomment'>//!     let stream = try!(portaudio_rs::stream::Stream::open_default(</span>
-<span class='doccomment'>//!                           0, // input channels</span>
-<span class='doccomment'>//!                           1, // output channels</span>
-<span class='doccomment'>//!                           44100.0, // sample rate</span>
-<span class='doccomment'>//!                           portaudio_rs::stream::FRAMES_PER_BUFFER_UNSPECIFIED,</span>
-<span class='doccomment'>//!                           None // no callback</span>
-<span class='doccomment'>//!                      ));</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     try!(stream.start());</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     let mut phase = 0.0f32;</span>
-<span class='doccomment'>//!     let mut buffer = Vec::with_capacity(44100);</span>
-<span class='doccomment'>//!     for _i in (0..44100)</span>
-<span class='doccomment'>//!     {</span>
-<span class='doccomment'>//!         // Small amplitude such that the test does not produce sound</span>
-<span class='doccomment'>//!         buffer.push(phase * 0.001);</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!         phase += 0.03;</span>
-<span class='doccomment'>//!         if phase &gt; 1.0 { phase -= 2.0; }</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     try!(stream.write(&amp;buffer));</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     Ok(())</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! portaudio_rs::initialize().unwrap();</span>
-<span class='doccomment'>//! println!(&quot;{:?}&quot;, demo());</span>
-<span class='doccomment'>//! portaudio_rs::terminate().unwrap();</span>
-<span class='doccomment'>//! ```</span>
+<span class="doccomment">//! PortAudio bindings for Rust</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Example</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! fn demo() -&gt; portaudio_rs::PaResult</span>
+<span class="doccomment">//! {</span>
+<span class="doccomment">//!     let stream = try!(portaudio_rs::stream::Stream::open_default(</span>
+<span class="doccomment">//!                           0, // input channels</span>
+<span class="doccomment">//!                           1, // output channels</span>
+<span class="doccomment">//!                           44100.0, // sample rate</span>
+<span class="doccomment">//!                           portaudio_rs::stream::FRAMES_PER_BUFFER_UNSPECIFIED,</span>
+<span class="doccomment">//!                           None // no callback</span>
+<span class="doccomment">//!                      ));</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     try!(stream.start());</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     let mut phase = 0.0f32;</span>
+<span class="doccomment">//!     let mut buffer = Vec::with_capacity(44100);</span>
+<span class="doccomment">//!     for _i in (0..44100)</span>
+<span class="doccomment">//!     {</span>
+<span class="doccomment">//!         // Small amplitude such that the test does not produce sound</span>
+<span class="doccomment">//!         buffer.push(phase * 0.001);</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!         phase += 0.03;</span>
+<span class="doccomment">//!         if phase &gt; 1.0 { phase -= 2.0; }</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     try!(stream.write(&amp;buffer));</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     Ok(())</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! portaudio_rs::initialize().unwrap();</span>
+<span class="doccomment">//! println!(&quot;{:?}&quot;, demo());</span>
+<span class="doccomment">//! portaudio_rs::terminate().unwrap();</span>
+<span class="doccomment">//! ```</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>portaudio_sys</span> <span class='kw'>as</span> <span class='ident'>ll</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">bitflags</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">portaudio_sys</span> <span class="kw">as</span> <span class="ident">ll</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>pa</span>::{<span class='ident'>PaError</span>, <span class='ident'>PaResult</span>, <span class='ident'>initialize</span>, <span class='ident'>terminate</span>, <span class='ident'>version</span>, <span class='ident'>version_text</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">pa</span>::{<span class="ident">PaError</span>, <span class="ident">PaResult</span>, <span class="ident">initialize</span>, <span class="ident">terminate</span>, <span class="ident">version</span>, <span class="ident">version_text</span>};
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>stream</span>;
-<span class='kw'>mod</span> <span class='ident'>pa</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>hostapi</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>device</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">stream</span>;
+<span class="kw">mod</span> <span class="ident">pa</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hostapi</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">device</span>;
 
-<span class='kw'>mod</span> <span class='ident'>util</span>;
+<span class="kw">mod</span> <span class="ident">util</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

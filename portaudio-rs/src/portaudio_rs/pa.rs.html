@@ -9,6 +9,7 @@
 
     <title>pa.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -190,155 +191,155 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! General utilities for PortAudio</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! General utilities for PortAudio</span>
 
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>to_pa_result</span>;
-<span class='kw'>use</span> <span class='ident'>ll</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CStr</span>;
+<span class="kw">use</span> <span class="ident">util</span>::<span class="ident">to_pa_result</span>;
+<span class="kw">use</span> <span class="ident">ll</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CStr</span>;
 
-<span class='doccomment'>/// PortAudio version</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span>
+<span class="doccomment">/// PortAudio version</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version</span>() <span class="op">-&gt;</span> <span class="ident">i32</span>
 {
-    <span class='kw'>let</span> <span class='ident'>version</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetVersion</span>() };
-    <span class='ident'>version</span> <span class='kw'>as</span> <span class='ident'>i32</span>
+    <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetVersion</span>() };
+    <span class="ident">version</span> <span class="kw">as</span> <span class="ident">i32</span>
 }
 
-<span class='doccomment'>/// Human-readable PortAudio version</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version_text</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span>
+<span class="doccomment">/// Human-readable PortAudio version</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version_text</span>() <span class="op">-&gt;</span> <span class="ident">String</span>
 {
-    <span class='kw'>let</span> <span class='ident'>version_c</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetVersionText</span>() };
-    <span class='kw'>let</span> <span class='ident'>version_s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>version_c</span>).<span class='ident'>to_bytes</span>() });
-    <span class='ident'>version_s</span>.<span class='ident'>into_owned</span>()
+    <span class="kw">let</span> <span class="ident">version_c</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetVersionText</span>() };
+    <span class="kw">let</span> <span class="ident">version_s</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from_utf8_lossy</span>(<span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">version_c</span>).<span class="ident">to_bytes</span>() });
+    <span class="ident">version_s</span>.<span class="ident">into_owned</span>()
 }
 
-<span class='doccomment'>/// Initialize the PortAudio API</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Each successful call must be matched by a call to terminate</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>initialize</span>() <span class='op'>-&gt;</span> <span class='ident'>PaResult</span>
+<span class="doccomment">/// Initialize the PortAudio API</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Each successful call must be matched by a call to terminate</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initialize</span>() <span class="op">-&gt;</span> <span class="ident">PaResult</span>
 {
-    <span class='ident'>to_pa_result</span>(<span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_Initialize</span>() })
+    <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_Initialize</span>() })
 }
 
-<span class='doccomment'>/// Terminate the PortAudio API</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Call this function exactly once for each successful call to initialize</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>terminate</span>() <span class='op'>-&gt;</span> <span class='ident'>PaResult</span>
+<span class="doccomment">/// Terminate the PortAudio API</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Call this function exactly once for each successful call to initialize</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">terminate</span>() <span class="op">-&gt;</span> <span class="ident">PaResult</span>
 {
-    <span class='ident'>to_pa_result</span>(<span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_Terminate</span>() })
+    <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_Terminate</span>() })
 }
 
-<span class='comment'>// PaError and PaResult</span>
+<span class="comment">// PaError and PaResult</span>
 
-<span class='doccomment'>/// Enum for all possible errors given by PortAudio</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The NoError value (0) is not present since the Result type can be used then.</span>
-<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>i32</span>)]</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>missing_docs</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>PaError</span>
+<span class="doccomment">/// Enum for all possible errors given by PortAudio</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The NoError value (0) is not present since the Result type can be used then.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PaError</span>
 {
-    <span class='comment'>// paNoError is not present in this enum</span>
-    <span class='ident'>NotInitialized</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paNotInitialized</span>,
-    <span class='ident'>UnanticipatedHostError</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paUnanticipatedHostError</span>,
-    <span class='ident'>InvalidChannelCount</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInvalidChannelCount</span>,
-    <span class='ident'>InvalidSampleRate</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInvalidSampleRate</span>,
-    <span class='ident'>InvalidDevice</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInvalidDevice</span>,
-    <span class='ident'>InvalidFlag</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInvalidFlag</span>,
-    <span class='ident'>SampleFormatNotSupported</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paSampleFormatNotSupported</span>,
-    <span class='ident'>BadIODeviceCombination</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paBadIODeviceCombination</span>,
-    <span class='ident'>InsufficientMemory</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInsufficientMemory</span>,
-    <span class='ident'>BufferTooBig</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paBufferTooBig</span>,
-    <span class='ident'>BufferTooSmall</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paBufferTooSmall</span>,
-    <span class='ident'>NullCallback</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paNullCallback</span>,
-    <span class='ident'>BadStreamPtr</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paBadStreamPtr</span>,
-    <span class='ident'>TimedOut</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paTimedOut</span>,
-    <span class='ident'>InternalError</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInternalError</span>,
-    <span class='ident'>DeviceUnavailable</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paDeviceUnavailable</span>,
-    <span class='ident'>IncompatibleHostApiSpecificStreamInfo</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paIncompatibleHostApiSpecificStreamInfo</span>,
-    <span class='ident'>StreamIsStopped</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paStreamIsStopped</span>,
-    <span class='ident'>StreamIsNotStopped</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paStreamIsNotStopped</span>,
-    <span class='ident'>InputOverflowed</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInputOverflowed</span>,
-    <span class='ident'>OutputUnderflowed</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paOutputUnderflowed</span>,
-    <span class='ident'>HostApiNotFound</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paHostApiNotFound</span>,
-    <span class='ident'>InvalidHostApi</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paInvalidHostApi</span>,
-    <span class='ident'>CanNotReadFromACallbackStream</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paCanNotReadFromACallbackStream</span>,
-    <span class='ident'>CanNotWriteToACallbackStream</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paCanNotWriteToACallbackStream</span>,
-    <span class='ident'>CanNotReadFromAnOutputOnlyStream</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paCanNotReadFromAnOutputOnlyStream</span>,
-    <span class='ident'>CanNotWriteToAnInputOnlyStream</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paCanNotWriteToAnInputOnlyStream</span>,
-    <span class='ident'>IncompatibleStreamHostApi</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paIncompatibleStreamHostApi</span>,
-    <span class='ident'>BadBufferPtr</span> <span class='op'>=</span> <span class='ident'>ll</span>::<span class='ident'>paBadBufferPtr</span>,
+    <span class="comment">// paNoError is not present in this enum</span>
+    <span class="ident">NotInitialized</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paNotInitialized</span>,
+    <span class="ident">UnanticipatedHostError</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paUnanticipatedHostError</span>,
+    <span class="ident">InvalidChannelCount</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInvalidChannelCount</span>,
+    <span class="ident">InvalidSampleRate</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInvalidSampleRate</span>,
+    <span class="ident">InvalidDevice</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInvalidDevice</span>,
+    <span class="ident">InvalidFlag</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInvalidFlag</span>,
+    <span class="ident">SampleFormatNotSupported</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paSampleFormatNotSupported</span>,
+    <span class="ident">BadIODeviceCombination</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paBadIODeviceCombination</span>,
+    <span class="ident">InsufficientMemory</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInsufficientMemory</span>,
+    <span class="ident">BufferTooBig</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paBufferTooBig</span>,
+    <span class="ident">BufferTooSmall</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paBufferTooSmall</span>,
+    <span class="ident">NullCallback</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paNullCallback</span>,
+    <span class="ident">BadStreamPtr</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paBadStreamPtr</span>,
+    <span class="ident">TimedOut</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paTimedOut</span>,
+    <span class="ident">InternalError</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInternalError</span>,
+    <span class="ident">DeviceUnavailable</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paDeviceUnavailable</span>,
+    <span class="ident">IncompatibleHostApiSpecificStreamInfo</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paIncompatibleHostApiSpecificStreamInfo</span>,
+    <span class="ident">StreamIsStopped</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paStreamIsStopped</span>,
+    <span class="ident">StreamIsNotStopped</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paStreamIsNotStopped</span>,
+    <span class="ident">InputOverflowed</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInputOverflowed</span>,
+    <span class="ident">OutputUnderflowed</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paOutputUnderflowed</span>,
+    <span class="ident">HostApiNotFound</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paHostApiNotFound</span>,
+    <span class="ident">InvalidHostApi</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paInvalidHostApi</span>,
+    <span class="ident">CanNotReadFromACallbackStream</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paCanNotReadFromACallbackStream</span>,
+    <span class="ident">CanNotWriteToACallbackStream</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paCanNotWriteToACallbackStream</span>,
+    <span class="ident">CanNotReadFromAnOutputOnlyStream</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paCanNotReadFromAnOutputOnlyStream</span>,
+    <span class="ident">CanNotWriteToAnInputOnlyStream</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paCanNotWriteToAnInputOnlyStream</span>,
+    <span class="ident">IncompatibleStreamHostApi</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paIncompatibleStreamHostApi</span>,
+    <span class="ident">BadBufferPtr</span> <span class="op">=</span> <span class="ident">ll</span>::<span class="ident">paBadBufferPtr</span>,
 
-    <span class='doccomment'>/// Added variant for when FromPrimitive returns None</span>
-    <span class='ident'>UnknownError</span>,
+    <span class="doccomment">/// Added variant for when FromPrimitive returns None</span>
+    <span class="ident">UnknownError</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>PaError</span> {
-    <span class='doccomment'>/// Get the enum value corresponding to the given i32</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_i32</span>(<span class='ident'>num</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>PaError</span> {
-        <span class='kw'>match</span> <span class='ident'>num</span> {
-            <span class='ident'>ll</span>::<span class='ident'>paNotInitialized</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>NotInitialized</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paUnanticipatedHostError</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>UnanticipatedHostError</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInvalidChannelCount</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InvalidChannelCount</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInvalidSampleRate</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InvalidSampleRate</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInvalidDevice</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InvalidDevice</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInvalidFlag</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InvalidFlag</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paSampleFormatNotSupported</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>SampleFormatNotSupported</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paBadIODeviceCombination</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>BadIODeviceCombination</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInsufficientMemory</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InsufficientMemory</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paBufferTooBig</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>BufferTooBig</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paBufferTooSmall</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>BufferTooSmall</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paNullCallback</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>NullCallback</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paBadStreamPtr</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>BadStreamPtr</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paTimedOut</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>TimedOut</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInternalError</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InternalError</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paDeviceUnavailable</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>DeviceUnavailable</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paIncompatibleHostApiSpecificStreamInfo</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>IncompatibleHostApiSpecificStreamInfo</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paStreamIsStopped</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>StreamIsStopped</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paStreamIsNotStopped</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>StreamIsNotStopped</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInputOverflowed</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InputOverflowed</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paOutputUnderflowed</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>OutputUnderflowed</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paHostApiNotFound</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>HostApiNotFound</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paInvalidHostApi</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>InvalidHostApi</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paCanNotReadFromACallbackStream</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>CanNotReadFromACallbackStream</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paCanNotWriteToACallbackStream</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>CanNotWriteToACallbackStream</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paCanNotReadFromAnOutputOnlyStream</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>CanNotReadFromAnOutputOnlyStream</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paCanNotWriteToAnInputOnlyStream</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>CanNotWriteToAnInputOnlyStream</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paIncompatibleStreamHostApi</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>IncompatibleStreamHostApi</span>,
-            <span class='ident'>ll</span>::<span class='ident'>paBadBufferPtr</span> <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>BadBufferPtr</span>,
-            _ <span class='op'>=&gt;</span> <span class='ident'>PaError</span>::<span class='ident'>UnknownError</span>,
+<span class="kw">impl</span> <span class="ident">PaError</span> {
+    <span class="doccomment">/// Get the enum value corresponding to the given i32</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_i32</span>(<span class="ident">num</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">PaError</span> {
+        <span class="kw">match</span> <span class="ident">num</span> {
+            <span class="ident">ll</span>::<span class="ident">paNotInitialized</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">NotInitialized</span>,
+            <span class="ident">ll</span>::<span class="ident">paUnanticipatedHostError</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">UnanticipatedHostError</span>,
+            <span class="ident">ll</span>::<span class="ident">paInvalidChannelCount</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InvalidChannelCount</span>,
+            <span class="ident">ll</span>::<span class="ident">paInvalidSampleRate</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InvalidSampleRate</span>,
+            <span class="ident">ll</span>::<span class="ident">paInvalidDevice</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InvalidDevice</span>,
+            <span class="ident">ll</span>::<span class="ident">paInvalidFlag</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InvalidFlag</span>,
+            <span class="ident">ll</span>::<span class="ident">paSampleFormatNotSupported</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">SampleFormatNotSupported</span>,
+            <span class="ident">ll</span>::<span class="ident">paBadIODeviceCombination</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">BadIODeviceCombination</span>,
+            <span class="ident">ll</span>::<span class="ident">paInsufficientMemory</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InsufficientMemory</span>,
+            <span class="ident">ll</span>::<span class="ident">paBufferTooBig</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">BufferTooBig</span>,
+            <span class="ident">ll</span>::<span class="ident">paBufferTooSmall</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">BufferTooSmall</span>,
+            <span class="ident">ll</span>::<span class="ident">paNullCallback</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">NullCallback</span>,
+            <span class="ident">ll</span>::<span class="ident">paBadStreamPtr</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">BadStreamPtr</span>,
+            <span class="ident">ll</span>::<span class="ident">paTimedOut</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">TimedOut</span>,
+            <span class="ident">ll</span>::<span class="ident">paInternalError</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InternalError</span>,
+            <span class="ident">ll</span>::<span class="ident">paDeviceUnavailable</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">DeviceUnavailable</span>,
+            <span class="ident">ll</span>::<span class="ident">paIncompatibleHostApiSpecificStreamInfo</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">IncompatibleHostApiSpecificStreamInfo</span>,
+            <span class="ident">ll</span>::<span class="ident">paStreamIsStopped</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">StreamIsStopped</span>,
+            <span class="ident">ll</span>::<span class="ident">paStreamIsNotStopped</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">StreamIsNotStopped</span>,
+            <span class="ident">ll</span>::<span class="ident">paInputOverflowed</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InputOverflowed</span>,
+            <span class="ident">ll</span>::<span class="ident">paOutputUnderflowed</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">OutputUnderflowed</span>,
+            <span class="ident">ll</span>::<span class="ident">paHostApiNotFound</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">HostApiNotFound</span>,
+            <span class="ident">ll</span>::<span class="ident">paInvalidHostApi</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">InvalidHostApi</span>,
+            <span class="ident">ll</span>::<span class="ident">paCanNotReadFromACallbackStream</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">CanNotReadFromACallbackStream</span>,
+            <span class="ident">ll</span>::<span class="ident">paCanNotWriteToACallbackStream</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">CanNotWriteToACallbackStream</span>,
+            <span class="ident">ll</span>::<span class="ident">paCanNotReadFromAnOutputOnlyStream</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">CanNotReadFromAnOutputOnlyStream</span>,
+            <span class="ident">ll</span>::<span class="ident">paCanNotWriteToAnInputOnlyStream</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">CanNotWriteToAnInputOnlyStream</span>,
+            <span class="ident">ll</span>::<span class="ident">paIncompatibleStreamHostApi</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">IncompatibleStreamHostApi</span>,
+            <span class="ident">ll</span>::<span class="ident">paBadBufferPtr</span> <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">BadBufferPtr</span>,
+            _ <span class="op">=&gt;</span> <span class="ident">PaError</span>::<span class="ident">UnknownError</span>,
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>PaError</span>
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">PaError</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>fmt</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span>
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
         {
-            <span class='ident'>PaError</span>::<span class='ident'>UnknownError</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;Unknown Error&quot;</span>),
-            <span class='ident'>other</span> <span class='op'>=&gt;</span>
+            <span class="ident">PaError</span>::<span class="ident">UnknownError</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Unknown Error&quot;</span>),
+            <span class="ident">other</span> <span class="op">=&gt;</span>
             {
-                <span class='kw'>let</span> <span class='ident'>message_c</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ll</span>::<span class='ident'>Pa_GetErrorText</span>(<span class='ident'>other</span> <span class='kw'>as</span> <span class='ident'>i32</span>) };
-                <span class='kw'>let</span> <span class='ident'>message_s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='kw'>unsafe</span> { <span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>message_c</span>).<span class='ident'>to_bytes</span>() });
-                <span class='ident'>f</span>.<span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>message_s</span>)
+                <span class="kw">let</span> <span class="ident">message_c</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetErrorText</span>(<span class="ident">other</span> <span class="kw">as</span> <span class="ident">i32</span>) };
+                <span class="kw">let</span> <span class="ident">message_s</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from_utf8_lossy</span>(<span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">message_c</span>).<span class="ident">to_bytes</span>() });
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">message_s</span>)
             }
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>PaError</span>
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">PaError</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>fmt</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>fmt</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Display</span>::<span class='ident'>fmt</span>(<span class='self'>self</span>, <span class='ident'>fmt</span>)
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span>::<span class="ident">fmt</span>(<span class="self">self</span>, <span class="ident">fmt</span>)
     }
 }
 
-<span class='doccomment'>/// A result type wrapping PaError.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The original NoError is mapped to Ok(()) and other values mapped to Err(x)</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>PaResult</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>PaError</span><span class='op'>&gt;</span>;
+<span class="doccomment">/// A result type wrapping PaError.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The original NoError is mapped to Ok(()) and other values mapped to Err(x)</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PaResult</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">PaError</span><span class="op">&gt;</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
