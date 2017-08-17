@@ -74,7 +74,7 @@
 }
 
 <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Result: {:?}&quot;</span>, <span class="ident">doit</span>());</pre>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;R:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html" title="trait std::io::Read">Read</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Seek.html" title="trait std::io::Seek">Seek</a>&gt; <a class="struct" href="../../zip/read/struct.ZipArchive.html" title="struct zip::read::ZipArchive">ZipArchive</a>&lt;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/zip/read.rs.html#78-199' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;R:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html" title="trait std::io::Read">Read</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Seek.html" title="trait std::io::Seek">Seek</a>&gt; <a class="struct" href="../../zip/read/struct.ZipArchive.html" title="struct zip::read::ZipArchive">ZipArchive</a>&lt;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/zip/read.rs.html#78-265' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(reader: R) -&gt; <a class="type" href="../../zip/result/type.ZipResult.html" title="type zip::result::ZipResult">ZipResult</a>&lt;<a class="struct" href="../../zip/read/struct.ZipArchive.html" title="struct zip::read::ZipArchive">ZipArchive</a>&lt;R&gt;&gt;</code></span></h4>
 <div class='docblock'><p>Opens a Zip archive and parses the central directory</p>
 </div><h4 id='method.len' class="method"><span id='len.v' class='invisible'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h4>
@@ -89,7 +89,7 @@
         <span class="comment">// Do something with file i</span>
     }
 }</pre>
-</div><h4 id='method.offset' class="method"><span id='offset.v' class='invisible'><code>fn <a href='#method.offset' class='fnname'>offset</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></h4>
+</div><h4 id='method.offset' class="method"><span id='offset.v' class='invisible'><code>fn <a href='#method.offset' class='fnname'>offset</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a></code></span></h4>
 <div class='docblock'><p>Get the offset from the beginning of the underlying reader that this zip begins at, in bytes.</p>
 
 <p>Normally this value is zero, but if the zip has arbitrary data prepended to it, then this value will be the size
@@ -162,7 +162,6 @@ of that prepended data.</p>
         window.rootPath = "../../";
         window.currentCrate = "zip";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>
