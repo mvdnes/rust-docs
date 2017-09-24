@@ -9,14 +9,15 @@
 
     <title>lib.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -70,35 +71,35 @@
 <span id="26">26</span>
 <span id="27">27</span>
 <span id="28">28</span>
-</pre><pre class='rust '>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span>
+</pre><pre class="rust ">
+<span class="attribute">#![<span class="ident">crate_type</span> <span class="op">=</span> <span class="string">&quot;lib&quot;</span>]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
 
-<span class='doccomment'>//! Synchronization primitives based on spinning</span>
+<span class="doccomment">//! Synchronization primitives based on spinning</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;asm&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>asm</span>))]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;core_intrinsics&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>core_intrinsics</span>))]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;const_fn&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>const_fn</span>))]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;asm&quot;</span>, <span class="ident">feature</span>(<span class="ident">asm</span>))]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;core_intrinsics&quot;</span>, <span class="ident">feature</span>(<span class="ident">core_intrinsics</span>))]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;const_fn&quot;</span>, <span class="ident">feature</span>(<span class="ident">const_fn</span>, <span class="ident">const_unsafe_cell_new</span>, <span class="ident">const_atomic_usize_new</span>))]</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>no_std</span>]</span>
+<span class="attribute">#![<span class="ident">no_std</span>]</span>
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>std</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>mutex</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>rw_lock</span>::<span class='op'>*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mutex</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rw_lock</span>::<span class="kw-2">*</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;once&quot;</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>once</span>::<span class='op'>*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;once&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">once</span>::<span class="kw-2">*</span>;
 
-<span class='kw'>mod</span> <span class='ident'>mutex</span>;
-<span class='kw'>mod</span> <span class='ident'>rw_lock</span>;
+<span class="kw">mod</span> <span class="ident">mutex</span>;
+<span class="kw">mod</span> <span class="ident">rw_lock</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;once&quot;</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>once</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;once&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">once</span>;
 
-<span class='kw'>mod</span> <span class='ident'>util</span>;
+<span class="kw">mod</span> <span class="ident">util</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -154,11 +155,10 @@
     
 
     <script>
-        window.rootPath = "../../../";
+        window.rootPath = "../../";
         window.currentCrate = "spin";
     </script>
-    <script src="../../../jquery.js"></script>
-    <script src="../../../main.js"></script>
-    <script defer src="../../../search-index.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>
