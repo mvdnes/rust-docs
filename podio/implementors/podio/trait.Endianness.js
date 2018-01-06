@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['podio'] = [];
+implementors["podio"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);
