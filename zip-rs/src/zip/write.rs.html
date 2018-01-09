@@ -581,6 +581,27 @@
 <span id="536">536</span>
 <span id="537">537</span>
 <span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for creating a new zip archive</span>
 
@@ -594,10 +615,13 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">time</span>;
-<span class="kw">use</span> <span class="ident">flate2</span>;
-<span class="kw">use</span> <span class="ident">flate2</span>::<span class="ident">write</span>::<span class="ident">DeflateEncoder</span>;
 <span class="kw">use</span> <span class="ident">podio</span>::{<span class="ident">WritePodExt</span>, <span class="ident">LittleEndian</span>};
 <span class="kw">use</span> <span class="ident">msdos_time</span>::<span class="ident">TmMsDosExt</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">flate2</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">flate2</span>::<span class="ident">write</span>::<span class="ident">DeflateEncoder</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">bzip2</span>;
@@ -610,6 +634,7 @@
 {
     <span class="ident">Closed</span>,
     <span class="ident">Storer</span>(<span class="ident">W</span>),
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
     <span class="ident">Deflater</span>(<span class="ident">DeflateEncoder</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>),
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
     <span class="ident">Bzip2</span>(<span class="ident">BzEncoder</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>),
@@ -663,6 +688,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">FileOptions</span> {
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
     <span class="doccomment">/// Construct a new FileOptions object</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">FileOptions</span> {
         <span class="ident">FileOptions</span> {
@@ -672,9 +698,21 @@
         }
     }
 
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>))]</span>
+    <span class="doccomment">/// Construct a new FileOptions object</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">FileOptions</span> {
+        <span class="ident">FileOptions</span> {
+            <span class="ident">compression_method</span>: <span class="ident">CompressionMethod</span>::<span class="ident">Stored</span>,
+            <span class="ident">last_modified_time</span>: <span class="ident">time</span>::<span class="ident">now</span>(),
+            <span class="ident">permissions</span>: <span class="prelude-val">None</span>,
+        }
+    }
+
     <span class="doccomment">/// Set the compression method for the new file</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The default is `CompressionMethod::Deflated`</span>
+    <span class="doccomment">/// The default is `CompressionMethod::Deflated`. If the deflate compression feature is</span>
+    <span class="doccomment">/// disabled, `CompressionMethod::Stored` becomes the default.</span>
+    <span class="doccomment">/// otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compression_method</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">method</span>: <span class="ident">CompressionMethod</span>) <span class="op">-&gt;</span> <span class="ident">FileOptions</span> {
         <span class="self">self</span>.<span class="ident">compression_method</span> <span class="op">=</span> <span class="ident">method</span>;
         <span class="self">self</span>
@@ -916,6 +954,7 @@
         <span class="kw">let</span> <span class="ident">bare</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="self">self</span>, <span class="ident">GenericZipWriter</span>::<span class="ident">Closed</span>)
         {
             <span class="ident">GenericZipWriter</span>::<span class="ident">Storer</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="ident">w</span>,
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
             <span class="ident">GenericZipWriter</span>::<span class="ident">Deflater</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">w</span>.<span class="ident">finish</span>()),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
             <span class="ident">GenericZipWriter</span>::<span class="ident">Bzip2</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">w</span>.<span class="ident">finish</span>()),
@@ -925,6 +964,7 @@
         <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">compression</span>
         {
             <span class="ident">CompressionMethod</span>::<span class="ident">Stored</span> <span class="op">=&gt;</span> <span class="ident">GenericZipWriter</span>::<span class="ident">Storer</span>(<span class="ident">bare</span>),
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
             <span class="ident">CompressionMethod</span>::<span class="ident">Deflated</span> <span class="op">=&gt;</span> <span class="ident">GenericZipWriter</span>::<span class="ident">Deflater</span>(<span class="ident">DeflateEncoder</span>::<span class="ident">new</span>(<span class="ident">bare</span>, <span class="ident">flate2</span>::<span class="ident">Compression</span>::<span class="ident">default</span>())),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
             <span class="ident">CompressionMethod</span>::<span class="ident">Bzip2</span> <span class="op">=&gt;</span> <span class="ident">GenericZipWriter</span>::<span class="ident">Bzip2</span>(<span class="ident">BzEncoder</span>::<span class="ident">new</span>(<span class="ident">bare</span>, <span class="ident">bzip2</span>::<span class="ident">Compression</span>::<span class="ident">Default</span>)),
@@ -937,6 +977,7 @@
     <span class="kw">fn</span> <span class="ident">ref_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Write</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">GenericZipWriter</span>::<span class="ident">Storer</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">w</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">w</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Write</span>),
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
             <span class="ident">GenericZipWriter</span>::<span class="ident">Deflater</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">w</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">w</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Write</span>),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
             <span class="ident">GenericZipWriter</span>::<span class="ident">Bzip2</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">w</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">w</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Write</span>),
@@ -965,6 +1006,7 @@
     <span class="kw">fn</span> <span class="ident">current_compression</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CompressionMethod</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">GenericZipWriter</span>::<span class="ident">Storer</span>(..) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CompressionMethod</span>::<span class="ident">Stored</span>),
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
             <span class="ident">GenericZipWriter</span>::<span class="ident">Deflater</span>(..) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CompressionMethod</span>::<span class="ident">Deflated</span>),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
             <span class="ident">GenericZipWriter</span>::<span class="ident">Bzip2</span>(..) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">CompressionMethod</span>::<span class="ident">Bzip2</span>),
