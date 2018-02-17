@@ -28,6 +28,7 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
@@ -529,6 +530,20 @@
 <span id="484">484</span>
 <span id="485">485</span>
 <span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for reading a ZIP archive</span>
 
@@ -557,6 +572,20 @@
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">S_IFDIR</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0o0040000</span>;
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">S_IFREG</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0o0100000</span>;
 }
+
+<span class="kw">const</span> <span class="ident">TM_1980_01_01</span> : ::<span class="ident">time</span>::<span class="ident">Tm</span> <span class="op">=</span> ::<span class="ident">time</span>::<span class="ident">Tm</span> {
+	<span class="ident">tm_sec</span>: <span class="number">0</span>,
+	<span class="ident">tm_min</span>: <span class="number">0</span>,
+	<span class="ident">tm_hour</span>: <span class="number">0</span>,
+	<span class="ident">tm_mday</span>: <span class="number">1</span>,
+	<span class="ident">tm_mon</span>: <span class="number">0</span>,
+	<span class="ident">tm_year</span>: <span class="number">80</span>,
+	<span class="ident">tm_wday</span>: <span class="number">2</span>,
+	<span class="ident">tm_yday</span>: <span class="number">0</span>,
+	<span class="ident">tm_isdst</span>: <span class="op">-</span><span class="number">1</span>,
+	<span class="ident">tm_utcoff</span>: <span class="number">0</span>,
+	<span class="ident">tm_nsec</span>: <span class="number">0</span>
+};
 
 <span class="doccomment">/// Wrapper for reading the contents of a ZIP file.</span>
 <span class="doccomment">///</span>
@@ -871,7 +900,7 @@
         <span class="ident">version_made_by</span>: <span class="ident">version_made_by</span> <span class="kw">as</span> <span class="ident">u8</span>,
         <span class="ident">encrypted</span>: <span class="ident">encrypted</span>,
         <span class="ident">compression_method</span>: <span class="ident">CompressionMethod</span>::<span class="ident">from_u16</span>(<span class="ident">compression_method</span>),
-        <span class="ident">last_modified_time</span>: <span class="macro">try</span><span class="macro">!</span>(::<span class="ident">time</span>::<span class="ident">Tm</span>::<span class="ident">from_msdos</span>(<span class="ident">MsDosDateTime</span>::<span class="ident">new</span>(<span class="ident">last_mod_time</span>, <span class="ident">last_mod_date</span>))),
+        <span class="ident">last_modified_time</span>: ::<span class="ident">time</span>::<span class="ident">Tm</span>::<span class="ident">from_msdos</span>(<span class="ident">MsDosDateTime</span>::<span class="ident">new</span>(<span class="ident">last_mod_time</span>, <span class="ident">last_mod_date</span>)).<span class="ident">unwrap_or</span>(<span class="ident">TM_1980_01_01</span>),
         <span class="ident">crc32</span>: <span class="ident">crc32</span>,
         <span class="ident">compressed_size</span>: <span class="ident">compressed_size</span> <span class="kw">as</span> <span class="ident">u64</span>,
         <span class="ident">uncompressed_size</span>: <span class="ident">uncompressed_size</span> <span class="kw">as</span> <span class="ident">u64</span>,
