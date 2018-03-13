@@ -10,8 +10,11 @@
     <title>spin::Mutex - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct Mutex</p><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.into_inner">into_inner</a><a href="#method.lock">lock</a><a href="#method.force_unlock">force_unlock</a><a href="#method.try_lock">try_lock</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Sync">Sync</a><a href="#impl-Send">Send</a><a href="#impl-Debug">Debug</a><a href="#impl-Default">Default</a></div></div><p class='location'><a href='index.html'>spin</a></p><script>window.sidebarCurrent = {name: 'Mutex', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct Mutex</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.into_inner">into_inner</a><a href="#method.lock">lock</a><a href="#method.force_unlock">force_unlock</a><a href="#method.try_lock">try_lock</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Sync">Sync</a><a href="#impl-Send">Send</a><a href="#impl-Debug">Debug</a><a href="#impl-Default">Default</a></div></div><p class='location'><a href='index.html'>spin</a></p><script>window.sidebarCurrent = {name: 'Mutex', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -50,25 +61,21 @@
                    </a>
                </span><a class='srclink' href='../src/spin/mutex.rs.html#80-84' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Mutex&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; { /* fields omitted */ }</pre><div class='docblock'><p>This type provides MUTual EXclusion based on spinning.</p>
-
-<h1 id='description' class='section-header'><a href='#description'>Description</a></h1>
+<h1 id="description" class="section-header"><a href="#description">Description</a></h1>
 <p>This structure behaves a lot like a normal Mutex. There are some differences:</p>
-
 <ul>
 <li>It may be used outside the runtime.
-
 <ul>
 <li>A normal mutex will fail when used without the runtime, this will just lock</li>
 <li>When the runtime is present, it will call the deschedule function when appropriate</li>
-</ul></li>
+</ul>
+</li>
 <li>No lock poisoning. When a fail occurs when the lock is held, no guarantees are made</li>
 </ul>
-
 <p>When calling rust functions from bare threads, such as C <code>pthread</code>s, this lock will be very
 helpful. In other cases however, you are encouraged to use the locks from the standard
 library.</p>
-
-<h1 id='simple-examples' class='section-header'><a href='#simple-examples'>Simple examples</a></h1>
+<h1 id="simple-examples" class="section-header"><a href="#simple-examples">Simple examples</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">spin</span>;
 <span class="kw">let</span> <span class="ident">spin_mutex</span> <span class="op">=</span> <span class="ident">spin</span>::<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="number">0</span>);
@@ -87,8 +94,7 @@ library.</p>
 };
 
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">answer</span>, <span class="number">2</span>);</pre>
-
-<h1 id='thread-safety-example' class='section-header'><a href='#thread-safety-example'>Thread-safety example</a></h1>
+<h1 id="thread-safety-example" class="section-header"><a href="#thread-safety-example">Thread-safety example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">spin</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Barrier</span>};
@@ -125,7 +131,6 @@ library.</p>
                 <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#99-158' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub const fn <a href='#method.new' class='fnname'>new</a>(user_data: T) -&gt; <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#118-125' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Creates a new spinlock wrapping the supplied data.</p>
-
 <p>May be used statically:</p>
 
 <pre class="rust rust-example-rendered">
@@ -144,7 +149,6 @@ library.</p>
 </div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#160-228' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.lock' class="method"><span id='lock.v' class='invisible'><code>pub fn <a href='#method.lock' class='fnname'>lock</a>(&amp;self) -&gt; <a class="struct" href="../spin/struct.MutexGuard.html" title="struct spin::MutexGuard">MutexGuard</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#189-197' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Locks the spinlock and returns a guard.</p>
-
 <p>The returned value may be dereferenced for data access
 and the lock will be dropped when the guard falls out of scope.</p>
 
@@ -159,12 +163,10 @@ and the lock will be dropped when the guard falls out of scope.</p>
 </pre>
 </div><h4 id='method.force_unlock' class="method"><span id='force_unlock.v' class='invisible'><code>pub unsafe fn <a href='#method.force_unlock' class='fnname'>force_unlock</a>(&amp;self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#206-208' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Force unlock the spinlock.</p>
-
 <p>This is <em>extremely</em> unsafe if the lock is not held by the current
 thread. However, this can be useful in some instances for exposing the
-lock to FFI that doesn&#39;t know how to deal with RAII.</p>
-
-<p>If the lock isn&#39;t held, this is a no-op.</p>
+lock to FFI that doesn't know how to deal with RAII.</p>
+<p>If the lock isn't held, this is a no-op.</p>
 </div><h4 id='method.try_lock' class="method"><span id='try_lock.v' class='invisible'><code>pub fn <a href='#method.try_lock' class='fnname'>try_lock</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../spin/struct.MutexGuard.html" title="struct spin::MutexGuard">MutexGuard</a>&lt;T&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#212-227' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Tries to lock the mutex. If it is already locked, it will return None. Otherwise it returns
 a guard within Some.</p>
@@ -172,6 +174,7 @@ a guard within Some.</p>
             <h2 id='implementations' class='small-section-header'>
               Trait Implementations<a href='#implementations' class='anchor'></a>
             </h2>
+            <div id='implementations-list'>
         <h3 id='impl-Sync' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code><a href='#impl-Sync' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#96' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'></div><h3 id='impl-Send' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code><a href='#impl-Send' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#97' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'></div><h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#230-240' title='goto source code'>[src]</a></span></h3>
@@ -180,7 +183,12 @@ a guard within Some.</p>
 </div></div><h3 id='impl-Default' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code><a href='#impl-Default' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#242-246' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class="struct" href="../spin/struct.Mutex.html" title="struct spin::Mutex">Mutex</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/spin/mutex.rs.html#243-245' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
-</div></div></section>
+</div></div></div>
+            <h2 id='synthetic-implementations' class='small-section-header'>
+              Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+            </h2>
+            <div id='synthetic-implementations-list'>
+        </div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -193,20 +201,22 @@ a guard within Some.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
