@@ -286,7 +286,7 @@
             <span class="ident">data_start</span>: <span class="number">0</span>,
             <span class="ident">external_attributes</span>: <span class="number">0</span>,
         };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">file_name_sanitized</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;path/etc/passwd&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">file_name_sanitized</span>(), ::<span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="string">&quot;path/etc/passwd&quot;</span>));
     }
 }
 </pre>
