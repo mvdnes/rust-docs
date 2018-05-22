@@ -10,10 +10,11 @@
     <title>read.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -679,7 +680,7 @@
         <span class="comment">// standard footer, in turn, is 22+N bytes large, where N is the</span>
         <span class="comment">// comment length. Therefore:</span>
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(_) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="op">-</span>(<span class="number">20</span> <span class="op">+</span> <span class="number">22</span> <span class="op">+</span> <span class="ident">footer</span>.<span class="ident">zip_file_comment</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">i64</span>))) {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="op">-</span>(<span class="number">20</span> <span class="op">+</span> <span class="number">22</span> <span class="op">+</span> <span class="ident">footer</span>.<span class="ident">zip_file_comment</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">i64</span>))) {
             <span class="comment">// Empty Zip files will have nothing else so this error might be fine. If</span>
             <span class="comment">// not, we&#39;ll find out soon.</span>
             <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">archive_offset</span>, <span class="ident">directory_start</span>, <span class="ident">number_of_files</span>));
@@ -687,7 +688,7 @@
 
         <span class="kw">let</span> <span class="ident">locator64</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">spec</span>::<span class="ident">Zip64CentralDirectoryEndLocator</span>::<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">loc</span>) <span class="op">=&gt;</span> <span class="ident">loc</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">ZipError</span>::<span class="ident">InvalidArchive</span>(_)) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">ZipError</span>::<span class="ident">InvalidArchive</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {
                 <span class="comment">// No ZIP64 header; that&#39;s actually fine. We&#39;re done here.</span>
                 <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">archive_offset</span>, <span class="ident">directory_start</span>, <span class="ident">number_of_files</span>));
             },
@@ -743,7 +744,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">names_map</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
 
         <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">directory_start</span>)));
-        <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">number_of_files</span>
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">number_of_files</span>
         {
             <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">central_header_to_zip_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>, <span class="ident">archive_offset</span>));
             <span class="ident">names_map</span>.<span class="ident">insert</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">clone</span>(), <span class="ident">files</span>.<span class="ident">len</span>());
@@ -832,7 +833,7 @@
                     <span class="ident">bzip2_reader</span>,
                     <span class="ident">data</span>.<span class="ident">crc32</span>))
             },
-            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">unsupported_zip_error</span>(<span class="string">&quot;Compression method not supported&quot;</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">unsupported_zip_error</span>(<span class="string">&quot;Compression method not supported&quot;</span>),
         };
         <span class="prelude-val">Ok</span>(<span class="ident">ZipFile</span> { <span class="ident">reader</span>: <span class="ident">reader</span>, <span class="ident">data</span>: <span class="ident">data</span> })
     }
@@ -948,7 +949,7 @@
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>());
         <span class="kw">match</span> <span class="ident">kind</span>
         {
-            _ <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">i64</span>))),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">i64</span>))),
         };
     }
     <span class="prelude-val">Ok</span>(())
@@ -1021,7 +1022,7 @@
                 }
                 <span class="prelude-val">Some</span>(<span class="ident">mode</span>)
             },
-            _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
     <span class="doccomment">/// Get the CRC32 hash of the original file</span>

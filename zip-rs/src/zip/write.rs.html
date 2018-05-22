@@ -10,10 +10,11 @@
     <title>write.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -612,7 +613,6 @@
 <span id="556">556</span>
 <span id="557">557</span>
 <span id="558">558</span>
-<span id="559">559</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for creating a new zip archive</span>
 
@@ -946,7 +946,7 @@
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">is_closed</span>()
         {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">finalize</span>() {
-                <span class="kw">let</span> _ <span class="op">=</span> <span class="macro">write</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">io</span>::<span class="ident">stderr</span>(), <span class="string">&quot;ZipWriter drop failed: {:?}&quot;</span>, <span class="ident">e</span>);
+                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">io</span>::<span class="ident">stderr</span>(), <span class="string">&quot;ZipWriter drop failed: {:?}&quot;</span>, <span class="ident">e</span>);
             }
         }
     }
@@ -959,7 +959,7 @@
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">current_compression</span>() {
             <span class="prelude-val">Some</span>(<span class="ident">method</span>) <span class="kw">if</span> <span class="ident">method</span> <span class="op">==</span> <span class="ident">compression</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span>, <span class="string">&quot;ZipWriter was already closed&quot;</span>))),
-            _ <span class="op">=&gt;</span> {},
+            <span class="kw">_</span> <span class="op">=&gt;</span> {},
         }
 
         <span class="kw">let</span> <span class="ident">bare</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="self">self</span>, <span class="ident">GenericZipWriter</span>::<span class="ident">Closed</span>)
@@ -1001,7 +1001,7 @@
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
         {
             <span class="ident">GenericZipWriter</span>::<span class="ident">Closed</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
@@ -1010,7 +1010,7 @@
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
         {
             <span class="ident">GenericZipWriter</span>::<span class="ident">Storer</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">w</span>) <span class="op">=&gt;</span> <span class="ident">w</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Should have switched to stored beforehand&quot;</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Should have switched to stored beforehand&quot;</span>),
         }
     }
 
@@ -1030,7 +1030,7 @@
         <span class="kw">match</span> <span class="self">self</span>
         {
             <span class="ident">GenericZipWriter</span>::<span class="ident">Storer</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="ident">w</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Should have switched to stored beforehand&quot;</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Should have switched to stored beforehand&quot;</span>),
         }
     }
 }
@@ -1040,8 +1040,7 @@
     <span class="comment">// local file header signature</span>
     <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">spec</span>::<span class="ident">LOCAL_FILE_HEADER_SIGNATURE</span>));
     <span class="comment">// version needed to extract</span>
-    <span class="kw">let</span> <span class="ident">version_made_by</span> <span class="op">=</span> (<span class="ident">file</span>.<span class="ident">system</span> <span class="kw">as</span> <span class="ident">u16</span>) <span class="op">&lt;&lt;</span> <span class="number">8</span> <span class="op">|</span> (<span class="ident">file</span>.<span class="ident">version_made_by</span> <span class="kw">as</span> <span class="ident">u16</span>);
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">version_made_by</span>));
+    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">version_needed</span>()));
     <span class="comment">// general purpose bit flag</span>
     <span class="kw">let</span> <span class="ident">flag</span> <span class="op">=</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">is_ascii</span>() { <span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="number">11</span> } <span class="kw">else</span> { <span class="number">0</span> };
     <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">flag</span>));
@@ -1088,7 +1087,7 @@
     <span class="kw">let</span> <span class="ident">version_made_by</span> <span class="op">=</span> (<span class="ident">file</span>.<span class="ident">system</span> <span class="kw">as</span> <span class="ident">u16</span>) <span class="op">&lt;&lt;</span> <span class="number">8</span> <span class="op">|</span> (<span class="ident">file</span>.<span class="ident">version_made_by</span> <span class="kw">as</span> <span class="ident">u16</span>);
     <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">version_made_by</span>));
     <span class="comment">// version needed to extract</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">20</span>));
+    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">version_needed</span>()));
     <span class="comment">// general puprose bit flag</span>
     <span class="kw">let</span> <span class="ident">flag</span> <span class="op">=</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">is_ascii</span>() { <span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="number">11</span> } <span class="kw">else</span> { <span class="number">0</span> };
     <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">flag</span>));
