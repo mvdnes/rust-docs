@@ -573,6 +573,9 @@
 <span id="516">516</span>
 <span id="517">517</span>
 <span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for reading a ZIP archive</span>
 
@@ -754,10 +757,13 @@
         <span class="kw">let</span> (<span class="ident">archive_offset</span>, <span class="ident">directory_start</span>, <span class="ident">number_of_files</span>) <span class="op">=</span>
             <span class="macro">try</span><span class="macro">!</span>(<span class="self">Self</span>::<span class="ident">get_directory_counts</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>, <span class="kw-2">&amp;</span><span class="ident">footer</span>, <span class="ident">cde_start_pos</span>));
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">files</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">number_of_files</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">files</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">names_map</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
 
-        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">directory_start</span>)));
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">directory_start</span>)) {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ZipError</span>::<span class="ident">InvalidArchive</span>(<span class="string">&quot;Could not seek to start of central directory&quot;</span>));
+        }
+
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">number_of_files</span>
         {
             <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">central_header_to_zip_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>, <span class="ident">archive_offset</span>));
