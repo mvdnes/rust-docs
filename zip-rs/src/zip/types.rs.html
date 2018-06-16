@@ -211,7 +211,7 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_VERSION</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">46</span>;
 
 <span class="doccomment">/// Structure representing a ZIP file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZipFileData</span>
 {
     <span class="doccomment">/// Compatibility of the file attribute information</span>

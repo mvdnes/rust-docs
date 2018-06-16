@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `read` mod in crate `zip`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, read">
+    <meta name="description" content="API documentation for the Rust `read_zipfile_from_stream` fn in crate `zip`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, read_zipfile_from_stream">
 
-    <title>zip::read - Rust</title>
+    <title>zip::read::read_zipfile_from_stream - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
@@ -21,7 +21,7 @@
     
     
 </head>
-<body class="rustdoc mod">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -34,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Module read</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>zip</a></p><script>window.sidebarCurrent = {name: 'read', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
+        <div class="sidebar-elems"><p class='location'><a href='../index.html'>zip</a>::<wbr><a href='index.html'>read</a></p><script>window.sidebarCurrent = {name: 'read_zipfile_from_stream', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -55,38 +55,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>zip</a>::<wbr><a class="mod" href=''>read</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>zip</a>::<wbr><a href='index.html'>read</a>::<wbr><a class="fn" href=''>read_zipfile_from_stream</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/zip/read.rs.html#1-672' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>Structs for reading a ZIP archive</p>
-</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.ZipArchive.html"
-                                  title='struct zip::read::ZipArchive'>ZipArchive</a></td>
-                           <td class='docblock-short'>
-                                <p>Wrapper for reading the contents of a ZIP file.</p>
-
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.ZipFile.html"
-                                  title='struct zip::read::ZipFile'>ZipFile</a></td>
-                           <td class='docblock-short'>
-                                <p>A struct for reading a zip file</p>
-
-                           </td>
-                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.read_zipfile_from_stream.html"
-                                  title='fn zip::read::read_zipfile_from_stream'>read_zipfile_from_stream</a></td>
-                           <td class='docblock-short'>
-                                <p>Read ZipFile structures from a non-seekable reader.</p>
-
-                           </td>
-                       </tr></table></section>
+               </span><a class='srclink' href='../../src/zip/read.rs.html#545-620' title='goto source code'>[src]</a></span></h1><pre class='rust fn'>pub fn read_zipfile_from_stream&lt;'a, R:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html" title="trait std::io::Read">Read</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;reader: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a mut </a>R<br>) -&gt; <a class="type" href="../../zip/result/type.ZipResult.html" title="type zip::result::ZipResult">ZipResult</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../zip/read/struct.ZipFile.html" title="struct zip::read::ZipFile">ZipFile</a>&gt;&gt;</pre><div class='docblock'><p>Read ZipFile structures from a non-seekable reader.</p>
+<p>This is an alternative method to read a zip file. If possible, use the ZipArchive functions
+as some information will be missing when reading this manner.</p>
+<p>Reads a file header from the start of the stream. Will return <code>Ok(Some(..))</code> if a file is
+present at the start of the stream. Returns <code>Ok(None)</code> if the start of the central directory
+is encountered. No more files should be read after this.</p>
+<p>The Drop implementation of ZipFile ensures that the reader will be correctly positioned after
+the structure is done.</p>
+<p>Missing fields are:</p>
+<ul>
+<li><code>comment</code>: set to an empty string</li>
+<li><code>data_start</code>: set to 0</li>
+<li><code>external_attributes</code>: <code>unix_mode()</code>: will return None</li>
+</ul>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
