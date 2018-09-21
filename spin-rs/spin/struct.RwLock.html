@@ -9,7 +9,7 @@ allow concurrent access through readers. The RAII guards returned from the
 locking methods implement <code>Deref</code> (and <code>DerefMut</code> for the <code>write</code> methods)
 to allow access to the contained of the lock.</p>
 <p>Based on
-https://jfdube.wordpress.com/2014/01/03/implementing-a-recursive-read-write-spinlock/</p>
+<a href="https://jfdube.wordpress.com/2014/01/03/implementing-a-recursive-read-write-spinlock/">https://jfdube.wordpress.com/2014/01/03/implementing-a-recursive-read-write-spinlock/</a></p>
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">spin</span>;
