@@ -632,11 +632,11 @@
 <span class="doccomment">///     let mut zip = zip::ZipWriter::new(w);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///     let options = zip::write::FileOptions::default().compression_method(zip::CompressionMethod::Stored);</span>
-<span class="doccomment">///     try!(zip.start_file(&quot;hello_world.txt&quot;, options));</span>
-<span class="doccomment">///     try!(zip.write(b&quot;Hello, World!&quot;));</span>
+<span class="doccomment">///     zip.start_file(&quot;hello_world.txt&quot;, options)?;</span>
+<span class="doccomment">///     zip.write(b&quot;Hello, World!&quot;)?;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///     // Optionally finish the zip. (this is also done on drop)</span>
-<span class="doccomment">///     try!(zip.finish());</span>
+<span class="doccomment">///     zip.finish()?;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///     Ok(())</span>
 <span class="doccomment">/// }</span>
@@ -773,11 +773,11 @@
     <span class="kw">fn</span> <span class="ident">start_entry</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">S</span>, <span class="ident">options</span>: <span class="ident">FileOptions</span>) <span class="op">-&gt;</span> <span class="ident">ZipResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>
     {
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">finish_file</span>());
+        <span class="self">self</span>.<span class="ident">finish_file</span>()<span class="question-mark">?</span>;
 
         {
             <span class="kw">let</span> <span class="ident">writer</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">get_plain</span>();
-            <span class="kw">let</span> <span class="ident">header_start</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>)));
+            <span class="kw">let</span> <span class="ident">header_start</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">permissions</span>.<span class="ident">unwrap_or</span>(<span class="number">0o100644</span>);
             <span class="kw">let</span> <span class="ident">file_name</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">into</span>();
@@ -799,9 +799,9 @@
                 <span class="ident">data_start</span>: <span class="number">0</span>,
                 <span class="ident">external_attributes</span>: <span class="ident">permissions</span> <span class="op">&lt;&lt;</span> <span class="number">16</span>,
             };
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">write_local_file_header</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="ident">file</span>));
+            <span class="ident">write_local_file_header</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="ident">file</span>)<span class="question-mark">?</span>;
 
-            <span class="kw">let</span> <span class="ident">header_end</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>)));
+            <span class="kw">let</span> <span class="ident">header_end</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
             <span class="self">self</span>.<span class="ident">stats</span>.<span class="ident">start</span> <span class="op">=</span> <span class="ident">header_end</span>;
             <span class="ident">file</span>.<span class="ident">data_start</span> <span class="op">=</span> <span class="ident">header_end</span>;
 
@@ -811,14 +811,14 @@
             <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">push</span>(<span class="ident">file</span>);
         }
 
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">switch_to</span>(<span class="ident">options</span>.<span class="ident">compression_method</span>));
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">switch_to</span>(<span class="ident">options</span>.<span class="ident">compression_method</span>)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn</span> <span class="ident">finish_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ZipResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     {
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">switch_to</span>(<span class="ident">CompressionMethod</span>::<span class="ident">Stored</span>));
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">switch_to</span>(<span class="ident">CompressionMethod</span>::<span class="ident">Stored</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">writer</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">get_plain</span>();
 
         <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">last_mut</span>()
@@ -829,11 +829,11 @@
         <span class="ident">file</span>.<span class="ident">crc32</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">stats</span>.<span class="ident">crc32</span>;
         <span class="ident">file</span>.<span class="ident">uncompressed_size</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">stats</span>.<span class="ident">bytes_written</span>;
 
-        <span class="kw">let</span> <span class="ident">file_end</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>)));
+        <span class="kw">let</span> <span class="ident">file_end</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
         <span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="op">=</span> <span class="ident">file_end</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">stats</span>.<span class="ident">start</span>;
 
-        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">update_local_file_header</span>(<span class="ident">writer</span>, <span class="ident">file</span>));
-        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">file_end</span>)));
+        <span class="ident">update_local_file_header</span>(<span class="ident">writer</span>, <span class="ident">file</span>)<span class="question-mark">?</span>;
+        <span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">file_end</span>))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -845,7 +845,7 @@
             <span class="ident">options</span>.<span class="ident">permissions</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="number">0o644</span>);
         }
         <span class="kw-2">*</span><span class="ident">options</span>.<span class="ident">permissions</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>() <span class="op">|=</span> <span class="number">0o100000</span>;
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">start_entry</span>(<span class="ident">name</span>, <span class="ident">options</span>));
+        <span class="self">self</span>.<span class="ident">start_entry</span>(<span class="ident">name</span>, <span class="ident">options</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -869,7 +869,7 @@
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">name_as_string</span> <span class="op">+</span> <span class="string">&quot;/&quot;</span>,
         };
 
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">start_entry</span>(<span class="ident">name_with_slash</span>, <span class="ident">options</span>));
+        <span class="self">self</span>.<span class="ident">start_entry</span>(<span class="ident">name_with_slash</span>, <span class="ident">options</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -879,24 +879,24 @@
     <span class="doccomment">/// Note that the zipfile will also be finished on drop.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ZipResult</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>
     {
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">finalize</span>());
+        <span class="self">self</span>.<span class="ident">finalize</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">inner</span>, <span class="ident">GenericZipWriter</span>::<span class="ident">Closed</span>);
         <span class="prelude-val">Ok</span>(<span class="ident">inner</span>.<span class="ident">unwrap</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ZipResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     {
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">finish_file</span>());
+        <span class="self">self</span>.<span class="ident">finish_file</span>()<span class="question-mark">?</span>;
 
         {
             <span class="kw">let</span> <span class="ident">writer</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">get_plain</span>();
 
-            <span class="kw">let</span> <span class="ident">central_start</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>)));
+            <span class="kw">let</span> <span class="ident">central_start</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
             <span class="kw">for</span> <span class="ident">file</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">iter</span>()
             {
-                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">write_central_directory_header</span>(<span class="ident">writer</span>, <span class="ident">file</span>));
+                <span class="ident">write_central_directory_header</span>(<span class="ident">writer</span>, <span class="ident">file</span>)<span class="question-mark">?</span>;
             }
-            <span class="kw">let</span> <span class="ident">central_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))) <span class="op">-</span> <span class="ident">central_start</span>;
+            <span class="kw">let</span> <span class="ident">central_size</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span> <span class="op">-</span> <span class="ident">central_start</span>;
 
             <span class="kw">let</span> <span class="ident">footer</span> <span class="op">=</span> <span class="ident">spec</span>::<span class="ident">CentralDirectoryEnd</span>
             {
@@ -909,7 +909,7 @@
                 <span class="ident">zip_file_comment</span>: <span class="string">b&quot;zip-rs&quot;</span>.<span class="ident">to_vec</span>(),
             };
 
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">footer</span>.<span class="ident">write</span>(<span class="ident">writer</span>));
+            <span class="ident">footer</span>.<span class="ident">write</span>(<span class="ident">writer</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -935,7 +935,7 @@
     {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">current_compression</span>() {
             <span class="prelude-val">Some</span>(<span class="ident">method</span>) <span class="kw">if</span> <span class="ident">method</span> <span class="op">==</span> <span class="ident">compression</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span>, <span class="string">&quot;ZipWriter was already closed&quot;</span>))),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span>, <span class="string">&quot;ZipWriter was already closed&quot;</span>))<span class="question-mark">?</span>,
             <span class="kw">_</span> <span class="op">=&gt;</span> {},
         }
 
@@ -943,10 +943,10 @@
         {
             <span class="ident">GenericZipWriter</span>::<span class="ident">Storer</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="ident">w</span>,
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
-            <span class="ident">GenericZipWriter</span>::<span class="ident">Deflater</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">w</span>.<span class="ident">finish</span>()),
+            <span class="ident">GenericZipWriter</span>::<span class="ident">Deflater</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="ident">w</span>.<span class="ident">finish</span>()<span class="question-mark">?</span>,
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
-            <span class="ident">GenericZipWriter</span>::<span class="ident">Bzip2</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">w</span>.<span class="ident">finish</span>()),
-            <span class="ident">GenericZipWriter</span>::<span class="ident">Closed</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span>, <span class="string">&quot;ZipWriter was already closed&quot;</span>))),
+            <span class="ident">GenericZipWriter</span>::<span class="ident">Bzip2</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> <span class="ident">w</span>.<span class="ident">finish</span>()<span class="question-mark">?</span>,
+            <span class="ident">GenericZipWriter</span>::<span class="ident">Closed</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span>, <span class="string">&quot;ZipWriter was already closed&quot;</span>))<span class="question-mark">?</span>,
         };
 
         <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">compression</span>
@@ -1015,33 +1015,33 @@
 <span class="kw">fn</span> <span class="ident">write_local_file_header</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">ZipFileData</span>) <span class="op">-&gt;</span> <span class="ident">ZipResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 {
     <span class="comment">// local file header signature</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">spec</span>::<span class="ident">LOCAL_FILE_HEADER_SIGNATURE</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">spec</span>::<span class="ident">LOCAL_FILE_HEADER_SIGNATURE</span>)<span class="question-mark">?</span>;
     <span class="comment">// version needed to extract</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">version_needed</span>()));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">version_needed</span>())<span class="question-mark">?</span>;
     <span class="comment">// general purpose bit flag</span>
     <span class="kw">let</span> <span class="ident">flag</span> <span class="op">=</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">is_ascii</span>() { <span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="number">11</span> } <span class="kw">else</span> { <span class="number">0</span> };
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">flag</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">flag</span>)<span class="question-mark">?</span>;
     <span class="comment">// Compression method</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compression_method</span>.<span class="ident">to_u16</span>()));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compression_method</span>.<span class="ident">to_u16</span>())<span class="question-mark">?</span>;
     <span class="comment">// last mod file time and last mod file date</span>
-    <span class="kw">let</span> <span class="ident">msdos_datetime</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">file</span>.<span class="ident">last_modified_time</span>.<span class="ident">to_msdos</span>());
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">timepart</span>));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">datepart</span>));
+    <span class="kw">let</span> <span class="ident">msdos_datetime</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">last_modified_time</span>.<span class="ident">to_msdos</span>()<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">timepart</span>)<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">datepart</span>)<span class="question-mark">?</span>;
     <span class="comment">// crc-32</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">crc32</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">crc32</span>)<span class="question-mark">?</span>;
     <span class="comment">// compressed size</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
     <span class="comment">// uncompressed size</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">uncompressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">uncompressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
     <span class="comment">// file name length</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>().<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>().<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>)<span class="question-mark">?</span>;
     <span class="comment">// extra field length</span>
-    <span class="kw">let</span> <span class="ident">extra_field</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">build_extra_field</span>(<span class="ident">file</span>));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">extra_field</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>));
+    <span class="kw">let</span> <span class="ident">extra_field</span> <span class="op">=</span> <span class="ident">build_extra_field</span>(<span class="ident">file</span>)<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">extra_field</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>)<span class="question-mark">?</span>;
     <span class="comment">// file name</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>()));
+    <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>())<span class="question-mark">?</span>;
     <span class="comment">// extra field</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">extra_field</span>));
+    <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">extra_field</span>)<span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>(())
 }
@@ -1049,56 +1049,56 @@
 <span class="kw">fn</span> <span class="ident">update_local_file_header</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Write</span><span class="op">+</span><span class="ident">io</span>::<span class="ident">Seek</span><span class="op">&gt;</span>(<span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">ZipFileData</span>) <span class="op">-&gt;</span> <span class="ident">ZipResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 {
     <span class="kw">const</span> <span class="ident">CRC32_OFFSET</span> : <span class="ident">u64</span> <span class="op">=</span> <span class="number">14</span>;
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">file</span>.<span class="ident">header_start</span> <span class="op">+</span> <span class="ident">CRC32_OFFSET</span>)));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">crc32</span>));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">uncompressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>));
+    <span class="ident">writer</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="ident">file</span>.<span class="ident">header_start</span> <span class="op">+</span> <span class="ident">CRC32_OFFSET</span>))<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">crc32</span>)<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">uncompressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 
 <span class="kw">fn</span> <span class="ident">write_central_directory_header</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">ZipFileData</span>) <span class="op">-&gt;</span> <span class="ident">ZipResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 {
     <span class="comment">// central file header signature</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">spec</span>::<span class="ident">CENTRAL_DIRECTORY_HEADER_SIGNATURE</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">spec</span>::<span class="ident">CENTRAL_DIRECTORY_HEADER_SIGNATURE</span>)<span class="question-mark">?</span>;
     <span class="comment">// version made by</span>
     <span class="kw">let</span> <span class="ident">version_made_by</span> <span class="op">=</span> (<span class="ident">file</span>.<span class="ident">system</span> <span class="kw">as</span> <span class="ident">u16</span>) <span class="op">&lt;&lt;</span> <span class="number">8</span> <span class="op">|</span> (<span class="ident">file</span>.<span class="ident">version_made_by</span> <span class="kw">as</span> <span class="ident">u16</span>);
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">version_made_by</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">version_made_by</span>)<span class="question-mark">?</span>;
     <span class="comment">// version needed to extract</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">version_needed</span>()));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">version_needed</span>())<span class="question-mark">?</span>;
     <span class="comment">// general puprose bit flag</span>
     <span class="kw">let</span> <span class="ident">flag</span> <span class="op">=</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">is_ascii</span>() { <span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="number">11</span> } <span class="kw">else</span> { <span class="number">0</span> };
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">flag</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">flag</span>)<span class="question-mark">?</span>;
     <span class="comment">// compression method</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compression_method</span>.<span class="ident">to_u16</span>()));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compression_method</span>.<span class="ident">to_u16</span>())<span class="question-mark">?</span>;
     <span class="comment">// last mod file time + date</span>
-    <span class="kw">let</span> <span class="ident">msdos_datetime</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">file</span>.<span class="ident">last_modified_time</span>.<span class="ident">to_msdos</span>());
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">timepart</span>));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">datepart</span>));
+    <span class="kw">let</span> <span class="ident">msdos_datetime</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">last_modified_time</span>.<span class="ident">to_msdos</span>()<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">timepart</span>)<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">msdos_datetime</span>.<span class="ident">datepart</span>)<span class="question-mark">?</span>;
     <span class="comment">// crc-32</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">crc32</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">crc32</span>)<span class="question-mark">?</span>;
     <span class="comment">// compressed size</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
     <span class="comment">// uncompressed size</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">uncompressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">uncompressed_size</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
     <span class="comment">// file name length</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>().<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>().<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>)<span class="question-mark">?</span>;
     <span class="comment">// extra field length</span>
-    <span class="kw">let</span> <span class="ident">extra_field</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">build_extra_field</span>(<span class="ident">file</span>));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">extra_field</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>));
+    <span class="kw">let</span> <span class="ident">extra_field</span> <span class="op">=</span> <span class="ident">build_extra_field</span>(<span class="ident">file</span>)<span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">extra_field</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u16</span>)<span class="question-mark">?</span>;
     <span class="comment">// file comment length</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>;
     <span class="comment">// disk number start</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>;
     <span class="comment">// internal file attribytes</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>)<span class="question-mark">?</span>;
     <span class="comment">// external file attributes</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">external_attributes</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">external_attributes</span>)<span class="question-mark">?</span>;
     <span class="comment">// relative offset of local header</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">header_start</span> <span class="kw">as</span> <span class="ident">u32</span>));
+    <span class="ident">writer</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">file</span>.<span class="ident">header_start</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
     <span class="comment">// file name</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>()));
+    <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">file</span>.<span class="ident">file_name</span>.<span class="ident">as_bytes</span>())<span class="question-mark">?</span>;
     <span class="comment">// extra field</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">extra_field</span>));
+    <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">extra_field</span>)<span class="question-mark">?</span>;
     <span class="comment">// file comment</span>
     <span class="comment">// &lt;none&gt;</span>
 

@@ -11,11 +11,11 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">zip</span> <span class="op">=</span> <span class="ident">zip</span>::<span class="ident">ZipWriter</span>::<span class="ident">new</span>(<span class="ident">w</span>);
 
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">zip</span>::<span class="ident">write</span>::<span class="ident">FileOptions</span>::<span class="ident">default</span>().<span class="ident">compression_method</span>(<span class="ident">zip</span>::<span class="ident">CompressionMethod</span>::<span class="ident">Stored</span>);
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">zip</span>.<span class="ident">start_file</span>(<span class="string">&quot;hello_world.txt&quot;</span>, <span class="ident">options</span>));
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">zip</span>.<span class="ident">write</span>(<span class="string">b&quot;Hello, World!&quot;</span>));
+    <span class="ident">zip</span>.<span class="ident">start_file</span>(<span class="string">&quot;hello_world.txt&quot;</span>, <span class="ident">options</span>)<span class="question-mark">?</span>;
+    <span class="ident">zip</span>.<span class="ident">write</span>(<span class="string">b&quot;Hello, World!&quot;</span>)<span class="question-mark">?</span>;
 
     <span class="comment">// Optionally finish the zip. (this is also done on drop)</span>
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">zip</span>.<span class="ident">finish</span>());
+    <span class="ident">zip</span>.<span class="ident">finish</span>()<span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>(())
 }
