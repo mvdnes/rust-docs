@@ -607,7 +607,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">bzip2</span>::<span class="ident">write</span>::<span class="ident">BzEncoder</span>;
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span> <span class="comment">// Rust &lt;1.23 compat</span>
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ascii</span>::<span class="ident">AsciiExt</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ascii</span>::<span class="ident">AsciiExt</span>;
 
 <span class="kw">enum</span> <span class="ident">GenericZipWriter</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span> <span class="op">+</span> <span class="ident">io</span>::<span class="ident">Seek</span><span class="op">&gt;</span>
 {
