@@ -730,6 +730,9 @@
 <span id="730">730</span>
 <span id="731">731</span>
 <span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for reading a ZIP archive</span>
 
@@ -1064,13 +1067,10 @@
     <span class="kw">let</span> <span class="ident">_disk_number</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">_internal_file_attributes</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u16</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">external_file_attributes</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span> <span class="kw">as</span> <span class="ident">u64</span>;
+    <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span> <span class="kw">as</span> <span class="ident">u64</span>;
     <span class="kw">let</span> <span class="ident">file_name_raw</span> <span class="op">=</span> <span class="ident">ReadPodExt</span>::<span class="ident">read_exact</span>(<span class="ident">reader</span>, <span class="ident">file_name_length</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">extra_field</span> <span class="op">=</span> <span class="ident">ReadPodExt</span>::<span class="ident">read_exact</span>(<span class="ident">reader</span>, <span class="ident">extra_field_length</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">file_comment_raw</span>  <span class="op">=</span> <span class="ident">ReadPodExt</span>::<span class="ident">read_exact</span>(<span class="ident">reader</span>, <span class="ident">file_comment_length</span>)<span class="question-mark">?</span>;
-
-    <span class="comment">// Account for shifted zip offsets.</span>
-    <span class="ident">offset</span> <span class="op">+=</span> <span class="ident">archive_offset</span>;
 
     <span class="kw">let</span> <span class="ident">file_name</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">is_utf8</span>
     {
@@ -1106,6 +1106,9 @@
         <span class="prelude-val">Ok</span>(..) <span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">ZipError</span>::<span class="ident">Io</span>(..)) <span class="op">=&gt;</span> {},
         <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>)<span class="question-mark">?</span>,
     }
+
+    <span class="comment">// Account for shifted zip offsets.</span>
+    <span class="ident">result</span>.<span class="ident">header_start</span> <span class="op">+=</span> <span class="ident">archive_offset</span>;
 
     <span class="comment">// Remember end of central header</span>
     <span class="kw">let</span> <span class="ident">return_position</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
@@ -1151,8 +1154,11 @@
                     <span class="ident">file</span>.<span class="ident">compressed_size</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u64</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
                     <span class="ident">len_left</span> <span class="op">-=</span> <span class="number">8</span>;
                 }
+                <span class="kw">if</span> <span class="ident">file</span>.<span class="ident">header_start</span> <span class="op">==</span> <span class="number">0xFFFFFFFF</span> {
+                    <span class="ident">file</span>.<span class="ident">header_start</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u64</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+                    <span class="ident">len_left</span> <span class="op">-=</span> <span class="number">8</span>;
+                }
                 <span class="comment">// Unparsed fields:</span>
-                <span class="comment">// u64: relative header offset</span>
                 <span class="comment">// u32: disk start number</span>
             },
             <span class="kw">_</span> <span class="op">=&gt;</span> {},
