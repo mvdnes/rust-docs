@@ -580,12 +580,11 @@
 <span id="580">580</span>
 <span id="581">581</span>
 <span id="582">582</span>
-<span id="583">583</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for creating a new zip archive</span>
 
 <span class="kw">use</span> <span class="ident">compression</span>::<span class="ident">CompressionMethod</span>;
-<span class="kw">use</span> <span class="ident">types</span>::{<span class="ident">ZipFileData</span>, <span class="ident">System</span>, <span class="ident">DEFAULT_VERSION</span>};
+<span class="kw">use</span> <span class="ident">types</span>::{<span class="ident">ZipFileData</span>, <span class="ident">System</span>, <span class="ident">DEFAULT_VERSION</span>, <span class="ident">DateTime</span>};
 <span class="kw">use</span> <span class="ident">spec</span>;
 <span class="kw">use</span> <span class="ident">crc32</span>;
 <span class="kw">use</span> <span class="ident">result</span>::{<span class="ident">ZipResult</span>, <span class="ident">ZipError</span>};
@@ -595,7 +594,6 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">time</span>;
 <span class="kw">use</span> <span class="ident">podio</span>::{<span class="ident">WritePodExt</span>, <span class="ident">LittleEndian</span>};
-<span class="kw">use</span> <span class="ident">msdos_time</span>::<span class="ident">TmMsDosExt</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">flate2</span>;
@@ -788,7 +786,7 @@
                 <span class="ident">version_made_by</span>: <span class="ident">DEFAULT_VERSION</span>,
                 <span class="ident">encrypted</span>: <span class="bool-val">false</span>,
                 <span class="ident">compression_method</span>: <span class="ident">options</span>.<span class="ident">compression_method</span>,
-                <span class="ident">last_modified_time</span>: <span class="ident">options</span>.<span class="ident">last_modified_time</span>,
+                <span class="ident">last_modified_time</span>: <span class="ident">DateTime</span>::<span class="ident">Tm</span>(<span class="ident">options</span>.<span class="ident">last_modified_time</span>),
                 <span class="ident">crc32</span>: <span class="number">0</span>,
                 <span class="ident">compressed_size</span>: <span class="number">0</span>,
                 <span class="ident">uncompressed_size</span>: <span class="number">0</span>,
