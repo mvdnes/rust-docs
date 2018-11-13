@@ -710,8 +710,6 @@
 <span id="710">710</span>
 <span id="711">711</span>
 <span id="712">712</span>
-<span id="713">713</span>
-<span id="714">714</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Structs for reading a ZIP archive</span>
 
@@ -729,10 +727,8 @@
 <span class="kw">use</span> <span class="ident">cp437</span>::<span class="ident">FromCp437</span>;
 <span class="kw">use</span> <span class="ident">msdos_time</span>::<span class="ident">MsDosDateTime</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">flate2</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">flate2</span>::<span class="ident">read</span>::<span class="ident">DeflateDecoder</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">libflate</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">bzip2</span>::<span class="ident">read</span>::<span class="ident">BzDecoder</span>;
@@ -781,8 +777,8 @@
 <span class="kw">enum</span> <span class="ident">ZipFileReader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">NoReader</span>,
     <span class="ident">Stored</span>(<span class="ident">Crc32Reader</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">Take</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Read</span><span class="op">&gt;&gt;</span>),
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
-    <span class="ident">Deflated</span>(<span class="ident">Crc32Reader</span><span class="op">&lt;</span><span class="ident">flate2</span>::<span class="ident">read</span>::<span class="ident">DeflateDecoder</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">Take</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Read</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>),
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
+    <span class="ident">Deflated</span>(<span class="ident">Crc32Reader</span><span class="op">&lt;</span><span class="ident">libflate</span>::<span class="ident">deflate</span>::<span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">Take</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Read</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>),
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
     <span class="ident">Bzip2</span>(<span class="ident">Crc32Reader</span><span class="op">&lt;</span><span class="ident">BzDecoder</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">Take</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Read</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>),
 }
@@ -812,10 +808,10 @@
                 <span class="ident">reader</span>,
                 <span class="ident">crc32</span>)))
         },
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
         <span class="ident">CompressionMethod</span>::<span class="ident">Deflated</span> <span class="op">=&gt;</span>
         {
-            <span class="kw">let</span> <span class="ident">deflate_reader</span> <span class="op">=</span> <span class="ident">DeflateDecoder</span>::<span class="ident">new</span>(<span class="ident">reader</span>);
+            <span class="kw">let</span> <span class="ident">deflate_reader</span> <span class="op">=</span> <span class="ident">libflate</span>::<span class="ident">deflate</span>::<span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">reader</span>);
             <span class="prelude-val">Ok</span>(<span class="ident">ZipFileReader</span>::<span class="ident">Deflated</span>(<span class="ident">Crc32Reader</span>::<span class="ident">new</span>(
                 <span class="ident">deflate_reader</span>,
                 <span class="ident">crc32</span>)))
@@ -1134,14 +1130,14 @@
     <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">reader</span> {
         <span class="ident">ZipFileReader</span>::<span class="ident">NoReader</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;ZipFileReader was in an invalid state&quot;</span>),
         <span class="ident">ZipFileReader</span>::<span class="ident">Stored</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">r</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Read</span>,
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
         <span class="ident">ZipFileReader</span>::<span class="ident">Deflated</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">r</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Read</span>,
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
         <span class="ident">ZipFileReader</span>::<span class="ident">Bzip2</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">r</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Read</span>,
     }
 }
 
-<span class="doccomment">/// Methods for retreiving information on zip files</span>
+<span class="doccomment">/// Methods for retrieving information on zip files</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ZipFile</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">get_reader</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Read</span> {
         <span class="ident">get_reader</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">reader</span>)
@@ -1238,7 +1234,7 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">innerreader</span> {
                 <span class="ident">ZipFileReader</span>::<span class="ident">NoReader</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;ZipFileReader was in an invalid state&quot;</span>),
                 <span class="ident">ZipFileReader</span>::<span class="ident">Stored</span>(<span class="ident">crcreader</span>) <span class="op">=&gt;</span> <span class="ident">crcreader</span>.<span class="ident">into_inner</span>(),
-                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flate2&quot;</span>)]</span>
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;deflate&quot;</span>)]</span>
                 <span class="ident">ZipFileReader</span>::<span class="ident">Deflated</span>(<span class="ident">crcreader</span>) <span class="op">=&gt;</span> <span class="ident">crcreader</span>.<span class="ident">into_inner</span>().<span class="ident">into_inner</span>(),
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bzip2&quot;</span>)]</span>
                 <span class="ident">ZipFileReader</span>::<span class="ident">Bzip2</span>(<span class="ident">crcreader</span>) <span class="op">=&gt;</span> <span class="ident">crcreader</span>.<span class="ident">into_inner</span>().<span class="ident">into_inner</span>(),
