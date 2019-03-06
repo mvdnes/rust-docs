@@ -1,2 +1,2 @@
 var ALIASES = {};
-ALIASES['zip'] = {};
+ALIASES["zip"] = {};
