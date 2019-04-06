@@ -209,7 +209,6 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
-<span id="212">212</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Convert a string in IBM codepage 437 to UTF-8</span>
 
@@ -383,7 +382,6 @@
         <span class="number">0xfd</span> <span class="op">=&gt;</span> <span class="number">0x00b2</span>,
         <span class="number">0xfe</span> <span class="op">=&gt;</span> <span class="number">0x25a0</span>,
         <span class="number">0xff</span> <span class="op">=&gt;</span> <span class="number">0x00a0</span>,
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     };
     ::<span class="ident">std</span>::<span class="ident">char</span>::<span class="ident">from_u32</span>(<span class="ident">output</span>).<span class="ident">unwrap</span>()
 }
