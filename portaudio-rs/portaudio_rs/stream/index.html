@@ -1,275 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `stream` mod in crate `portaudio_rs`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, stream">
-
-    <title>portaudio_rs::stream - Rust</title>
-
-    <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
-    
-
-    
-    
-</head>
-<body class="rustdoc mod">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        
-        <p class='location'>Module stream</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'><a href='../index.html'>portaudio_rs</a></p><script>window.sidebarCurrent = {name: 'stream', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
-    </nav>
-
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>portaudio_rs</a>::<wbr><a class="mod" href=''>stream</a></span><span class='out-of-band'><span id='render-detail'>
-                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                       [<span class='inner'>&#x2212;</span>]
-                   </a>
-               </span><a class='srclink' href='../../src/portaudio_rs/stream.rs.html#1-623' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Contains the Stream class and associated values</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `stream` mod in crate `portaudio_rs`."><meta name="keywords" content="rust, rustlang, rust-lang, stream"><title>portaudio_rs::stream - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../portaudio_rs/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a><p class='location'>Module stream</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'><a href='../index.html'>portaudio_rs</a></p><script>window.sidebarCurrent = {name: 'stream', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/portaudio_rs/stream.rs.html#1-623' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>portaudio_rs</a>::<wbr><a class="mod" href=''>stream</a></span></h1><div class='docblock'><p>Contains the Stream class and associated values</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.Stream.html"
-                                  title='struct portaudio_rs::stream::Stream'>Stream</a></td>
-                           <td class='docblock-short'>
-                                <p>An object for an PortAudio stream</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.StreamCallbackFlags.html"
-                                  title='struct portaudio_rs::stream::StreamCallbackFlags'>StreamCallbackFlags</a></td>
-                           <td class='docblock-short'>
-                                <p>Flags indicating the status of the callback</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.StreamFlags.html"
-                                  title='struct portaudio_rs::stream::StreamFlags'>StreamFlags</a></td>
-                           <td class='docblock-short'>
-                                <p>Flags used to control the behavior of a stream</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.StreamInfo.html"
-                                  title='struct portaudio_rs::stream::StreamInfo'>StreamInfo</a></td>
-                           <td class='docblock-short'>
-                                <p>Information about the actual latency and sample rate values the stream uses</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.StreamParameters.html"
-                                  title='struct portaudio_rs::stream::StreamParameters'>StreamParameters</a></td>
-                           <td class='docblock-short'>
-                                <p>Stream parameters to be used with Stream::open()</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.StreamTimeInfo.html"
-                                  title='struct portaudio_rs::stream::StreamTimeInfo'>StreamTimeInfo</a></td>
-                           <td class='docblock-short'>
-                                <p>Time information for various stream related values</p>
-                           </td>
-                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="enum" href="enum.StreamCallbackResult.html"
-                                  title='enum portaudio_rs::stream::StreamCallbackResult'>StreamCallbackResult</a></td>
-                           <td class='docblock-short'>
-                                <p>Allowable return values for a StreamCallback</p>
-                           </td>
-                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.CLIP_OFF.html"
-                                  title='constant portaudio_rs::stream::CLIP_OFF'>CLIP_OFF</a></td>
-                           <td class='docblock-short'>
-                                <p>Disable clipping of out of range samples</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.DITHER_OFF.html"
-                                  title='constant portaudio_rs::stream::DITHER_OFF'>DITHER_OFF</a></td>
-                           <td class='docblock-short'>
-                                <p>Disable dithering</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.FRAMES_PER_BUFFER_UNSPECIFIED.html"
-                                  title='constant portaudio_rs::stream::FRAMES_PER_BUFFER_UNSPECIFIED'>FRAMES_PER_BUFFER_UNSPECIFIED</a></td>
-                           <td class='docblock-short'>
-                                <p>Argument to Stream::open() or Stream::open_default() to allow PortAudio itself determine the
+<table><tr class='module-item'><td><a class="struct" href="struct.Stream.html" title='portaudio_rs::stream::Stream struct'>Stream</a></td><td class='docblock-short'><p>An object for an PortAudio stream</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.StreamCallbackFlags.html" title='portaudio_rs::stream::StreamCallbackFlags struct'>StreamCallbackFlags</a></td><td class='docblock-short'><p>Flags indicating the status of the callback</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.StreamFlags.html" title='portaudio_rs::stream::StreamFlags struct'>StreamFlags</a></td><td class='docblock-short'><p>Flags used to control the behavior of a stream</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.StreamInfo.html" title='portaudio_rs::stream::StreamInfo struct'>StreamInfo</a></td><td class='docblock-short'><p>Information about the actual latency and sample rate values the stream uses</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.StreamParameters.html" title='portaudio_rs::stream::StreamParameters struct'>StreamParameters</a></td><td class='docblock-short'><p>Stream parameters to be used with Stream::open()</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.StreamTimeInfo.html" title='portaudio_rs::stream::StreamTimeInfo struct'>StreamTimeInfo</a></td><td class='docblock-short'><p>Time information for various stream related values</p>
+</td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table><tr class='module-item'><td><a class="enum" href="enum.StreamCallbackResult.html" title='portaudio_rs::stream::StreamCallbackResult enum'>StreamCallbackResult</a></td><td class='docblock-short'><p>Allowable return values for a StreamCallback</p>
+</td></tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table><tr class='module-item'><td><a class="constant" href="constant.CLIP_OFF.html" title='portaudio_rs::stream::CLIP_OFF constant'>CLIP_OFF</a></td><td class='docblock-short'><p>Disable clipping of out of range samples</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.DITHER_OFF.html" title='portaudio_rs::stream::DITHER_OFF constant'>DITHER_OFF</a></td><td class='docblock-short'><p>Disable dithering</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.FRAMES_PER_BUFFER_UNSPECIFIED.html" title='portaudio_rs::stream::FRAMES_PER_BUFFER_UNSPECIFIED constant'>FRAMES_PER_BUFFER_UNSPECIFIED</a></td><td class='docblock-short'><p>Argument to Stream::open() or Stream::open_default() to allow PortAudio itself determine the
 optimal number of frames per buffer. This number may differ each time the callback is called.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.INPUT_OVERFLOW.html"
-                                  title='constant portaudio_rs::stream::INPUT_OVERFLOW'>INPUT_OVERFLOW</a></td>
-                           <td class='docblock-short'>
-                                <p>Indicates that the callback has discarded some data</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.INPUT_UNDERFLOW.html"
-                                  title='constant portaudio_rs::stream::INPUT_UNDERFLOW'>INPUT_UNDERFLOW</a></td>
-                           <td class='docblock-short'>
-                                <p>Indicates that the callback has inserted one or more zeroes since not enough data was available</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.NEVER_DROP_INPUT.html"
-                                  title='constant portaudio_rs::stream::NEVER_DROP_INPUT'>NEVER_DROP_INPUT</a></td>
-                           <td class='docblock-short'>
-                                <p>Request that a full duplex stream will not discard overflowed input samples. The frames_per_buffer must be set to unspecified (0)</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.OUTPUT_OVERFLOW.html"
-                                  title='constant portaudio_rs::stream::OUTPUT_OVERFLOW'>OUTPUT_OVERFLOW</a></td>
-                           <td class='docblock-short'>
-                                <p>Indicates that certain data was discarded since there was no room</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.OUTPUT_UNDERFLOW.html"
-                                  title='constant portaudio_rs::stream::OUTPUT_UNDERFLOW'>OUTPUT_UNDERFLOW</a></td>
-                           <td class='docblock-short'>
-                                <p>Indicates that extra data was inserted in the output since there was not engough available</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.PLATFORM_SPECIFIC.html"
-                                  title='constant portaudio_rs::stream::PLATFORM_SPECIFIC'>PLATFORM_SPECIFIC</a></td>
-                           <td class='docblock-short'>
-                                <p>Range for platform specific flags. Not all of the upper 16 bits need to be set at the same time.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK.html"
-                                  title='constant portaudio_rs::stream::PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK'>PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK</a></td>
-                           <td class='docblock-short'>
-                                <p>Call the stream callback to fill initial output buffers, rather than priming the buffers with silence</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="constant" href="constant.PRIMING_OUTPUT.html"
-                                  title='constant portaudio_rs::stream::PRIMING_OUTPUT'>PRIMING_OUTPUT</a></td>
-                           <td class='docblock-short'>
-                                <p>Some or all of the output data will be used to prime the stream, input data may be zero</p>
-                           </td>
-                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="trait" href="trait.SampleType.html"
-                                  title='trait portaudio_rs::stream::SampleType'>SampleType</a></td>
-                           <td class='docblock-short'>
-                                <p>Types that are allowed to be used as samples in a Stream</p>
-                           </td>
-                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.is_format_supported.html"
-                                  title='fn portaudio_rs::stream::is_format_supported'>is_format_supported</a></td>
-                           <td class='docblock-short'>
-                                <p>Returns Ok when the StreamParameters are supported. This ignores the latency field.</p>
-                           </td>
-                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class="type" href="type.StreamCallback.html"
-                                  title='type portaudio_rs::stream::StreamCallback'>StreamCallback</a></td>
-                           <td class='docblock-short'>
-                                <p>Callback to consume, process or generate audio</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="type" href="type.StreamFinishedCallback.html"
-                                  title='type portaudio_rs::stream::StreamFinishedCallback'>StreamFinishedCallback</a></td>
-                           <td class='docblock-short'>
-                                <p>Callback to be fired when a StreamCallback is stopped</p>
-                           </td>
-                       </tr></table></section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../";
-        window.currentCrate = "portaudio_rs";
-    </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
-    <script defer src="../../search-index.js"></script>
-</body>
-</html>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.INPUT_OVERFLOW.html" title='portaudio_rs::stream::INPUT_OVERFLOW constant'>INPUT_OVERFLOW</a></td><td class='docblock-short'><p>Indicates that the callback has discarded some data</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.INPUT_UNDERFLOW.html" title='portaudio_rs::stream::INPUT_UNDERFLOW constant'>INPUT_UNDERFLOW</a></td><td class='docblock-short'><p>Indicates that the callback has inserted one or more zeroes since not enough data was available</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.NEVER_DROP_INPUT.html" title='portaudio_rs::stream::NEVER_DROP_INPUT constant'>NEVER_DROP_INPUT</a></td><td class='docblock-short'><p>Request that a full duplex stream will not discard overflowed input samples. The frames_per_buffer must be set to unspecified (0)</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.OUTPUT_OVERFLOW.html" title='portaudio_rs::stream::OUTPUT_OVERFLOW constant'>OUTPUT_OVERFLOW</a></td><td class='docblock-short'><p>Indicates that certain data was discarded since there was no room</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.OUTPUT_UNDERFLOW.html" title='portaudio_rs::stream::OUTPUT_UNDERFLOW constant'>OUTPUT_UNDERFLOW</a></td><td class='docblock-short'><p>Indicates that extra data was inserted in the output since there was not engough available</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.PLATFORM_SPECIFIC.html" title='portaudio_rs::stream::PLATFORM_SPECIFIC constant'>PLATFORM_SPECIFIC</a></td><td class='docblock-short'><p>Range for platform specific flags. Not all of the upper 16 bits need to be set at the same time.</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK.html" title='portaudio_rs::stream::PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK constant'>PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK</a></td><td class='docblock-short'><p>Call the stream callback to fill initial output buffers, rather than priming the buffers with silence</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.PRIMING_OUTPUT.html" title='portaudio_rs::stream::PRIMING_OUTPUT constant'>PRIMING_OUTPUT</a></td><td class='docblock-short'><p>Some or all of the output data will be used to prime the stream, input data may be zero</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.SampleType.html" title='portaudio_rs::stream::SampleType trait'>SampleType</a></td><td class='docblock-short'><p>Types that are allowed to be used as samples in a Stream</p>
+</td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table><tr class='module-item'><td><a class="fn" href="fn.is_format_supported.html" title='portaudio_rs::stream::is_format_supported fn'>is_format_supported</a></td><td class='docblock-short'><p>Returns Ok when the StreamParameters are supported. This ignores the latency field.</p>
+</td></tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table><tr class='module-item'><td><a class="type" href="type.StreamCallback.html" title='portaudio_rs::stream::StreamCallback type'>StreamCallback</a></td><td class='docblock-short'><p>Callback to consume, process or generate audio</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.StreamFinishedCallback.html" title='portaudio_rs::stream::StreamFinishedCallback type'>StreamFinishedCallback</a></td><td class='docblock-short'><p>Callback to be fired when a StreamCallback is stopped</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "portaudio_rs";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
