@@ -775,6 +775,24 @@
 <span id="775">775</span>
 <span id="776">776</span>
 <span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cell</span>::<span class="ident">UnsafeCell</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">default</span>::<span class="ident">Default</span>;
@@ -1114,6 +1132,24 @@
             <span class="comment">// When they unlock, they will clear the bit.</span>
             <span class="prelude-val">None</span>
         }
+    }
+
+   <span class="doccomment">/// Returns a mutable reference to the underlying data.</span>
+   <span class="doccomment">///</span>
+   <span class="doccomment">/// Since this call borrows the `RwLock` mutably, no actual locking needs to</span>
+   <span class="doccomment">/// take place -- the mutable borrow statically guarantees no locks exist.</span>
+   <span class="doccomment">///</span>
+   <span class="doccomment">/// # Examples</span>
+   <span class="doccomment">///</span>
+   <span class="doccomment">/// ```</span>
+   <span class="doccomment">/// let mut lock = spin::RwLock::new(0);</span>
+   <span class="doccomment">/// *lock.get_mut() = 10;</span>
+   <span class="doccomment">/// assert_eq!(*lock.read(), 10);</span>
+   <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
+        <span class="comment">// We know statically that there are no other references to `self`, so</span>
+        <span class="comment">// there&#39;s no need to lock the inner lock.</span>
+        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">data</span>.<span class="ident">get</span>() }
     }
 }
 

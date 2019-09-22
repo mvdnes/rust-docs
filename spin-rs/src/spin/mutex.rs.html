@@ -386,6 +386,24 @@
 <span id="386">386</span>
 <span id="387">387</span>
 <span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>, <span class="ident">spin_loop_hint</span> <span class="kw">as</span> <span class="ident">cpu_relax</span>};
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cell</span>::<span class="ident">UnsafeCell</span>;
@@ -580,6 +598,24 @@
         {
             <span class="prelude-val">None</span>
         }
+    }
+
+    <span class="doccomment">/// Returns a mutable reference to the underlying data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Since this call borrows the `Mutex` mutably, no actual locking needs to</span>
+    <span class="doccomment">/// take place -- the mutable borrow statically guarantees no locks exist.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// let mut my_lock = spin::Mutex::new(0);</span>
+    <span class="doccomment">/// *my_lock.get_mut() = 10;</span>
+    <span class="doccomment">/// assert_eq!(*my_lock.lock(), 10);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
+        <span class="comment">// We know statically that there are no other references to `self`, so</span>
+        <span class="comment">// there&#39;s no need to lock the inner mutex.</span>
+        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">data</span>.<span class="ident">get</span>() }
     }
 }
 
