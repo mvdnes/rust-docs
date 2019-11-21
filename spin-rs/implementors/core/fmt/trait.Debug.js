@@ -6,5 +6,4 @@ implementors["spin"] = [{text:"impl&lt;'a, T:&nbsp;<a class=\"trait\" href=\"htt
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

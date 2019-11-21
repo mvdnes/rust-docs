@@ -6,5 +6,4 @@ implementors["spin"] = [{text:"impl&lt;T&gt; !Freeze for <a class=\"struct\" hre
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()
