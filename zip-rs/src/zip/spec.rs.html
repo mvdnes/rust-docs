@@ -191,7 +191,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">result</span>::{<span class="ident">ZipResult</span>, <span class="ident">ZipError</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">result</span>::{<span class="ident">ZipResult</span>, <span class="ident">ZipError</span>};
 <span class="kw">use</span> <span class="ident">podio</span>::{<span class="ident">ReadPodExt</span>, <span class="ident">WritePodExt</span>, <span class="ident">LittleEndian</span>};
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">LOCAL_FILE_HEADER_SIGNATURE</span> : <span class="ident">u32</span> <span class="op">=</span> <span class="number">0x04034b50</span>;
