@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/stream.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>stream.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../portaudio_rs/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/stream.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>stream.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../portaudio_rs/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -614,13 +614,6 @@
 <span id="614">614</span>
 <span id="615">615</span>
 <span id="616">616</span>
-<span id="617">617</span>
-<span id="618">618</span>
-<span id="619">619</span>
-<span id="620">620</span>
-<span id="621">621</span>
-<span id="622">622</span>
-<span id="623">623</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Contains the Stream class and associated values</span>
 
@@ -628,13 +621,12 @@
 <span class="kw">use</span> <span class="ident">pa</span>::{<span class="ident">PaError</span>, <span class="ident">PaResult</span>};
 <span class="kw">use</span> <span class="ident">device</span>::<span class="ident">DeviceIndex</span>;
 <span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">to_pa_result</span>, <span class="ident">pa_time_to_duration</span>, <span class="ident">duration_to_pa_time</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_void</span>, <span class="ident">c_ulong</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ptr</span>;
 
-<span class="kw">type</span> <span class="ident">StreamCallbackType</span> <span class="op">=</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_void</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>, ::<span class="ident">libc</span>::<span class="ident">c_ulong</span>, <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ll</span>::<span class="ident">PaStreamCallbackTimeInfo</span>, <span class="ident">ll</span>::<span class="ident">PaStreamCallbackFlags</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>) <span class="op">-&gt;</span> ::<span class="ident">libc</span>::<span class="ident">c_int</span>;
+<span class="kw">type</span> <span class="ident">StreamCallbackType</span> <span class="op">=</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_void</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>, ::<span class="ident">libc</span>::<span class="ident">c_ulong</span>, <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ll</span>::<span class="ident">PaStreamCallbackTimeInfo</span>, <span class="ident">ll</span>::<span class="ident">PaStreamCallbackFlags</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>) <span class="op">-</span><span class="op">&gt;</span> ::<span class="ident">libc</span>::<span class="ident">c_int</span>;
 <span class="kw">type</span> <span class="ident">StreamFinishedCallbackType</span> <span class="op">=</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>);
 
 <span class="doccomment">/// Allowable return values for a StreamCallback</span>
@@ -653,17 +645,17 @@
 }
 
 <span class="doccomment">/// Callback to consume, process or generate audio</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span>[<span class="ident">I</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">O</span>], <span class="ident">StreamTimeInfo</span>, <span class="ident">StreamCallbackFlags</span>) <span class="op">-&gt;</span> <span class="ident">StreamCallbackResult</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">dyn</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span>[<span class="ident">I</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">O</span>], <span class="ident">StreamTimeInfo</span>, <span class="ident">StreamCallbackFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StreamCallbackResult</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>;
 
 <span class="doccomment">/// Callback to be fired when a StreamCallback is stopped</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">StreamFinishedCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">FnMut</span>() <span class="op">+</span> <span class="lifetime">&#39;a</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">StreamFinishedCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">dyn</span> <span class="ident">FnMut</span>() <span class="op">+</span> <span class="lifetime">&#39;a</span>;
 
 <span class="kw">struct</span> <span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span>
 {
     <span class="ident">num_input</span>: <span class="ident">u32</span>,
     <span class="ident">num_output</span>: <span class="ident">u32</span>,
-    <span class="ident">callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">finished_callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamFinishedCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">finished_callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamFinishedCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Time information for various stream related values</span>
@@ -682,7 +674,7 @@
 
 <span class="kw">impl</span> <span class="ident">StreamTimeInfo</span>
 {
-    <span class="kw">fn</span> <span class="ident">from_ll</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">ll</span>::<span class="ident">PaStreamCallbackTimeInfo</span>) <span class="op">-&gt;</span> <span class="ident">StreamTimeInfo</span>
+    <span class="kw">fn</span> <span class="ident">from_ll</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">ll</span>::<span class="ident">PaStreamCallbackTimeInfo</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StreamTimeInfo</span>
     {
         <span class="ident">StreamTimeInfo</span>
         {
@@ -695,41 +687,41 @@
 
 <span class="macro">bitflags</span><span class="macro">!</span>(
     <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Flags indicating the status of the callback&quot;</span>]</span>
-    <span class="ident">flags</span> <span class="ident">StreamCallbackFlags</span>: <span class="ident">u64</span> {
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StreamCallbackFlags</span>: <span class="ident">u64</span> {
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Indicates that the callback has inserted one or more zeroes since not enough data was available&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">INPUT_UNDERFLOW</span> <span class="op">=</span> <span class="number">0x01</span>,
+        <span class="kw">const</span> <span class="ident">INPUT_UNDERFLOW</span> <span class="op">=</span> <span class="number">0x01</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Indicates that the callback has discarded some data&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">INPUT_OVERFLOW</span> <span class="op">=</span> <span class="number">0x02</span>,
+        <span class="kw">const</span> <span class="ident">INPUT_OVERFLOW</span> <span class="op">=</span> <span class="number">0x02</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Indicates that extra data was inserted in the output since there was not engough available&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">OUTPUT_UNDERFLOW</span> <span class="op">=</span> <span class="number">0x04</span>,
+        <span class="kw">const</span> <span class="ident">OUTPUT_UNDERFLOW</span> <span class="op">=</span> <span class="number">0x04</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Indicates that certain data was discarded since there was no room&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">OUTPUT_OVERFLOW</span> <span class="op">=</span> <span class="number">0x08</span>,
+        <span class="kw">const</span> <span class="ident">OUTPUT_OVERFLOW</span> <span class="op">=</span> <span class="number">0x08</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Some or all of the output data will be used to prime the stream, input data may be zero&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">PRIMING_OUTPUT</span> <span class="op">=</span> <span class="number">0x10</span>
+        <span class="kw">const</span> <span class="ident">PRIMING_OUTPUT</span> <span class="op">=</span> <span class="number">0x10</span>;
     }
 );
 
 <span class="macro">bitflags</span><span class="macro">!</span>(
     <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Flags used to control the behavior of a stream&quot;</span>]</span>
-    <span class="ident">flags</span> <span class="ident">StreamFlags</span>: <span class="ident">u64</span> {
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StreamFlags</span>: <span class="ident">u64</span> {
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Disable clipping of out of range samples&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">CLIP_OFF</span>                                   <span class="op">=</span> <span class="number">0x00000001</span>,
+        <span class="kw">const</span> <span class="ident">CLIP_OFF</span>                                   <span class="op">=</span> <span class="number">0x0000_0001</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Disable dithering&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">DITHER_OFF</span>                                 <span class="op">=</span> <span class="number">0x00000002</span>,
+        <span class="kw">const</span> <span class="ident">DITHER_OFF</span>                                 <span class="op">=</span> <span class="number">0x0000_0002</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Request that a full duplex stream will not discard overflowed input samples. The frames_per_buffer must be set to unspecified (0)&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">NEVER_DROP_INPUT</span>                           <span class="op">=</span> <span class="number">0x00000004</span>,
+        <span class="kw">const</span> <span class="ident">NEVER_DROP_INPUT</span>                           <span class="op">=</span> <span class="number">0x0000_0004</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Call the stream callback to fill initial output buffers, rather than priming the buffers with silence&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK</span> <span class="op">=</span> <span class="number">0x00000008</span>,
+        <span class="kw">const</span> <span class="ident">PRIME_OUTPUT_BUFFERS_USING_STREAM_CALLBACK</span> <span class="op">=</span> <span class="number">0x0000_0008</span>;
 
         <span class="attribute">#[<span class="ident">doc</span><span class="op">=</span><span class="string">&quot;Range for platform specific flags. Not all of the upper 16 bits need to be set at the same time.&quot;</span>]</span>
-        <span class="kw">const</span> <span class="ident">PLATFORM_SPECIFIC</span>                          <span class="op">=</span> <span class="number">0xFFFF0000</span>
+        <span class="kw">const</span> <span class="ident">PLATFORM_SPECIFIC</span>                          <span class="op">=</span> <span class="number">0xFFFF_0000</span>;
     }
 );
 
@@ -738,10 +730,10 @@
                                     <span class="ident">frame_count</span>: ::<span class="ident">libc</span>::<span class="ident">c_ulong</span>,
                                     <span class="ident">time_info</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ll</span>::<span class="ident">PaStreamCallbackTimeInfo</span>,
                                     <span class="ident">status_flags</span>: <span class="ident">ll</span>::<span class="ident">PaStreamCallbackFlags</span>,
-                                    <span class="ident">user_data</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>) <span class="op">-&gt;</span> ::<span class="ident">libc</span>::<span class="ident">c_int</span>
+                                    <span class="ident">user_data</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>) <span class="op">-</span><span class="op">&gt;</span> ::<span class="ident">libc</span>::<span class="ident">c_int</span>
 {
-    <span class="comment">// TODO: use Box::from_raw once it is stable</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream_data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">user_data</span>) };
+    <span class="comment">// We do not want to deallocate this memory since it is owned by other user code. So leak the box.</span>
+    <span class="kw">let</span> <span class="ident">stream_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">leak</span>( <span class="kw">unsafe</span> { <span class="ident">Box</span>::<span class="ident">from_raw</span>(<span class="ident">user_data</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span>) } );
 
     <span class="kw">let</span> <span class="ident">input_buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">I</span>] <span class="op">=</span> <span class="kw">unsafe</span>
     {
@@ -760,26 +752,21 @@
 
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">stream_data</span>.<span class="ident">callback</span>
     {
-        <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>) <span class="op">=&gt;</span> (<span class="kw-2">*</span><span class="ident">f</span>)(<span class="ident">input_buffer</span>, <span class="ident">output_buffer</span>, <span class="ident">timeinfo</span>, <span class="ident">flags</span>),
-        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">StreamCallbackResult</span>::<span class="ident">Abort</span>,
+        <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="kw-2">*</span><span class="ident">f</span>)(<span class="ident">input_buffer</span>, <span class="ident">output_buffer</span>, <span class="ident">timeinfo</span>, <span class="ident">flags</span>),
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">StreamCallbackResult</span>::<span class="ident">Abort</span>,
     };
-
-    <span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">stream_data</span>);
 
     <span class="ident">result</span> <span class="kw">as</span> <span class="ident">i32</span>
 }
 
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">stream_finished_callback</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span>(<span class="ident">user_data</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>)
 {
-    <span class="comment">// TODO: use Box::from_raw once it is stable</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream_data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">user_data</span>) };
-    <span class="kw">match</span> <span class="ident">stream_data</span>.<span class="ident">finished_callback</span>
+    <span class="comment">// We do not want to deallocate this memory since it is owned by other user code. So leak the box.</span>
+    <span class="kw">let</span> <span class="ident">stream_data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">leak</span>( <span class="kw">unsafe</span> { <span class="ident">Box</span>::<span class="ident">from_raw</span>(<span class="ident">user_data</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span>) } );
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>) <span class="op">=</span> <span class="ident">stream_data</span>.<span class="ident">finished_callback</span>
     {
-        <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>) <span class="op">=&gt;</span> (<span class="kw-2">*</span><span class="ident">f</span>)(),
-        <span class="prelude-val">None</span> <span class="op">=&gt;</span> {},
+         (<span class="kw-2">*</span><span class="ident">f</span>)();
     };
-
-    <span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">stream_data</span>);
 }
 
 <span class="doccomment">/// Types that are allowed to be used as samples in a Stream</span>
@@ -789,21 +776,21 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SampleType</span>
 {
     <span class="doccomment">/// Should return the PortAudio flag which corresponds to the type</span>
-    <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-&gt;</span> <span class="ident">u64</span>;
+    <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span>;
 }
-<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">f32</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-&gt;</span> <span class="ident">u64</span> { <span class="number">0x00000001</span> } }
-<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">i32</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-&gt;</span> <span class="ident">u64</span> { <span class="number">0x00000002</span> } }
-<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">i16</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-&gt;</span> <span class="ident">u64</span> { <span class="number">0x00000008</span> } }
-<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">i8</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-&gt;</span> <span class="ident">u64</span> { <span class="number">0x00000010</span> } }
-<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">u8</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-&gt;</span> <span class="ident">u64</span> { <span class="number">0x00000020</span> } }
+<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">f32</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> { <span class="number">0x0000_0001</span> } }
+<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">i32</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> { <span class="number">0x0000_0002</span> } }
+<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">i16</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> { <span class="number">0x0000_0008</span> } }
+<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">i8</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> { <span class="number">0x0000_0010</span> } }
+<span class="kw">impl</span> <span class="ident">SampleType</span> <span class="kw">for</span> <span class="ident">u8</span> { <span class="kw">fn</span> <span class="ident">sample_format</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> { <span class="number">0x0000_0020</span> } }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">fn</span> <span class="ident">get_sample_size</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">SampleType</span><span class="op">&gt;</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">get_sample_size</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">SampleType</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
 {
     <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetSampleSize</span>(<span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">SampleType</span><span class="op">&gt;</span>::<span class="ident">sample_format</span>() <span class="kw">as</span> <span class="ident">c_ulong</span>) }
     {
-        <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>),
-        <span class="ident">m</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">m</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">0</span>),
+        <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>),
+        <span class="ident">m</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">m</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">0</span>),
     }
 }
 
@@ -819,7 +806,7 @@
     <span class="ident">pa_stream</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">ll</span>::<span class="ident">PaStream</span>,
     <span class="ident">inputs</span>: <span class="ident">u32</span>,
     <span class="ident">outputs</span>: <span class="ident">u32</span>,
-    <span class="ident">user_data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">user_data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamUserData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">SampleType</span><span class="op">&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span>
@@ -838,19 +825,19 @@
                         <span class="ident">num_output_channels</span>: <span class="ident">u32</span>,
                         <span class="ident">sample_rate</span>: <span class="ident">f64</span>,
                         <span class="ident">frames_per_buffer</span>: <span class="ident">u64</span>,
-                        <span class="ident">callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>)
-                       <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Stream</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+                        <span class="ident">callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>)
+                       <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Stream</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
         <span class="kw">let</span> <span class="ident">callback_pointer</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">callback</span>
         {
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">stream_callback</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">StreamCallbackType</span>),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">stream_callback</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">StreamCallbackType</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         };
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">userdata</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">StreamUserData</span>
         {
             <span class="ident">num_input</span>: <span class="ident">num_input_channels</span>,
             <span class="ident">num_output</span>: <span class="ident">num_output_channels</span>,
-            <span class="ident">callback</span>: <span class="ident">callback</span>,
+            <span class="ident">callback</span>,
             <span class="ident">finished_callback</span>: <span class="prelude-val">None</span>,
         });
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pa_stream</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>();
@@ -871,12 +858,12 @@
 
         <span class="kw">match</span> <span class="ident">to_pa_result</span>(<span class="ident">code</span>)
         {
-            <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Stream</span> { <span class="ident">pa_stream</span>: <span class="ident">pa_stream</span>,
+            <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Stream</span> { <span class="ident">pa_stream</span>,
                                   <span class="ident">user_data</span>: <span class="ident">userdata</span>,
                                   <span class="ident">inputs</span>: <span class="ident">num_input_channels</span>,
                                   <span class="ident">outputs</span>: <span class="ident">num_output_channels</span>,
                          }),
-            <span class="prelude-val">Err</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">v</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">v</span>),
         }
     }
 }
@@ -894,36 +881,36 @@
     <span class="doccomment">/// * flags: Additional flags for the behaviour of the stream</span>
     <span class="doccomment">/// * callback: Some(callback) which PortAudio will call to read/write the buffers, or None</span>
     <span class="doccomment">/// when using the read and write methods</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span>(<span class="ident">input</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;&gt;</span>,
-                <span class="ident">output</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;&gt;</span>,
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span>(<span class="ident">input</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+                <span class="ident">output</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span><span class="op">&gt;</span>,
                 <span class="ident">sample_rate</span>: <span class="ident">f64</span>,
                 <span class="ident">frames_per_buffer</span>: <span class="ident">u64</span>,
                 <span class="ident">flags</span>: <span class="ident">StreamFlags</span>,
-                <span class="ident">callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>)
-               <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Stream</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+                <span class="ident">callback</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>)
+               <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Stream</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
         <span class="kw">let</span> <span class="ident">callback_pointer</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">callback</span>
         {
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">stream_callback</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">StreamCallbackType</span>),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">stream_callback</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">StreamCallbackType</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         };
 
         <span class="kw">let</span> <span class="ident">input_cnt</span>; <span class="kw">let</span> <span class="ident">input_obj</span>; <span class="kw">let</span> <span class="ident">input_ptr</span>;
         <span class="kw">let</span> <span class="ident">output_cnt</span>; <span class="kw">let</span> <span class="ident">output_obj</span>; <span class="kw">let</span> <span class="ident">output_ptr</span>;
         <span class="kw">match</span> <span class="ident">input</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=&gt;</span> { <span class="ident">input_cnt</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">channel_count</span>; <span class="ident">input_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">input_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> { <span class="ident">input_cnt</span> <span class="op">=</span> <span class="number">0</span>; <span class="ident">input_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>() },
+            <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="ident">input_cnt</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">channel_count</span>; <span class="ident">input_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">input_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> { <span class="ident">input_cnt</span> <span class="op">=</span> <span class="number">0</span>; <span class="ident">input_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>() },
         };
         <span class="kw">match</span> <span class="ident">output</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=&gt;</span> { <span class="ident">output_cnt</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">channel_count</span>; <span class="ident">output_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">output_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">output_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> { <span class="ident">output_cnt</span> <span class="op">=</span> <span class="number">0</span>; <span class="ident">output_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>() },
+            <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="ident">output_cnt</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">channel_count</span>; <span class="ident">output_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">output_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">output_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> { <span class="ident">output_cnt</span> <span class="op">=</span> <span class="number">0</span>; <span class="ident">output_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>() },
         };
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">user_data</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">StreamUserData</span>
         {
             <span class="ident">num_input</span>: <span class="ident">input_cnt</span>,
             <span class="ident">num_output</span>: <span class="ident">output_cnt</span>,
-            <span class="ident">callback</span>: <span class="ident">callback</span>,
+            <span class="ident">callback</span>,
             <span class="ident">finished_callback</span>: <span class="prelude-val">None</span>,
         });
 
@@ -944,75 +931,75 @@
 
         <span class="kw">match</span> <span class="ident">to_pa_result</span>(<span class="ident">result</span>)
         {
-            <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Stream</span> { <span class="ident">pa_stream</span>: <span class="ident">pa_stream</span>,
-                                  <span class="ident">user_data</span>: <span class="ident">user_data</span>,
+            <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Stream</span> { <span class="ident">pa_stream</span>,
+                                  <span class="ident">user_data</span>,
                                   <span class="ident">inputs</span>: <span class="ident">input_cnt</span>,
                                   <span class="ident">outputs</span>: <span class="ident">output_cnt</span>,
                       }),
-            <span class="prelude-val">Err</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">v</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">v</span>),
         }
     }
 
     <span class="doccomment">/// Starts the stream</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
     {
         <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_StartStream</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) })
     }
 
     <span class="doccomment">/// Stops the stream. It will block untill all audio has finished playing</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stop</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stop</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
     {
         <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_StopStream</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) })
     }
 
     <span class="doccomment">/// Stop stream immediately without waiting for the buffers to complete</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">abort</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">abort</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
     {
         <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_AbortStream</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) })
     }
 
-    <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+    <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
     {
         <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_CloseStream</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) })
     }
 
     <span class="doccomment">/// Returns wether the stream is stopped</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_stopped</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_stopped</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_IsStreamStopped</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) }
         {
-            <span class="number">1</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-            <span class="ident">n</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>),
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
+            <span class="ident">n</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>),
         }
     }
 
     <span class="doccomment">/// Returns wether the stream is active</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_active</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_active</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_IsStreamActive</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) }
         {
-            <span class="number">1</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-            <span class="ident">n</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>),
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
+            <span class="ident">n</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>),
         }
     }
 
     <span class="doccomment">/// Get the number of frames that can be read from the stream without waiting</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_read_available</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_read_available</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetStreamReadAvailable</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) }
         {
-            <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> { <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>) },
-            <span class="ident">n</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">0</span>),
+            <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> { <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>) },
+            <span class="ident">n</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">0</span>),
         }
     }
 
     <span class="doccomment">/// Get the number of frames that can be written to the stream without waiting</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_write_available</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_write_available</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetStreamWriteAvailable</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) }
         {
-            <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">0</span> <span class="op">=&gt;</span> { <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>) },
-            <span class="ident">n</span> <span class="op">=&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">0</span>),
+            <span class="ident">n</span> <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> { <span class="prelude-val">Ok</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>) },
+            <span class="ident">n</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">to_pa_result</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">i32</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">0</span>),
         }
     }
 
@@ -1023,15 +1010,15 @@
     <span class="doccomment">/// * `CanNotWriteToAnInputOnlyStream`: when num_output_channels = 0</span>
     <span class="doccomment">/// * `BadBufferPtr`: when buffer.len() is not a multiple of num_output_channels</span>
     <span class="doccomment">/// * Some other error given by PortAudio</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">O</span>]) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">O</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
     {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">outputs</span> <span class="op">==</span> <span class="number">0</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">outputs</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
         {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PaError</span>::<span class="ident">CanNotWriteToAnInputOnlyStream</span>)
         }
 
         <span class="comment">// Ensure the buffer is the correct size.</span>
-        <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">%</span> <span class="self">self</span>.<span class="ident">outputs</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">!=</span> <span class="number">0</span>
+        <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">%</span> <span class="self">self</span>.<span class="ident">outputs</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
         {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PaError</span>::<span class="ident">BadBufferPtr</span>)
         }
@@ -1046,9 +1033,9 @@
     <span class="doccomment">/// the whole buffer has been filled.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Will return `CanNotReadFromAnOutputOnlyStream` if num_input_channels = 0.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">frames</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">frames</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>, <span class="ident">PaError</span><span class="op">&gt;</span>
     {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">inputs</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PaError</span>::<span class="ident">CanNotReadFromAnOutputOnlyStream</span>) }
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">inputs</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PaError</span>::<span class="ident">CanNotReadFromAnOutputOnlyStream</span>) }
 
         <span class="comment">// We create a buffer with the needed capacity. Then we feed that to the library, which</span>
         <span class="comment">// will fill the buffer accordingly. Afterwards, we set the length of the vector as all its</span>
@@ -1059,24 +1046,24 @@
         <span class="kw">let</span> <span class="ident">buffer_ptr</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>;
         <span class="kw">match</span> <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_ReadStream</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>, <span class="ident">buffer_ptr</span>, <span class="ident">frames</span> <span class="kw">as</span> <span class="ident">c_ulong</span>) })
         {
-            <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span>
+            <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span>
             {
                 <span class="kw">unsafe</span> { <span class="ident">buffer</span>.<span class="ident">set_len</span>(<span class="ident">vec_len</span> <span class="kw">as</span> <span class="ident">usize</span>); }
                 <span class="prelude-val">Ok</span>(<span class="ident">buffer</span>)
             },
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
         }
     }
 
     <span class="doccomment">/// Returns the cpu load the stream callback consumes. This will return 0.0 if the stream uses</span>
     <span class="doccomment">/// blocking read/write, or if an error occured.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cpu_load</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cpu_load</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span>
     {
         <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetStreamCpuLoad</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) }
     }
 
     <span class="doccomment">/// Get the current timestamp of the stream</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">time</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Duration</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">time</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Duration</span>
     {
         <span class="kw">let</span> <span class="ident">time</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_GetStreamTime</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) };
         <span class="ident">pa_time_to_duration</span>(<span class="ident">time</span>)
@@ -1085,19 +1072,19 @@
     <span class="doccomment">/// Get the actual latencies and sample rate</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns None when the stream is invalid or an error occured</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamInfo</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamInfo</span><span class="op">&gt;</span>
     {
         <span class="kw">unsafe</span>
         {
             <span class="kw">match</span> <span class="ident">ll</span>::<span class="ident">Pa_GetStreamInfo</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>) {
-                <span class="ident">p</span> <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">is_null</span>() <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-                <span class="ident">p</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">StreamInfo</span>::<span class="ident">from_ll</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">p</span>)),
+                <span class="ident">p</span> <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">is_null</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+                <span class="ident">p</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">StreamInfo</span>::<span class="ident">from_ll</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">p</span>)),
             }
         }
     }
 
     <span class="doccomment">/// Set a callback which is to be called when the StreamCallback finishes</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_finished_callback</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">finished_callback</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamFinishedCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_finished_callback</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">finished_callback</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">StreamFinishedCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
     {
         <span class="self">self</span>.<span class="ident">user_data</span>.<span class="ident">finished_callback</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">finished_callback</span>);
         <span class="kw">let</span> <span class="ident">callback_pointer</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">stream_finished_callback</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">O</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">StreamFinishedCallbackType</span>);
@@ -1105,7 +1092,7 @@
     }
 
     <span class="doccomment">/// Remove any previously attached finish callback</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unset_finished_callback</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unset_finished_callback</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
     {
         <span class="self">self</span>.<span class="ident">user_data</span>.<span class="ident">finished_callback</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_SetStreamFinishedCallback</span>(<span class="self">self</span>.<span class="ident">pa_stream</span>, <span class="prelude-val">None</span>) })
@@ -1116,11 +1103,10 @@
 {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>)
     {
-        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">user_data</span>.<span class="ident">num_output</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">outputs</span>); <span class="comment">//userdata should not be garbled</span>
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">close</span>()
+        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">user_data</span>.<span class="ident">num_output</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">outputs</span>); <span class="comment">//userdata should not be garbled</span>
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">close</span>()
         {
-            <span class="prelude-val">Err</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> { <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">stderr</span>(), <span class="string">&quot;Stream drop error: {:?}\n&quot;</span>, <span class="ident">v</span>); },
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {},
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">stderr</span>(), <span class="string">&quot;Stream drop error: {:?}&quot;</span>, <span class="ident">v</span>);
         };
     }
 }
@@ -1144,7 +1130,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">SampleType</span><span class="op">&gt;</span> <span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
-    <span class="kw">fn</span> <span class="ident">to_ll</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ll</span>::<span class="ident">Struct_PaStreamParameters</span>
+    <span class="kw">fn</span> <span class="ident">to_ll</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ll</span>::<span class="ident">Struct_PaStreamParameters</span>
     {
         <span class="ident">ll</span>::<span class="ident">Struct_PaStreamParameters</span>
         {
@@ -1158,17 +1144,17 @@
 }
 
 <span class="doccomment">/// Returns Ok when the StreamParameters are supported. This ignores the latency field.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_format_supported</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">SampleType</span>, <span class="ident">O</span>: <span class="ident">SampleType</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;&gt;</span>, <span class="ident">output</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;&gt;</span>, <span class="ident">sample_rate</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="ident">PaResult</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_format_supported</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">SampleType</span>, <span class="ident">O</span>: <span class="ident">SampleType</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">output</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">StreamParameters</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">sample_rate</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PaResult</span>
 {
     <span class="kw">let</span> <span class="ident">input_obj</span>; <span class="kw">let</span> <span class="ident">input_ptr</span>;
     <span class="kw">let</span> <span class="ident">output_obj</span>; <span class="kw">let</span> <span class="ident">output_ptr</span>;
     <span class="kw">match</span> <span class="ident">input</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=&gt;</span> { <span class="ident">input_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">input_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
-        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">input_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>(),
+        <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="ident">input_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">input_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">input_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>(),
     };
     <span class="kw">match</span> <span class="ident">output</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=&gt;</span> { <span class="ident">output_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">output_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">output_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
-        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">output_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>(),
+        <span class="prelude-val">Some</span>(<span class="ident">sp</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="ident">output_obj</span> <span class="op">=</span> <span class="ident">sp</span>.<span class="ident">to_ll</span>(); <span class="ident">output_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">output_obj</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> },
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">output_ptr</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null</span>(),
     };
 
     <span class="ident">to_pa_result</span>(<span class="kw">unsafe</span> { <span class="ident">ll</span>::<span class="ident">Pa_IsFormatSupported</span>(<span class="ident">input_ptr</span>, <span class="ident">output_ptr</span>, <span class="ident">sample_rate</span>) })
@@ -1190,7 +1176,7 @@
 
 <span class="kw">impl</span> <span class="ident">StreamInfo</span>
 {
-    <span class="kw">fn</span> <span class="ident">from_ll</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">ll</span>::<span class="ident">PaStreamInfo</span>) <span class="op">-&gt;</span> <span class="ident">StreamInfo</span>
+    <span class="kw">fn</span> <span class="ident">from_ll</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">ll</span>::<span class="ident">PaStreamInfo</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StreamInfo</span>
     {
         <span class="ident">StreamInfo</span>
         {
@@ -1246,4 +1232,4 @@
     <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">external_function</span>() {}
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "portaudio_rs";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "portaudio_rs";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
