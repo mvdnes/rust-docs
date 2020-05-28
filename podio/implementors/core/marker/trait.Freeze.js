@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["podio"] = [{"text":"impl Freeze for <a class=\"enum\" href=\"podio/enum.LittleEndian.html\" title=\"enum podio::LittleEndian\">LittleEndian</a>","synthetic":true,"types":["podio::LittleEndian"]},{"text":"impl Freeze for <a class=\"enum\" href=\"podio/enum.BigEndian.html\" title=\"enum podio::BigEndian\">BigEndian</a>","synthetic":true,"types":["podio::BigEndian"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
