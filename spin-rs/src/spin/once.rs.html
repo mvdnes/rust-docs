@@ -298,11 +298,18 @@
 <span id="298">298</span>
 <span id="299">299</span>
 <span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cell</span>::<span class="ident">UnsafeCell</span>;
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>;
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>, <span class="ident">spin_loop_hint</span> <span class="kw">as</span> <span class="ident">cpu_relax</span>};
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">core</span>::{
+    <span class="ident">cell</span>::<span class="ident">UnsafeCell</span>,
+    <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>,
+    <span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>, <span class="ident">spin_loop_hint</span> <span class="kw">as</span> <span class="ident">cpu_relax</span>},
+    <span class="ident">fmt</span>,
+};
 
 <span class="doccomment">/// A synchronization primitive which can be used to run a one-time global</span>
 <span class="doccomment">/// initialization. Unlike its std equivalent, this is generalized so that the</span>
@@ -365,7 +372,7 @@
     <span class="doccomment">/// Get a reference to the initialized instance. Must only be called once COMPLETE.</span>
     <span class="kw">fn</span> <span class="ident">force_get</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span> {
         <span class="kw">unsafe</span> {
-            <span class="comment">// SAFETY: </span>
+            <span class="comment">// SAFETY:</span>
             <span class="comment">// * `UnsafeCell`/inner deref: data never changes again</span>
             <span class="comment">// * `MaybeUninit`/outer deref: data was initialized</span>
             <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">data</span>.<span class="ident">get</span>()).<span class="ident">as_ptr</span>()
@@ -406,13 +413,16 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">status</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">SeqCst</span>);
 
         <span class="kw">if</span> <span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">INCOMPLETE</span> {
-            <span class="ident">status</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_and_swap</span>(<span class="ident">INCOMPLETE</span>,
-                                                 <span class="ident">RUNNING</span>,
-                                                 <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>);
+            <span class="ident">status</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_and_swap</span>(
+                <span class="ident">INCOMPLETE</span>,
+                <span class="ident">RUNNING</span>,
+                <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>,
+            );
+
             <span class="kw">if</span> <span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">INCOMPLETE</span> { <span class="comment">// We init</span>
                 <span class="comment">// We use a guard (Finish) to catch panics caused by builder</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">finish</span> <span class="op">=</span> <span class="ident">Finish</span> { <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>, <span class="ident">panicked</span>: <span class="bool-val">true</span> };
-                <span class="kw">unsafe</span> { 
+                <span class="kw">unsafe</span> {
                     <span class="comment">// SAFETY:</span>
                     <span class="comment">// `UnsafeCell`/deref: currently the only accessor, mutably</span>
                     <span class="comment">// and immutably by cas exclusion.</span>
@@ -447,7 +457,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) {
             <span class="ident">COMPLETE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">force_get</span>()),
-            <span class="kw">_</span>        <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 
@@ -457,9 +467,9 @@
         <span class="kw">loop</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) {
                 <span class="ident">INCOMPLETE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-                <span class="ident">RUNNING</span>    <span class="op">=</span><span class="op">&gt;</span> <span class="ident">cpu_relax</span>(), <span class="comment">// We spin</span>
-                <span class="ident">COMPLETE</span>   <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">force_get</span>()),
-                <span class="ident">PANICKED</span>   <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Once has panicked&quot;</span>),
+                <span class="ident">RUNNING</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">cpu_relax</span>(), <span class="comment">// We spin</span>
+                <span class="ident">COMPLETE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">force_get</span>()),
+                <span class="ident">PANICKED</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Once has panicked&quot;</span>),
                 <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> { <span class="ident">unreachable</span>() },
             }
         }
