@@ -394,6 +394,12 @@
 <span id="393">393</span>
 <span id="394">394</span>
 <span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::{
     <span class="ident">cell</span>::<span class="ident">UnsafeCell</span>,
@@ -638,6 +644,12 @@
                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">unsafe</span> { <span class="ident">unreachable</span>() },
             }
         }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Once</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">data</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">initialized</span>(<span class="ident">data</span>)
     }
 }
 
