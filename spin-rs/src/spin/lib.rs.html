@@ -77,16 +77,18 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
 
-<span class="doccomment">//! This crate provides [spin-based](https://en.wikipedia.org/wiki/Spinlock) versions of the primitives in</span>
-<span class="doccomment">//! `std::sync`. Because synchronization is done through spinning, the primitives are suitable for use in</span>
-<span class="doccomment">//! `no_std` environments.</span>
+<span class="doccomment">//! This crate provides [spin-based](https://en.wikipedia.org/wiki/Spinlock) versions of the</span>
+<span class="doccomment">//! primitives in `std::sync` and `std::lazy`. Because synchronization is done through spinning,</span>
+<span class="doccomment">//! the primitives are suitable for use in `no_std` environments.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Features</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! - `Mutex`, `RwLock` and `Once` equivalents</span>
+<span class="doccomment">//! - `Mutex`, `RwLock`, `Once`/`SyncOnceCell`, and `SyncLazy` equivalents</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! - Support for `no_std` environments</span>
 <span class="doccomment">//!</span>
@@ -130,10 +132,12 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mutex</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rw_lock</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">once</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lazy</span>::<span class="kw-2">*</span>;
 
 <span class="kw">mod</span> <span class="ident">mutex</span>;
 <span class="kw">mod</span> <span class="ident">rw_lock</span>;
 <span class="kw">mod</span> <span class="ident">once</span>;
+<span class="kw">mod</span> <span class="ident">lazy</span>;
 
 <span class="doccomment">/// Spin synchronisation primitives, but compatible with [`lock_api`](https://crates.io/crates/lock_api).</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;lock_api1&quot;</span>)]</span>
