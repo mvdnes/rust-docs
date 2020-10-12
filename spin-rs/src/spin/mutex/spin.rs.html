@@ -428,60 +428,94 @@
 <span id="427">427</span>
 <span id="428">428</span>
 <span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::{
     <span class="ident">cell</span>::<span class="ident">UnsafeCell</span>,
     <span class="ident">fmt</span>,
     <span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>},
-    <span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">spin_loop_hint</span> <span class="kw">as</span> <span class="ident">cpu_relax</span>, <span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
+    <span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
 };
 
-<span class="doccomment">/// A lock that provides mutually exclusive data access based on spinning.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This lock behaves in a similar manner to its namesake `std::sync::Mutex` but uses</span>
-<span class="doccomment">/// spinning for synchronisation instead. Unlike its namespace, this lock does not</span>
-<span class="doccomment">/// track lock poisoning.</span>
+<span class="doccomment">/// A [spin lock](https://en.m.wikipedia.org/wiki/Spinlock) providing mutually exclusive access to data.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use spin;</span>
-<span class="doccomment">/// let spin_mutex = spin::mutex::SpinMutex::new(0);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let lock = spin::mutex::SpinMutex::new(0);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// // Modify the data</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///     let mut data = spin_mutex.lock();</span>
-<span class="doccomment">///     *data = 2;</span>
-<span class="doccomment">/// }</span>
+<span class="doccomment">/// *lock.lock() = 2;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// // Read the data</span>
-<span class="doccomment">/// let answer =</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///     let data = spin_mutex.lock();</span>
-<span class="doccomment">///     *data</span>
-<span class="doccomment">/// };</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// let answer = *lock.lock();</span>
 <span class="doccomment">/// assert_eq!(answer, 2);</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// # Thread-safety example</span>
+<span class="doccomment">/// # Thread safety example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use spin;</span>
 <span class="doccomment">/// use std::sync::{Arc, Barrier};</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let numthreads = 1000;</span>
+<span class="doccomment">/// let thread_count = 1000;</span>
 <span class="doccomment">/// let spin_mutex = Arc::new(spin::mutex::SpinMutex::new(0));</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// // We use a barrier to ensure the readout happens after all writing</span>
-<span class="doccomment">/// let barrier = Arc::new(Barrier::new(numthreads + 1));</span>
+<span class="doccomment">/// let barrier = Arc::new(Barrier::new(thread_count + 1));</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// for _ in (0..numthreads)</span>
-<span class="doccomment">/// {</span>
+<span class="doccomment">/// for _ in (0..thread_count) {</span>
 <span class="doccomment">///     let my_barrier = barrier.clone();</span>
 <span class="doccomment">///     let my_lock = spin_mutex.clone();</span>
-<span class="doccomment">///     std::thread::spawn(move||</span>
-<span class="doccomment">///     {</span>
+<span class="doccomment">///     std::thread::spawn(move || {</span>
 <span class="doccomment">///         let mut guard = my_lock.lock();</span>
 <span class="doccomment">///         *guard += 1;</span>
 <span class="doccomment">///</span>
@@ -494,7 +528,7 @@
 <span class="doccomment">/// barrier.wait();</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// let answer = { *spin_mutex.lock() };</span>
-<span class="doccomment">/// assert_eq!(answer, numthreads);</span>
+<span class="doccomment">/// assert_eq!(answer, thread_count);</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpinMutex</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">lock</span>: <span class="ident">AtomicBool</span>,
@@ -514,14 +548,14 @@
 <span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">SpinMutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">SpinMutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Creates a new spinlock wrapping the supplied data.</span>
+    <span class="doccomment">/// Creates a new [`SpinMutex`] wrapping the supplied data.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// May be used statically:</span>
+    <span class="doccomment">/// # Example</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use spin;</span>
+    <span class="doccomment">/// use spin::mutex::SpinMutex;</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// static MUTEX: spin::mutex::SpinMutex&lt;()&gt; = spin::mutex::SpinMutex::new(());</span>
+    <span class="doccomment">/// static MUTEX: SpinMutex&lt;()&gt; = SpinMutex::new(());</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// fn demo() {</span>
     <span class="doccomment">///     let lock = MUTEX.lock();</span>
@@ -529,6 +563,7 @@
     <span class="doccomment">///     drop(lock);</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">user_data</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">SpinMutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">SpinMutex</span> {
             <span class="ident">lock</span>: <span class="ident">AtomicBool</span>::<span class="ident">new</span>(<span class="bool-val">false</span>),
@@ -536,7 +571,15 @@
         }
     }
 
-    <span class="doccomment">/// Consumes this mutex, returning the underlying data.</span>
+    <span class="doccomment">/// Consumes this [`SpinMutex`] and unwraps the underlying data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// let lock = spin::mutex::SpinMutex::new(42);</span>
+    <span class="doccomment">/// assert_eq!(42, lock.into_inner());</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
         <span class="comment">// We know statically that there are no outstanding references to</span>
         <span class="comment">// `self` so there&#39;s no need to lock.</span>
@@ -546,55 +589,79 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">SpinMutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">obtain_lock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">while</span> <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">compare_and_swap</span>(<span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>) {
-            <span class="comment">// Wait until the lock looks unlocked before retrying</span>
-            <span class="kw">while</span> <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) {
-                <span class="ident">cpu_relax</span>();
-            }
-        }
+    <span class="doccomment">/// Returns `true` if the lock is currently held.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function provides no synchronization guarantees and so its result should be considered &#39;out of date&#39;</span>
+    <span class="doccomment">/// the instant it is called. Do not use it for synchronization purposes. However, it may be useful as a heuristic.</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_locked</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
     }
 
-    <span class="doccomment">/// Locks the spinlock and returns a guard.</span>
+    <span class="doccomment">/// Locks the [`SpinMutex`] and returns a guard that permits access to the inner data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The returned value may be dereferenced for data access</span>
     <span class="doccomment">/// and the lock will be dropped when the guard falls out of scope.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let mylock = spin::mutex::SpinMutex::new(0);</span>
+    <span class="doccomment">/// let lock = spin::mutex::SpinMutex::new(0);</span>
     <span class="doccomment">/// {</span>
-    <span class="doccomment">///     let mut data = mylock.lock();</span>
+    <span class="doccomment">///     let mut data = lock.lock();</span>
     <span class="doccomment">///     // The lock is now locked and the data can be accessed</span>
     <span class="doccomment">///     *data += 1;</span>
-    <span class="doccomment">///     // The lock is implicitly dropped</span>
+    <span class="doccomment">///     // The lock is implicitly dropped at the end of the scope</span>
     <span class="doccomment">/// }</span>
-    <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">SpinMutexGuard</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">obtain_lock</span>();
+        <span class="comment">// Can fail to lock even if the spinlock is not locked. May be more efficient than `try_lock`</span>
+        <span class="comment">// when called in a loop.</span>
+        <span class="kw">while</span> <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">compare_exchange_weak</span>(<span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>).<span class="ident">is_err</span>() {
+            <span class="comment">// Wait until the lock looks unlocked before retrying</span>
+            <span class="kw">while</span> <span class="self">self</span>.<span class="ident">is_locked</span>() {
+                <span class="kw">crate</span>::<span class="ident">relax</span>();
+            }
+        }
+
         <span class="ident">SpinMutexGuard</span> {
             <span class="ident">lock</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">lock</span>,
             <span class="ident">data</span>: <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">data</span>.<span class="ident">get</span>() },
         }
     }
 
-    <span class="doccomment">/// Force unlock the spinlock.</span>
+    <span class="doccomment">/// Force unlock this [`SpinMutex`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is *extremely* unsafe if the lock is not held by the current</span>
     <span class="doccomment">/// thread. However, this can be useful in some instances for exposing the</span>
     <span class="doccomment">/// lock to FFI that doesn&#39;t know how to deal with RAII.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the lock isn&#39;t held, this is a no-op.</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">force_unlock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">store</span>(<span class="bool-val">false</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
     }
 
-    <span class="doccomment">/// Tries to lock the mutex. If it is already locked, it will return None. Otherwise it returns</span>
-    <span class="doccomment">/// a guard within Some.</span>
+    <span class="doccomment">/// Try to lock this [`SpinMutex`], returning a lock guard if successful.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// let lock = spin::mutex::SpinMutex::new(42);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let maybe_guard = lock.try_lock();</span>
+    <span class="doccomment">/// assert!(maybe_guard.is_some());</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// // `maybe_guard` is still held, so the second call fails</span>
+    <span class="doccomment">/// let maybe_guard2 = lock.try_lock();</span>
+    <span class="doccomment">/// assert!(maybe_guard2.is_none());</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_lock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SpinMutexGuard</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">compare_and_swap</span>(<span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>) {
+        <span class="comment">// The reason for using a strong compare_exchange is explained here:</span>
+        <span class="comment">// https://github.com/Amanieu/parking_lot/pull/207#issuecomment-575869107</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">compare_exchange</span>(<span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>).<span class="ident">is_ok</span>() {
             <span class="prelude-val">Some</span>(<span class="ident">SpinMutexGuard</span> {
                 <span class="ident">lock</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">lock</span>,
                 <span class="ident">data</span>: <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">data</span>.<span class="ident">get</span>() },
@@ -606,16 +673,18 @@
 
     <span class="doccomment">/// Returns a mutable reference to the underlying data.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Since this call borrows the `Mutex` mutably, no actual locking needs to</span>
-    <span class="doccomment">/// take place -- the mutable borrow statically guarantees no locks exist.</span>
+    <span class="doccomment">/// Since this call borrows the [`SpinMutex`] mutably, and a mutable reference is guaranteed to be exclusive in</span>
+    <span class="doccomment">/// Rust, no actual locking needs to take place -- the mutable borrow statically guarantees no locks exist. As</span>
+    <span class="doccomment">/// such, this is a &#39;zero-cost&#39; operation.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// # Example</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let mut my_lock = spin::mutex::SpinMutex::new(0);</span>
-    <span class="doccomment">/// *my_lock.get_mut() = 10;</span>
-    <span class="doccomment">/// assert_eq!(*my_lock.lock(), 10);</span>
+    <span class="doccomment">/// let mut lock = spin::mutex::SpinMutex::new(0);</span>
+    <span class="doccomment">/// *lock.get_mut() = 10;</span>
+    <span class="doccomment">/// assert_eq!(*lock.lock(), 10);</span>
     <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
         <span class="comment">// We know statically that there are no other references to `self`, so</span>
         <span class="comment">// there&#39;s no need to lock the inner mutex.</span>
@@ -649,17 +718,17 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">SpinMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Leak the lock guard, yielding a mutable reference to the underlying data.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that this function will permanently lock the original lock.</span>
+    <span class="doccomment">/// Note that this function will permanently lock the original [`SpinMutex`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let mylock = spin::Mutex::new(0);</span>
+    <span class="doccomment">/// let mylock = spin::mutex::SpinMutex::new(0);</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// let data: &amp;mut i32 = spin::MutexGuard::leak(mylock.lock());</span>
+    <span class="doccomment">/// let data: &amp;mut i32 = spin::mutex::SpinMutexGuard::leak(mylock.lock());</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// *data = 1;</span>
     <span class="doccomment">/// assert_eq!(*data, 1);</span>
     <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">leak</span>(<span class="ident">this</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">T</span> {
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>; <span class="comment">// Keep it in pointer form temporarily to avoid double-aliasing</span>
         <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">this</span>);
@@ -696,6 +765,31 @@
     <span class="doccomment">/// The dropping of the MutexGuard will release the lock it was created from.</span>
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">store</span>(<span class="bool-val">false</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;lock_api1&quot;</span>)]</span>
+<span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">lock_api</span>::<span class="ident">RawMutex</span> <span class="kw">for</span> <span class="ident">SpinMutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">type</span> <span class="ident">GuardMarker</span> <span class="op">=</span> <span class="ident">lock_api</span>::<span class="ident">GuardSend</span>;
+
+    <span class="kw">const</span> <span class="ident">INIT</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">new</span>(());
+
+    <span class="kw">fn</span> <span class="ident">lock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="comment">// Prevent guard destructor running</span>
+        <span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">forget</span>(<span class="self">Self</span>::<span class="ident">lock</span>(<span class="self">self</span>));
+    }
+
+    <span class="kw">fn</span> <span class="ident">try_lock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="comment">// Prevent guard destructor running</span>
+        <span class="self">Self</span>::<span class="ident">try_lock</span>(<span class="self">self</span>).<span class="ident">map</span>(<span class="ident">core</span>::<span class="ident">mem</span>::<span class="ident">forget</span>).<span class="ident">is_some</span>()
+    }
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unlock</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="self">self</span>.<span class="ident">force_unlock</span>();
+    }
+
+    <span class="kw">fn</span> <span class="ident">is_locked</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">Self</span>::<span class="ident">is_locked</span>(<span class="self">self</span>)
     }
 }
 

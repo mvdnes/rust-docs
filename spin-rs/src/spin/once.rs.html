@@ -400,11 +400,15 @@
 <span id="399">399</span>
 <span id="400">400</span>
 <span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="doccomment">//! Synchronization primitives for one-time evaluation.</span>
+
 <span class="kw">use</span> <span class="ident">core</span>::{
     <span class="ident">cell</span>::<span class="ident">UnsafeCell</span>,
     <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>,
-    <span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>, <span class="ident">spin_loop_hint</span> <span class="kw">as</span> <span class="ident">cpu_relax</span>},
+    <span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>},
     <span class="ident">fmt</span>,
 };
 
@@ -619,7 +623,7 @@
         <span class="kw">loop</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">poll</span>() {
                 <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="kw">break</span> <span class="ident">x</span>,
-                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">cpu_relax</span>(),
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">relax</span>(),
             }
         }
     }
@@ -638,7 +642,7 @@
         <span class="kw">loop</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">SeqCst</span>) {
                 <span class="ident">INCOMPLETE</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-                <span class="ident">RUNNING</span> <span class="op">=&gt;</span> <span class="ident">cpu_relax</span>(), <span class="comment">// We spin</span>
+                <span class="ident">RUNNING</span> <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">relax</span>(), <span class="comment">// We spin</span>
                 <span class="ident">COMPLETE</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">force_get</span>() }),
                 <span class="ident">PANICKED</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Once previously poisoned by a panicked&quot;</span>),
                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">unsafe</span> { <span class="ident">unreachable</span>() },

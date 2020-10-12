@@ -100,9 +100,13 @@
 <span id="99"> 99</span>
 <span id="100">100</span>
 <span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="comment">// Implementation adapted from `SyncLazy` type of the standard library. See:</span>
-<span class="comment">// https://github.com/rust-lang/rust/blob/cae8bc1f2324e31c98cb32b8ed37032fc9cef405/library/std/src/lazy.rs</span>
+<span class="doccomment">//! Synchronization primitives for lazy evaluation.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Implementation adapted from the `SyncLazy` type of the standard library. See:</span>
+<span class="doccomment">//! https://github.com/rust-lang/rust/blob/cae8bc1f2324e31c98cb32b8ed37032fc9cef405/library/std/src/lazy.rs</span>
 
 <span class="kw">use</span> <span class="ident">core</span>::{<span class="ident">cell</span>::<span class="ident">Cell</span>, <span class="ident">fmt</span>, <span class="ident">ops</span>::<span class="ident">Deref</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Once</span>;
@@ -201,5 +205,6 @@
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">Lazy</span>::<span class="ident">new</span>(<span class="ident">T</span>::<span class="ident">default</span>)
     }
-}</pre></div>
+}
+</pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "spin";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

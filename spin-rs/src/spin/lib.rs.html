@@ -82,7 +82,20 @@
 <span id="81">81</span>
 <span id="82">82</span>
 <span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">not</span>(<span class="ident">test</span>)), <span class="ident">no_std</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
 
 <span class="doccomment">//! This crate provides [spin-based](https://en.wikipedia.org/wiki/Spinlock) versions of the</span>
@@ -125,24 +138,35 @@
 <span class="doccomment">//! Conversely, the types in this crate do not have some of the features `std::sync` has:</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! - Locks do not track [panic poisoning](https://doc.rust-lang.org/nomicon/poisoning.html).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Feature flags</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The crate comes with a few feature flags that you may wish to use.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - `lock_api` enabled support for [`lock_api`](https://crates.io/crates/lock_api)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - `ticket_mutex` uses a ticket lock for the implementation of `Mutex`</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - `std` enables support for thread yielding instead of spinning</span>
 
-<span class="attribute">#![<span class="ident">no_std</span>]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">core</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="attribute">#[<span class="ident">macro_use</span>]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std</span>;
+<span class="comment">// Choose a different relaxation strategy based on whether `std` is available or not.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::<span class="ident">spin_loop_hint</span> <span class="kw">as</span> <span class="ident">relax</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>::<span class="ident">yield_now</span> <span class="kw">as</span> <span class="ident">relax</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lazy</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">once</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rw_lock</span>::<span class="kw-2">*</span>;
-
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lazy</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutex</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">once</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rw_lock</span>;
 
-<span class="kw">mod</span> <span class="ident">lazy</span>;
-<span class="kw">mod</span> <span class="ident">once</span>;
-<span class="kw">mod</span> <span class="ident">rw_lock</span>;
-
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lazy</span>::<span class="ident">Lazy</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mutex</span>::{<span class="ident">Mutex</span>, <span class="ident">MutexGuard</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">once</span>::<span class="ident">Once</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rw_lock</span>::{<span class="ident">RwLock</span>, <span class="ident">RwLockReadGuard</span>, <span class="ident">RwLockWriteGuard</span>, <span class="ident">RwLockUpgradableGuard</span>};
 
 <span class="doccomment">/// Spin synchronisation primitives, but compatible with [`lock_api`](https://crates.io/crates/lock_api).</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;lock_api1&quot;</span>)]</span>
