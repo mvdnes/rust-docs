@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["blip_buf"] = [{"text":"impl Send for BlipBuf","synthetic":false,"types":[]}];
+implementors["blip_buf"] = [{"text":"impl RefUnwindSafe for BlipBuf","synthetic":true,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
