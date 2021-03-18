@@ -314,6 +314,17 @@
 <span id="311">311</span>
 <span id="312">312</span>
 <span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Locks that have the same behaviour as a mutex.</span>
 <span class="doccomment">//!</span>
@@ -330,11 +341,19 @@
 <span class="doccomment">//! [`SpinMutex`]: ./struct.SpinMutex.html</span>
 <span class="doccomment">//! [`SpinMutexGuard`]: ./struct.SpinMutexGuard.html</span>
 
-<span class="kw">mod</span> <span class="ident">spin</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">spin</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;spin_mutex&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;spin_mutex&quot;</span>)))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">spin</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;spin_mutex&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;spin_mutex&quot;</span>)))]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">spin</span>::{<span class="ident">SpinMutex</span>, <span class="ident">SpinMutexGuard</span>};
 
-<span class="kw">mod</span> <span class="ident">ticket</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">ticket</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>)))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ticket</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>)))]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">ticket</span>::{<span class="ident">TicketMutex</span>, <span class="ident">TicketMutexGuard</span>};
 
 <span class="kw">use</span> <span class="ident">core</span>::{
     <span class="ident">fmt</span>,
@@ -342,20 +361,23 @@
 };
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">RelaxStrategy</span>, <span class="ident">Spin</span>};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>)]</span>
-<span class="kw">type</span> <span class="ident">InnerMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">TicketMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>)]</span>
-<span class="kw">type</span> <span class="ident">InnerMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">TicketMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;spin_mutex&quot;</span>), <span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_ticket_mutex&quot;</span>)))]</span>
+<span class="macro">compile_error</span><span class="macro">!</span>(<span class="string">&quot;The `mutex` feature flag was used (perhaps through another feature?) without either `spin_mutex` or `use_ticket_mutex`. One of these is required.&quot;</span>);
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>))]</span>
-<span class="kw">type</span> <span class="ident">InnerMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">SpinMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ticket_mutex&quot;</span>))]</span>
-<span class="kw">type</span> <span class="ident">InnerMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">SpinMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_ticket_mutex&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;spin_mutex&quot;</span>))]</span>
+<span class="kw">type</span> <span class="ident">InnerMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>::<span class="ident">spin</span>::<span class="ident">SpinMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_ticket_mutex&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;spin_mutex&quot;</span>))]</span>
+<span class="kw">type</span> <span class="ident">InnerMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>::<span class="ident">spin</span>::<span class="ident">SpinMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_ticket_mutex&quot;</span>)]</span>
+<span class="kw">type</span> <span class="ident">InnerMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>::<span class="ident">ticket</span>::<span class="ident">TicketMutex</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span><span class="op">&gt;</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_ticket_mutex&quot;</span>)]</span>
+<span class="kw">type</span> <span class="ident">InnerMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>::<span class="ident">ticket</span>::<span class="ident">TicketMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// A spin-based lock providing mutually exclusive access to data.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// The implementation uses either a [`TicketMutex`] or a regular [`SpinMutex`] depending on whether the `ticket_mutex`</span>
-<span class="doccomment">/// feature flag is enabled.</span>
+<span class="doccomment">/// The implementation uses either a ticket mutex or a regular spin mutex depending on whether the `spin_mutex` or</span>
+<span class="doccomment">/// `ticket_mutex` feature flag is enabled.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>

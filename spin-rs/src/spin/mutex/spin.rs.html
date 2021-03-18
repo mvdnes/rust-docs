@@ -483,7 +483,17 @@
 <span id="480">480</span>
 <span id="481">481</span>
 <span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="doccomment">//! A naïve spinning mutex.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Waiting threads hammer an atomic variable until it becomes available. Best-case latency is low, but worst-case</span>
+<span class="doccomment">//! latency is theoretically infinite.</span>
+
 <span class="kw">use</span> <span class="ident">core</span>::{
     <span class="ident">cell</span>::<span class="ident">UnsafeCell</span>,
     <span class="ident">fmt</span>,
